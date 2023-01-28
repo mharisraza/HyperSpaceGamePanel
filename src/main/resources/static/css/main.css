@@ -1,0 +1,35 @@
+/* MAIN:CSS */
+
+:root {
+    --bg-image: url("/images/background.jpg");
+}
+
+body {
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: 'PT Sans', sans-serif;
+}
+
+.mt-50 {
+    margin-top: 150px;
+}
+
+.card {
+    background-color: rgb(26,26,32,0.8)!important;
+    border: 1px solid transparent!important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)!important;
+}
+
+.card-header {
+    margin: -2rem 1rem 1rem;
+}
+
+.form-control {
+    background-color: transparent!important;
+}
+
+.input-group-text {
+    background-color: transparent!important;
+}
