@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.hyperspacegamepanel.dtos.UserDto;
+
 @Controller
 public class MainController {
 
@@ -16,6 +18,7 @@ public class MainController {
     @GetMapping("/register")
     public String registerPage(Model m) {
        m.addAttribute("title", "Register | HyperSpaceGamePanel");
+       m.addAttribute("user", new UserDto());
        return "register.html";
     }
     
