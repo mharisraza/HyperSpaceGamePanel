@@ -2,14 +2,21 @@
 
 :root {
     --bg-image: url("/images/background.jpg");
+    --nav-bg: url("/images/nav-bg.jpg")
+}
+
+
+* {
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 14px!important;
+  color: white ;
 }
 
 body {
-  background-image: var(--bg-image);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  font-family: 'PT Sans', sans-serif;
+    background-image: var(--bg-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .mt-50 {
@@ -24,7 +31,12 @@ body {
 
 .card-header {
     margin: -2rem 1rem 1rem;
+    background: linear-gradient(to right, #f1271130, #ff5e001f)!important;
+    font-size: 25px !important;
+    font-weight: bold;
+    border: 5px dashed rgb(253, 95, 40);
 }
+
 
 .form-control {
     background-color: transparent!important;
@@ -32,4 +44,60 @@ body {
 
 .input-group-text {
     background-color: transparent!important;
+}
+
+.navbar {
+    background: linear-gradient(to right, #f1271130, #ff5e001f)!important;
+    font-weight: 600;
+    border-radius: 4px;
+    margin-top: 40px;
+    border: 2px solid rgb(253, 95, 40);
+}
+
+/* .navbar-collapse.show {
+    padding: 1.5rem;
+    background: linear-gradient(to right, #f1271130, #ff5e001f)!important;
+    border-radius: 0.25rem;
+    box-shadow: 0 50px 100px rgb(50 50 93 / 10%), 0 15px 35px rgb(50 50 93 / 15%), 0 5px 15px rgb(0 0 0 / 10%);
+    animation: show-navbar-collapse 0.2s ease forwards;
+} */
+
+.navbar-collapse.collapsing, .navbar-collapse.show {
+    background-image: var(--nav-bg)!important;
+}
+
+.navbar-collapse .navbar-toggler span {
+    background: white!important;
+}
+
+.navbar-nav > li > a > i {
+    color: #e58e65;
+    transition: 0.5s;
+}
+
+.main-feature {
+    background-color: rgb(26,26,32,0.8)!important;
+    border: 1px solid transparent!important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)!important; 
+}
+
+.features > i {
+    font-size: 70px !important;
+    color: #e58e65;
+}
+
+.features > h1 {
+    font-size: 25px !important;
+    font-weight: bold;
+    color: white!important;
+}
+
+.features > p {
+    color: #e58e65;
+    font-weight: 300;
+}
+
+.custom-icons {
+    color: #e58e65 ;
+    font-size: 22px !important;
 }

@@ -12,5 +12,11 @@ public class MainController {
         m.addAttribute("title", "Home | HyperSpaceGamePanel");
         return "index.html";
     }
+
+    @GetMapping("/register")
+    public String registerPage(Model m) {
+       m.addAttribute("title", "Register | HyperSpaceGamePanel");
+       return "register.html";
+    }
     
 }
