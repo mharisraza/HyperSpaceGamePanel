@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 
 import com.hyperspacegamepanel.dtos.UserDto;
 import com.hyperspacegamepanel.entities.User;
@@ -21,10 +21,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepo;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @Override
     public UserDto createUser(UserDto userDto) {
         User user = this.mapper.map(userDto, User.class);
+
         user.setRole("ROLE_NORMAL");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         User createdUser = this.userRepo.save(user);
         return this.mapper.map(createdUser, UserDto.class);
     }

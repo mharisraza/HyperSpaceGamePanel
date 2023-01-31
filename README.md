@@ -6,7 +6,7 @@ HyperSpaceGamePanel: A game panel built with Spring Boot and Thymeleaf, designed
 Module | Status
 -------|-------
 Registration | Completed :white_check_mark:
-Spring Security | In Progress :clock10:
+Spring Security | Completed :white_check_mark:
 Login | In Progress :clock10:
 ORDER GAME SERVER | Not Started :x:
 Profile Management | Not Started :x:

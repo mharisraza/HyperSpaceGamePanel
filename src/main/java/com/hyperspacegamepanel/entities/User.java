@@ -27,12 +27,13 @@ public class User {
     @Column(name = "full_name")
     private String fullName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")
     private String password;
 
+    @Column(name = "role")
     private String role;
 
     @Column(name = "user_suspension_status")
