@@ -37,7 +37,9 @@ body {
     border: 5px dashed rgb(253, 95, 40);
 }
 
-
+.custom-a {
+    color:#e58e65!important;
+}
 .form-control {
     background-color: transparent!important;
 }

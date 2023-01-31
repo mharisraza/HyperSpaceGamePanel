@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::body})">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6">
+                <div class="card mx-auto">
+                    <div class="card-header text-center">
+                        <i class="fa-solid fa-user custom-icons"></i>&nbsp;Login
+                    </div>
+                    <div class="card-body">
+                        <form class="row" action="/login" method="post">
+
+                            <!-- Email address field  -->
+                            <div class="col-md-12">
+                                <label>Email Address</label>
+                                <div class="form-group">
+                                    <div class="input-group mb-4">
+                                        <input name="username" class="form-control" placeholder="johndoe@example.com"
+                                            type="email">
+                                            
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Email address field end  -->
+
+                            <!-- Password field  -->
+                            <div class="col-12">
+                                <label>Password</label>
+                                <div class="form-group">
+                                    <div class="input-group mb-4">
+                                        <input name="password" class="form-control" placeholder="Password"
+                                            type="password">     
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- password field end  -->
+
+                            <!-- submit button  -->
+                            <div class="container text-center">
+                                <button type="submit" class="btn btn-warning w-75">Login&nbsp;<i
+                                        class="fa fa-sign-in"></i></button>
+                            </div>
+                            <!-- submit button end  -->
+
+                            <div class="container text-center mt-4">
+                                <a class="custom-a">Forgot your Password?</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

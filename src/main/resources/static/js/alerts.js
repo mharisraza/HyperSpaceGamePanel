@@ -26,4 +26,8 @@ $(document).ready(function() {
     if(status == "USER_ALREADY_EXISTS_WITH_PROVIDED_EMAIL") {
         toastr["error"]("User with provided email address already exist, try another.", "Error");
     }
+
+    if(status == "logout-success") {
+        toastr["success"]("Logout Successfully!", "Success");
+    }
 });

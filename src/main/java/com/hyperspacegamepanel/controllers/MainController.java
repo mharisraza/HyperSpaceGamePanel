@@ -1,13 +1,22 @@
 package com.hyperspacegamepanel.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.hyperspacegamepanel.dtos.UserDto;
+import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.repositories.UserRepository;
 
 @Controller
 public class MainController {
+
+    @Autowired
+    private UserRepository userRepo;
 
     @GetMapping(value = {"/", "/home"})
     public String home(Model m) {
@@ -20,6 +29,28 @@ public class MainController {
        m.addAttribute("title", "Register | HyperSpaceGamePanel");
        m.addAttribute("user", new UserDto());
        return "register.html";
+    }
+
+    @GetMapping("/login")
+    public String loginPage(Model m) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if(!(auth instanceof AnonymousAuthenticationToken)) {
+            User user = this.userRepo.getByEmail(auth.getName());
+    
+            if(user.getRole().equalsIgnoreCase("ROLE_NORMAL")) {
+                return "redirect:/me/dashboard";
+            }
+
+            if(user.getRole().equalsIgnoreCase("ROLE_ADMIN")) {
+                return "redirect:/admin/dashboard";
+            }
+        }
+
+
+        m.addAttribute("title", "Login | HyperSpaceGamePanel");
+        return "login.html";
     }
     
 }
