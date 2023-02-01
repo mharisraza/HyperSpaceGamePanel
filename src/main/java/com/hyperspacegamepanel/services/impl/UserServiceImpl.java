@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.hyperspacegamepanel.dtos.UserDto;
 import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.exceptions.ResourceNotFound;
 import com.hyperspacegamepanel.repositories.UserRepository;
 import com.hyperspacegamepanel.services.UserService;
 
@@ -37,7 +38,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UserDto userDto, Integer userId) {
-        return null;
+        User user = this.userRepo.findById(userId).orElseThrow(()-> new ResourceNotFound("User", "Id:"+userId));
+        user.setFullName(userDto.getFullName());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        User updatedUser = this.userRepo.save(user);
+        return this.mapper.map(updatedUser, UserDto.class);
     }
 
     @Override

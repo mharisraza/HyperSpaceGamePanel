@@ -30,4 +30,40 @@ $(document).ready(function() {
     if(status == "logout-success") {
         toastr["success"]("Logout Successfully!", "Success");
     }
+
+    if(status == "bad-credentials") {
+        toastr["error"]("Wrong Email address or password.", "Error");
+    }
+
+    if(status == "user-disabled") {
+        toastr["error"]("Your Account is Suspended, please contact us to be un-block.", "Account Suspended!")
+    }
+
+    if(status == "USER_DOESNT_EXIST_WITH_PROVIDED_EMAIL") {
+        toastr["error"]("User doesn't exist with provided email address, please try correct email address.", "Wrong Email Address!")
+    }
+
+    if(status == "TOKEN_SENT_SUCCESSFULLY") {
+        toastr["success"]("We've sent your password reset link on your email address.", "Reset Link Sent!");
+    }
+
+    if(status == "INVALID_TOKEN") {
+        toastr["error"]("The request you made is expired or invalid.", "Invalid Request!");
+    }
+
+    if(status == "UPDATE_NEW_PASSWORD") {
+        toastr["info"]("Please update your new password here.", "Info!");
+    }
+
+    if(status == "PASSWORD_UPDATED") {
+        toastr["success"]("Password updated, you can login now!", "Success");
+    }
+
+    if(status == "PASSWORD_CONFPW_NOT_MATCH") {
+        toastr["error"]("Password or confirm password do not matches.", "Error!");
+    }
+
+    if(status == "SOMETHING_WENT_WRONG") {
+        toastr["error"]("Sorry, something went wrong!", "Error!");
+    }
 });

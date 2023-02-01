@@ -7,8 +7,8 @@ Module | Status
 -------|-------
 Registration | Completed :white_check_mark:
 Spring Security | Completed :white_check_mark:
-Login | Implemented login logic :white_check_mark:, Forgot password: In Progress: :clock10:
-ORDER GAME SERVER | Not Started :x:
+Login | Implemented login logic :white_check_mark:, Forgot password: Completed :white_check_mark:
+ORDER GAME SERVER | In Progress :clock10:
 Profile Management | Not Started :x:
 Game Panel | Not Started :x:
 

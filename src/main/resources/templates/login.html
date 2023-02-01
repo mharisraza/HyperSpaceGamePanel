@@ -52,7 +52,7 @@
                             <!-- submit button end  -->
 
                             <div class="container text-center mt-4">
-                                <a class="custom-a">Forgot your Password?</a>
+                                <a class="custom-a forgot-password" data-toggle="modal" data-target="#forgotPasswordModal">Forgot your Password?</a>
                             </div>
                         </form>
                     </div>
@@ -60,6 +60,42 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Modal -->
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-white font-weight-bold" id="exampleModalLabel">Forgot your Password?</h5>
+          <button style="" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="row" action="/forgotPassword" method="post">
+             <div class="col-md-12">
+                 <!-- Email address field  -->
+                 <div class="col-md-12">
+                    <label>Email Address</label>
+                    <div class="form-group">
+                        <div class="input-group mb-4">
+                            <input name="email" class="form-control" placeholder="johndoe@example.com"
+                                type="email">
+                        </div>
+                    </div>
+                </div>
+                <!-- Email address field end  -->
+             </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-outline-warning">SUBMIT&nbsp;<i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+  <!-- Forgot Password Modal end -->
 </body>
 
 </html>

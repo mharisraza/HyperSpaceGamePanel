@@ -36,7 +36,22 @@
 			<version>3.1.1</version>
 		</dependency>
 
-<dependency>
+		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+          <dependency>
+             <groupId>com.sun.mail</groupId>
+               <artifactId>javax.mail</artifactId>
+                  <version>1.6.0</version>
+            </dependency>
+
+		  <!-- https://mvnrepository.com/artifact/javax.activation/activation -->
+             <dependency>
+                <groupId>javax.activation</groupId>
+                  <artifactId>activation</artifactId>
+                    <version>1.1.1</version>
+                </dependency>
+				 
+
+            <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
