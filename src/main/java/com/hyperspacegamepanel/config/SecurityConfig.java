@@ -9,16 +9,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -53,7 +54,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        FormLoginConfigurer<HttpSecurity> successHandler = http.authorizeHttpRequests()
+
+
+         http.authorizeHttpRequests()
         .antMatchers("/admin/**")
         .hasRole("ADMIN")
         .antMatchers("/me/**")
@@ -67,6 +70,8 @@ public class SecurityConfig {
             @Override
             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                     Authentication authentication) throws IOException, ServletException {
+
+                        request.getSession().setAttribute("status", "LOGIN_SUCCESS");
                         
                         User user = userRepo.getByEmail(authentication.getName());
                         String redirectURL = "";
@@ -81,8 +86,8 @@ public class SecurityConfig {
                         response.sendRedirect(redirectURL);
 
             }
-        });
-        successHandler
+        })
+
         .failureHandler(new AuthenticationFailureHandler() {
 
             // do actions if user can't login.
@@ -126,6 +131,7 @@ public class SecurityConfig {
         .csrf()
         .disable();
 
+      
         return http.build();
     }
 }

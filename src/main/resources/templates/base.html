@@ -14,9 +14,9 @@
     <!--=========-->
 
     <!--Custom CSS Plus FrameWork CSS-->
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <!-- <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"> -->
+     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"> 
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.modified.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"  crossorigin="anonymous" />
     <!--===========-->
@@ -72,7 +72,7 @@
                     </div>
                 </div>
 
-                <ul class="navbar-nav text-center ms-auto">
+                <ul class="navbar-nav text-center ">
                   <li class="nav-item">
                     <a class="nav-link nav-link-icon" href="/home">
                         <i style="font-size: 9px;" class="fas fa-home"></i>
@@ -81,7 +81,7 @@
                 </li>
 
                 <li class="nav-item">
-                  <a class="nav-link nav-link-icon" href="#">
+                  <a class="nav-link nav-link-icon" href="/me/dashboard">
                       <i style="font-size: 9px;" class="fab fa-windows"></i>
                       <span class="text-white">GAME PANEL</span>
                   </a>
@@ -122,11 +122,10 @@
 	<th:block th:if="${session.status}"
 		th:text="${#session.removeAttribute('status')}"></th:block>
 
-    <br>
-    <br>
-    <br>
-
     <div th:replace="${content}"></div>
+
+
+
 
     <!-- FrameWork JS(s) -->
 	<!-- <script src="/js/popper.js"></script>

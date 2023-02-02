@@ -1,5 +1,7 @@
 package com.hyperspacegamepanel.controllers;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,7 +34,7 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public String loginPage(Model m) {
+    public String loginPage(Model m, HttpSession httpSession) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 

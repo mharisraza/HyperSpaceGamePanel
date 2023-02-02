@@ -1,0 +1,45 @@
+:root{
+    --bg-image: url("/images/background.jpg");
+    --nav-bg: url("/images/nav-bg.jpg")
+}
+
+* {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 14px!important;
+    color: white ;
+  }
+
+  body {
+    background-image: var(--bg-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* navbar related to style  */
+
+.navbar {
+    background: rgb(28, 33, 55, 0.8)!important;
+    font-weight: 600;
+    border-radius: 4px;
+    margin-top: 40px;
+    border-color: transparent!important;
+}
+
+.navbar-collapse.collapsing, .navbar-collapse.show {
+    background-image: var(--nav-bg)!important;
+}
+
+.navbar-collapse .navbar-toggler span {
+    background: white!important;
+}
+
+/* ======================  */
+
+/* simple related styling  */
+
+.jumbotron {
+    background: rgb(28, 33, 55, 0.8)!important;
+}
+
+/* ======================  */

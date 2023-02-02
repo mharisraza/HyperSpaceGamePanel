@@ -66,4 +66,12 @@ $(document).ready(function() {
     if(status == "SOMETHING_WENT_WRONG") {
         toastr["error"]("Sorry, something went wrong!", "Error!");
     }
+    
+    if(status == "LOGIN_SUCCESS") {
+        toastr["success"]("Login successfully!", "Success!");
+    }
+
+    if(status == "NOT_LOGIN") {
+        toastr["error"]("Please login to continue!", "Error");
+    }
 });
