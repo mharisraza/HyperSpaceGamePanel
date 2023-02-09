@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="user/base::Layout(~{::body})">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="container ">
+        <div id="orderServer" class="jumbotron">
+            <h1 style="margin-bottom: 0;" class="text-white">Order Server</h1>
+            <p style="margin-top: 0; line-height: 1.1;">Here you can order your server.</p>
+            <form id="order-server" class="row mt-5" method="POST" action="/order/process-order" th:object="${order}">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="game-select">Choose Game</label>
+                        <select id="game-select" class="form-control" name="gameName">
+                            <option selected value="not-selected">Choose your game</option>
+                            <option value="cs">Counter Strike 1.6</option>
+                            <option value="csgo">Counter Strike Global Offensive</option>
+                            <option value="samp">GTA San Andreas (SA:MP)</option>
+                            <option value="mc">Minecraft</option>
+                        </select>
+                        <div id="game-not-select" class="invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                       <label for="server-location">Choose Location</label>
+                       <select id="server-location" class="form-control" name="location">
+                        <option value="not-selected" selected>Choose location</option>
+                        <option>France</option>
+                        <option>Germany</option>
+                       </select>
+                       <div id="location-not-select" class="invalid-feedback"></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Slots</label>
+                        <select id="serverSlots" class="form-control" name="slots">
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                            <option value="32">32</option>  
+                        </select>
+                    </div>
+                    
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Server Name</label>
+                        <input name="serverName" id="server-name" type="text" placeholder="Server Name" class="form-control">
+                        <div id="server-name-error" class="invalid-feedback"></div>
+
+                    </div>
+                    
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Billing Interval</label>
+                        <select id="billingInterval" class="form-control" name="billingInterval">
+                            <option value="1">1 Month</option>
+                            <option value="3">3 Month</option>
+                            <option value="9">9 Month</option>
+                            <option value="12">1 Year</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="container text-center mt-3">
+                    <button type="submit" class="btn btn-primary w-75">ORDER NOW</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

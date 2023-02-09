@@ -60,3 +60,34 @@
   }
   
   /* ====================  */
+
+  /* dropdowns style  */
+
+ .dropdown-menu {
+    background-color: rgba(18, 21, 36, 0.94)!important;
+    color: white !important;
+    border-bottom: 5px solid #5e72e4 !important;
+  }
+
+  .navbar-nav .dropdown-menu:before {
+    background-color: rgba(18, 21, 36, 0.94)!important;
+    margin-top: 5px !important;
+  }
+
+  .dropdown-item:hover {
+    background-color: transparent !important;
+    color: white !important;
+  }
+
+  /* ======================  */
+
+  /* user page  */
+  .users-badge {
+    font-size: 35px !important;
+  }
+
+  .users-badge > i {
+    font-size: 35px !important;
+  }
+  
+  

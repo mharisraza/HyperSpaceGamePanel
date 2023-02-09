@@ -1,5 +1,6 @@
 package com.hyperspacegamepanel.services.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
         user.setRole("ROLE_NORMAL");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
+        user.setRegisteredDate(new Date());
         User createdUser = this.userRepo.save(user);
         return this.mapper.map(createdUser, UserDto.class);
     }

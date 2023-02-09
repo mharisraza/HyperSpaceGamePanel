@@ -59,6 +59,8 @@ public class SecurityConfig {
          http.authorizeHttpRequests()
         .antMatchers("/admin/**")
         .hasRole("ADMIN")
+        .antMatchers("/order/**")
+        .hasRole("NORMAL")
         .antMatchers("/me/**")
         .hasRole("NORMAL")
         .antMatchers("/**")

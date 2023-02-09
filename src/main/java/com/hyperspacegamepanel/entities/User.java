@@ -1,5 +1,7 @@
 package com.hyperspacegamepanel.entities;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,6 +40,8 @@ public class User {
 
     @Column(name = "user_suspension_status")
     private boolean isEnabled = true;
+
+    private Date registeredDate;
 
     @Override
     public String toString() {

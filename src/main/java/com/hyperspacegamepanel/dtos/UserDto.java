@@ -1,5 +1,7 @@
 package com.hyperspacegamepanel.dtos;
 
+import java.util.Date;
+
 import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
@@ -26,6 +28,8 @@ public class UserDto {
 
     @NotBlank(message = "Confirm Password is required")
     private String confirmPassword;
+
+    private Date registeredDate;
 
     private String role;
     
