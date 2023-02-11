@@ -3,6 +3,7 @@ package com.hyperspacegamepanel.services;
 import java.util.List;
 
 import com.hyperspacegamepanel.dtos.UserDto;
+import com.hyperspacegamepanel.entities.User;
 
 public interface UserService {
 
@@ -14,6 +15,8 @@ public interface UserService {
 
     UserDto getUser(Integer userId);
 
-    List<UserDto> getAllUsers();
+    User suspendUser(User user);
+
+    User unbanUser(User user);
     
 }

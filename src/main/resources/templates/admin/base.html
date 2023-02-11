@@ -21,7 +21,6 @@
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"
-    
         crossorigin="anonymous" />
     <!--===========-->
 
@@ -48,140 +47,156 @@
 
 <body>
 
-    <!-- navbar -->
-    <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default"
-                    aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbar-default">
-                    <div class="navbar-collapse-header">
-                        <div class="row">
-                            <div class="col-6 collapse-brand">
-                                <a href="javascript:void(0)">
-                                    <img width="200" src="/images/logo.png">
-                                </a>
-                            </div>
-                            <div class="col-6 collapse-close">
-                                <button type="button" class="navbar-toggler" data-toggle="collapse"
-                                    data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false"
-                                    aria-label="Toggle navigation">
-                                    <span></span>
-                                    <span></span>
-                                </button>
+    <!-- loader (should be on top to avoid blurring itself) -->
+    <div id="loader" class="loader"></div>
+
+    <section class="mb-5" id="main">
+        <!-- navbar starts from here -->
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="container">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default"
+                        aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <!-- navbar collapse  -->
+                    <div class="collapse navbar-collapse" id="navbar-default">
+                        <div class="navbar-collapse-header">
+                            <div class="row">
+                                <div class="col-6 collapse-brand">
+                                    <a href="javascript:void(0)">
+                                        <img width="200" src="/images/logo.png">
+                                    </a>
+                                </div>
+                                <div class="col-6 collapse-close">
+                                    <button type="button" class="navbar-toggler" data-toggle="collapse"
+                                        data-target="#navbar-default" aria-controls="navbar-default"
+                                        aria-expanded="false" aria-label="Toggle navigation">
+                                        <span></span>
+                                        <span></span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <ul class="navbar-nav text-center">
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-icon" href="/home">
-                                <i style="font-size: 9px;" class="fas fa-home"></i>
-                                <span class="text-white">HOME</span>
-                            </a>
-                        </li>
 
-                        <li class="nav-item">
-                            <div class="dropdown show">
-                                <a class="nav-link nav-link-icon dropdown-toggle text-white" href="#" role="button"
-                                    id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                   <i class="fas fa-server"></i> <span class="text-white">SERVERS</span>
+                        <!-- navbar links -->
+                        <ul class="navbar-nav text-center">
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-icon" href="/home">
+                                    <i style="font-size: 9px;" class="fas fa-home"></i>
+                                    <span class="text-white">HOME</span>
                                 </a>
+                            </li>
 
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item text-white" href="/admin/servers/all"><i class="fas fa-list"></i>All Servers&nbsp;&nbsp;<span class="badge badge-primary">325</span></span></a>
-                                    <a class="dropdown-item text-white" href="/admin/servers/new"><i class="fas fa-plus"></i>Add New Server</a>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <div class="dropdown show">
-                                <a class="nav-link nav-link-icon dropdown-toggle text-white" href="#" role="button"
-                                    id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                   <i class="fas fa-user"></i> <span class="text-white">USERS</span>
-                                </a>
-
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item text-white" href="/admin/users/all"><i class="fas fa-list"></i>All Users&nbsp;&nbsp;<span class="badge badge-primary">[(${#lists.size(users)})]</span></a>
-                                    <a class="dropdown-item text-white" href="/admin/users/new"><i class="fas fa-plus"></i>Add New User</a>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
+                            <li class="nav-item">
                                 <div class="dropdown show">
                                     <a class="nav-link nav-link-icon dropdown-toggle text-white" href="#" role="button"
                                         id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
-                                       <i class="fa-solid fa-ticket"></i> <span class="text-white">TICKETS</span>
+                                        <i class="fas fa-server"></i> <span class="text-white">SERVERS</span>
                                     </a>
-    
+
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item text-white" href="/admin/tickets"><i class="fas fa-list"></i>All Tickets&nbsp;&nbsp;<span class="badge badge-primary">15</span></a>
+                                        <a class="dropdown-item text-white" href="/admin/servers/all"><i
+                                                class="fas fa-list"></i>All Servers&nbsp;&nbsp;<span
+                                                class="badge badge-primary">325</span></span></a>
+                                        <a class="dropdown-item text-white" href="/admin/servers/new"><i
+                                                class="fas fa-plus"></i>Add New Server</a>
                                     </div>
                                 </div>
-                            </a>
-                        </li>
+                            </li>
 
-                        <li class="nav-item">
-                            <div class="dropdown show">
-                                <a class="nav-link nav-link-icon dropdown-toggle text-white" href="#" role="button"
-                                    id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                   <i class="fas fa-hdd"></i> <span class="text-white">Machines</span>
+                            <li class="nav-item">
+                                <div class="dropdown show">
+                                    <a class="nav-link nav-link-icon dropdown-toggle text-white" href="#" role="button"
+                                        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <i class="fas fa-user"></i> <span class="text-white">USERS</span>
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item text-white" href="/admin/users/all"><i
+                                                class="fas fa-list"></i>All Users&nbsp;&nbsp;<span
+                                                class="badge badge-primary">[(${#lists.size(users)})]</span></a>
+                                        <a class="dropdown-item text-white" href="/admin/users/new"><i
+                                                class="fas fa-plus"></i>Add New User</a>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="nav-item">
+                                <div class="dropdown show">
+                                    <a class="nav-link nav-link-icon dropdown-toggle text-white" href="#" role="button"
+                                        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <i class="fa-solid fa-ticket"></i> <span class="text-white">TICKETS</span>
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item text-white" href="/admin/tickets"><i
+                                                class="fas fa-list"></i>All Tickets&nbsp;&nbsp;<span
+                                                class="badge badge-primary">15</span></a>
+                                    </div>
+                                </div>
                                 </a>
+                            </li>
 
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item text-white" href="/admin/machines/all"><i class="fas fa-list"></i>All Machines <span class="badge badge-primary">0</span></a>
-                                    <a class="dropdown-item text-white" href="/admin/machines/new"><i class="fas fa-plus"></i>Add New Machine</a>
+                            <li class="nav-item">
+                                <div class="dropdown show">
+                                    <a class="nav-link nav-link-icon dropdown-toggle text-white" href="#" role="button"
+                                        id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <i class="fas fa-hdd"></i> <span class="text-white">Machines</span>
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item text-white" href="/admin/machines/all"><i
+                                                class="fas fa-list"></i>All Machines <span
+                                                class="badge badge-primary">0</span></a>
+                                        <a class="dropdown-item text-white" href="/admin/machines/new"><i
+                                                class="fas fa-plus"></i>Add New Machine</a>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                        </ul>
+                        <!-- navbar links end here -->
 
-                    </ul>
+                        <ul class="navbar-nav text-center ms-auto">
+                            <li class="nav-item">
+                                <div class="dropdown w-100">
+                                    <button class="btn btn-primary btn-block" type="button" id="multiDropdownMenu"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa-solid fa-user"></i> [(${admin.fullName})]
+                                        <div class="ripple-container"></div>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="multiDropdownMenu">
+                                        <a class="dropdown-item text-white" href="/admin/profile"><i
+                                                class="fa-solid fa-gear"></i>&nbsp;My Account</a>
+                                        <a class="dropdown-item text-white" href="/logout"><i
+                                                class="fa-solid fa-right-from-bracket"></i>&nbsp; Logout</a>
+                                            </div>
+                                         </div>
+                                     </div>
+                                  </div>
+                              </li>
+                         </ul>
 
-                    <ul class="navbar-nav text-center ms-auto">
-                        <li class="nav-item">
-                            <div class="dropdown w-100">
-                                <button class="btn btn-primary btn-block" type="button" id="multiDropdownMenu"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa-solid fa-user"></i> [(${user.fullName})]
-                                    <div class="ripple-container"></div>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="multiDropdownMenu">
-                                    <a class="dropdown-item text-white" href="/admin/profile"><i
-                                            class="fa-solid fa-gear"></i>&nbsp;My Account</a>
-                                    <a class="dropdown-item text-white" href="/logout"><i
-                                            class="fa-solid fa-right-from-bracket"></i>&nbsp; Logout</a>
-                                </div>
-                            </div>
-                </div>
-            </div>
-            </li>
-            </ul>
+                        </div>
+                    </div>
+                </nav>
+             </div>
+        <!-- navbar end  -->
 
 
+        <input type="hidden" id="status" th:value="${session.status}">
+        <th:block th:if="${session.status}" th:text="${#session.removeAttribute('status')}"></th:block>
+        
+         <div th:replace="${content}"></div> 
 
-
-    </div>
-    </div>
-    </nav>
-    </div>
-    <!-- navbar end  -->
-
-    <input type="hidden" id="status" th:value="${session.status}">
-    <th:block th:if="${session.status}" th:text="${#session.removeAttribute('status')}"></th:block>
-
-    <br>
-    <br>
-    <br>
-
-    <div th:replace="${content}"></div>
+    </section>
+    
 
     <!-- FrameWork JS(s) -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"

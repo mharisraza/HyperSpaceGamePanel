@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-	th:replace="user/base::Layout(~{::body})">
+	th:replace="user/base::Layout(~{::section})">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,12 +8,13 @@
     <title>Document</title>
 </head>
 <body>
-
+    <section class="mt-5">
     <div class="container">
         <div class="jumbotron">
             <h1>Hello</h1>
         </div>
     </div>
+</section>
     
 </body>
 </html>

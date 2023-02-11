@@ -74,4 +74,20 @@ $(document).ready(function() {
     if(status == "NOT_LOGIN") {
         toastr["error"]("Please login to continue!", "Error");
     }
+
+    if(status == "CANT_FIND_USER_WITH_PROVIDED_ID") {
+        toastr["error"]("Cannot find the user.", "Error");
+    }
+    
+    if(status == "CANT_FIND_ACTIONS") {
+        toastr["error"]("There weren't any actions.", "Error");
+    }
+
+    if(status == "USER_BANNED_SUCCESSFULLY") {
+        toastr["success"]("User banned successfully.", "Success");
+    }
+
+    if(status == "USER_UNBANNED_SUCCESSFULLY") {
+        toastr["success"]("User unbanned successfully.", "Success");
+    }
 });

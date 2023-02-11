@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-	th:replace="admin/base::Layout(~{::body})">
+	th:replace="admin/base::Layout(~{::section})">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,14 +8,17 @@
     <title>Document</title>
 </head>
 <body>
+  <section class="mt-5">
     <div class="container">
         <div class="jumbotron">
             <span class="users-badge">
                 <i class="fas fa-user"></i>&nbsp;USERS
             </span>
             <hr style="margin-top: 2px; color: white;">
+            <p style="margin-top: 0;">All registered users.</p>
             <div style="border-bottom: 5px solid #5e72e4;   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             " class="jumbotron">
+           
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
@@ -30,7 +33,7 @@
                         <tbody>
                           <tr th:each="u : ${users}">
                             <th scope="row">[(${u.id})]</th>
-                            <td>[(${u.fullName})]</td>
+                            <td><a th:href="'/admin/user?id='+${u.id}">[(${u.fullName})]</a></td>
                             <td>[(${u.email})]</td>
                             <td>[(${#dates.format(u.registeredDate, 'dd-MMM-yyyy')})]</td>
                             <td style="border: none; padding: 5px; margin: 15px;" class="badge" th:text="${u.isEnabled ? 'Active' : 'Suspended'}" th:classappend="${u.isEnabled ? 'bg-success' : 'bg-danger'}"></td>
@@ -42,6 +45,6 @@
             </div>
         </div>
     </div>
-    
+  </section>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="user/base::Layout(~{::body})">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="user/base::Layout(~{::section})">
 
 <head>
     <meta charset="UTF-8">
@@ -9,8 +9,8 @@
 </head>
 
 <body>
-
-    <div class="container ">
+    <section class="mt-5">
+    <div class="container">
         <div id="orderServer" class="jumbotron">
             <h1 style="margin-bottom: 0;" class="text-white">Order Server</h1>
             <p style="margin-top: 0; line-height: 1.1;">Here you can order your server.</p>
@@ -96,6 +96,7 @@
             </form>
         </div>
     </div>
+</section>
 
 </body>
 

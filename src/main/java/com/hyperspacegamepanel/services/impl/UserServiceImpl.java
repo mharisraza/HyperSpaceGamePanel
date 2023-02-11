@@ -56,8 +56,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
-        return null;
+    public User suspendUser(User user) {
+        user.setEnabled(false);
+        this.userRepo.save(user);
+        return user;
     }
-    
+
+    @Override
+    public User unbanUser(User user) {
+        user.setEnabled(true);
+        this.userRepo.save(user);
+        return user;
+    }
+
 }

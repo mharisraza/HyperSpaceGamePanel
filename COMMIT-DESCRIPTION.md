@@ -1,3 +1,7 @@
+# implemented ban & unban user functionality.
+`desc`: Implemented ban & unban functionality where admin can ban & unban user if they violate the rules.
+also added loader (on every submission)
+
 # designed user & admin dashboard:
 `desc`: Design user and admin dashboard, added Admin Controller, implemented user list where admin can see all the user and their status
 registration date.

@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+	window.addEventListener("submit", function() {
+		showLoader();
+	})
+
 
 	 // order page
 	 const select = document.getElementById("game-select");
@@ -46,3 +50,15 @@ $(document).ready(function () {
 	});
 
 
+	function showLoader() {
+		document.getElementById("loader").style.display = "block";
+		document.getElementById("main").classList.add("overlay");
+		setTimeout(function(){
+			document.getElementById("loader").style.display = "none";
+			document.getElementById("main").classList.remove("overlay");
+			document.querySelector(".overlay").style.display = "none";
+		}, 1000); // 3000 milliseconds = 3 seconds
+	}
+	
+
+	
