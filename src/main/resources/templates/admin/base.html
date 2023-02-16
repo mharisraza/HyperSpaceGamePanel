@@ -137,7 +137,7 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         <a class="dropdown-item text-white" href="/admin/tickets"><i
                                                 class="fas fa-list"></i>All Tickets&nbsp;&nbsp;<span
-                                                class="badge badge-primary">15</span></a>
+                                                class="badge badge-primary">[(${#lists.size(tickets)})]</span></a>
                                     </div>
                                 </div>
                                 </a>
@@ -168,7 +168,7 @@
                                 <div class="dropdown w-100">
                                     <button class="btn btn-primary btn-block" type="button" id="multiDropdownMenu"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa-solid fa-user"></i> [(${admin.fullName})]
+                                        <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> [(${admin.fullName})]
                                         <div class="ripple-container"></div>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="multiDropdownMenu">

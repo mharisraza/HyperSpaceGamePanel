@@ -90,4 +90,44 @@ $(document).ready(function() {
     if(status == "USER_UNBANNED_SUCCESSFULLY") {
         toastr["success"]("User unbanned successfully.", "Success");
     }
+
+    if(status == "CANT_FIND_TICKET") {
+        toastr["error"]("The ticket is doesn't exist or deleted.", "Error");
+    }
+
+    if(status == "REPLY_MESSAGE_ADDED_SUCCESSFULLY") {
+        toastr["success"]("Message added successfully.", "Success");
+    }
+
+    if(status == "REPLY_MESSAGE_DELETED_SUCCESSFULLY") {
+        toastr["success"]("Message deleted successfully.", "Success");
+    }
+
+    if(status == "REPLY_MESSAGE_IS_EMPTY") {
+        toastr["error"]("Message shouldn't be empty.", "Error");
+    }
+
+    if(status == "CANT_ADD_MESSAGE_TICKET_IS_CLOSED") {
+        toastr["error"]("Unable to add message to the ticket.", "Error");
+    }
+
+    if(status == "TICKET_CLOSED_SUCCESSFULLY") {
+        toastr["success"]("Ticket closed successfully.", "Success");
+    }
+
+    if(status == "TICKET_UNCLOSED_SUCCESSFULLY") {
+        toastr["success"]("Ticket unclosed successfully.", "Success");
+    }
+
+    if(status == "TICKET_REPLY_DOES_NOT_EXIST_OR_NOT_ALLOW_TO_DELETE") {
+        toastr["error"]("Ticket reply doesn't exist or action weren't allowed.", "Error");
+    }
+
+    if(status == "TICKET_REPLY_DOES_NOT_EXIST") {
+        toastr["error"]("Ticket reply doesn't exist or deleted.", "Error");
+    }
+
+    if(status == "CANT_UNCLOSE_TICKET_CLOSED_BY_ADMIN") {
+        toastr["error"]("Cannot unlock the ticket, it was closed by admin", "Error");
+    }
 });

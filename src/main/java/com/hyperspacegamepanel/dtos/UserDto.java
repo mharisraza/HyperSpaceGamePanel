@@ -1,8 +1,13 @@
 package com.hyperspacegamepanel.dtos;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
+
+import com.hyperspacegamepanel.entities.Ticket;
+import com.hyperspacegamepanel.entities.TicketReply;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

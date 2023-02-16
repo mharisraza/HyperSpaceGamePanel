@@ -8,7 +8,53 @@
     <title>Document</title>
 </head>
 <body>
-    <section class="mt-5"></section>
+    <section class="mt-5">
+        <div class="container">
+            <div class="card">
+               <div class="card-body">
+                <div style="border-bottom: 5px solid white;" class="card">
+                    <div class="card-header"><i class="fas fa-list"></i>&nbsp;<strong>Statistics</strong></div>
+                    <div class="card-body">
+                      <div id="stats" class="row">
+                        <div style="font-size: 25px;" class="col-md-3 col-6 stat text-center">
+                            <i class="fas fa-signal"></i>
+                            <br>
+                           <span style="font-size: 35px !important;">[(${#lists.size(users)})]</span>
+                           <br>
+                           <span style="font-size: 25px !important; margin: 0;">Users</span>
+                        </div>
+                        <div class="col-md-3 col-6 stat text-center">
+                            <div class="separator"></div>
+                            <i class="fas fa-ticket"></i>
+                            <br>
+                            <span style="font-size: 35px !important;">[(${#lists.size(tickets)})]</span>
+                            <br>
+                            <span style="font-size: 25px !important; margin: 0;">Tickets</span>
+                        </div>
+                        <div class="col-md-3 col-6 stat text-center">
+                            <div class="separator hidden-sm"></div>
+                            <i class="fas fa-gamepad"></i>
+                            <br>
+                            <span style="font-size: 35px !important;">0</span>
+                            <br>
+                            <span style="font-size: 25px !important;">Servers</span>
+                        </div>
+                        <div class="col-md-3 col-6 stat text-center">
+                            <div class="separator"></div>
+                            <i class="fas fa-server machine"></i>
+                            <br>
+                            <span style="font-size: 35px !important;">0</span>
+                            <br>
+                            <span style="font-size: 25px !important;">Machines</span>
+                            <br>
+                        </div>
+                      </div>
+                </div>
+               </div>
+                </div>
+            </div>
+        </div>
+    </section>
     
 </body>
 </html>

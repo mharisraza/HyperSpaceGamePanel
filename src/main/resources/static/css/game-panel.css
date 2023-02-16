@@ -53,6 +53,8 @@
 
 .form-control {
     background-color: #1c1e2a !important;
+    border: none !important;
+    border-bottom: 1px solid #5e72e4 !important;
   }
   
   .input-group-text {
@@ -86,3 +88,91 @@
       }
       
       /* =====================  */
+
+      .card, .card-header {
+        background-color: rgb(28, 33, 55, 0.8)!important;
+      }
+
+      /* loader  */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+  filter: blur(10px);
+}
+  
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  z-index: 11;
+  display: none;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.loader:before,
+.loader:after {
+  content: "";
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  position: relative;
+  margin: 0 5px;
+  border-radius: 50%;
+  color: #fff;
+  background: currentColor;
+  box-shadow: 50px 0, -50px 0;
+  animation: left 1s infinite ease-in-out;
+}
+
+.loader:after {
+  color: #5e72e4;
+  animation: right 1.1s infinite ease-in-out;
+}
+
+@keyframes right {
+  0%,
+  100% {
+    transform: translateY(-10px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+@keyframes left {
+  0%,
+  100% {
+    transform: translateY(10px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* loader end  */
+
+
+.admin-glow-badge {
+  background-color: #28a745 !important;
+  box-shadow: 0 0 10px #28a745;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 5px #28a745;
+  }
+  to {
+    box-shadow: 0 0 20px #28a745;
+  }
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="user/base::Layout(~{::section})">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <section class="mt-5">
+        <div class="container">
+            <div class="jumbotron">
+               <div class="text-start mb-4">
+                <i style="font-size: 35px !important;" class="fa-solid fa-comments"></i> <span style="font-size: 35px !important;" class="text-white">SUPPORT</span>
+                <hr style="margin-top: 2px;" />
+               <span>You can request your query here.</span>
+               </div>
+                <div style="border-bottom: 5px solid #5e72e4;" class="card">
+                    <div class="card-header font-weight-bold"><i class="fas fa-ticket"></i>&nbsp;New Ticket</div>
+                    <div class="card-body">
+                        <form class="row" action="/me/support/submit-ticket" method="POST" th:object="${ticket}">
+                            <input type="hidden" id="currentUserId" name="userId" th:value="${user.id}">
+                            <div class="col-md-6 mb-4">
+                                <label>Subject</label>
+                                <input name="subject" th:value="${ticket.subject}" class="form-control" type="text" placeholder="Subject"
+                                th:classappend="${#fields.hasErrors('subject') ? 'is-invalid' : ''}">
+
+                                        <div class="invalid-feedback" th:if="${#fields.hasErrors('subject')}"
+                                            th:each="e : ${#fields.errors('subject')}" th:text="${e}">
+                                        </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label for="server-select">Server</label>
+                                <select id="server-select" class="form-control" name="serverId" th:classappend="${#fields.hasErrors('serverId') ? 'is-invalid' : ''}" >
+                                    <option selected value="">Choose your server</option>
+                                    <option value="1">Server 1</option>
+                                    <option value="2">Server 2</option>
+                                    <option value="3">Server 3</option>
+                                    <option value="4">Server 4</option>
+                                </select>
+                                <div  th:if="${#fields.hasErrors('serverId')}" th:each="e : ${#fields.errors('serverId')}" class="invalid-feedback">
+                                 [(${e})]
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-4">
+                                <label for="priority">Priority</label>
+                                <select id="priority" class="form-control" name="priority">
+                                    <option selected value="normal">Normal</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="urgent">Urgent</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="message">Message</label>
+                                <textarea name="message" style="height: 100px;" id="message" class="form-control" placeholder="Your Message" th:classappend="${#fields.hasErrors('message') ? 'is-invalid' : ''}"></textarea>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('message')}"
+                                    th:each="e : ${#fields.errors('message')}" th:text="${e}">
+                                </div>
+                            </div>
+                            <div class="container text-center mt-3">
+                                <button class="btn btn-outline-primary w-75">Submit&nbsp;<i class="fa-solid fa-paper-plane"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>

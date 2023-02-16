@@ -9,6 +9,10 @@ public class Constants {
     public static final String EMAIL_FROM = ""; // the mail you want to send from
     public static final String EMAIL_APP_PASSWORD = ""; // app password (gmail)
 
+    // tickets setting
+    public static final int TICKET_MESSAGE_SIZE = 1000; // change to your needs.
+    public static final String TICKET_MAXIMUM_MESSAGE_ERROR = "Maximum 1000 characters are allowed";
+
     // assigning game ids (statically)
     public static final Map<String, Integer> GAME_IDS = new HashMap<>();
 

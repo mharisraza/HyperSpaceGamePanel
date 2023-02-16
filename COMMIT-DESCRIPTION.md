@@ -1,3 +1,10 @@
+# implemented support[ticket] module
+`desc`: Implemented ticket module where user can request a query for their problems to the admin.
+user can reply to the admin message to the existing ticket (can close or unclose the ticket[not if it closed by admin])
+user can know about if admin responded to the ticket via Status[text]
+admin reply will show with admin badge and admin name with glowing green badge for better experience.
+secured the ticket module, will implement some functionalities to it later (like getting alert if got response)
+
 # implemented ban & unban user functionality.
 `desc`: Implemented ban & unban functionality where admin can ban & unban user if they violate the rules.
 also added loader (on every submission)

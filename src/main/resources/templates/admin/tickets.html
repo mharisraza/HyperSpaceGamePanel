@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="admin/base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section class="mt-5">
+        <div class="container">
+            <div class="jumbotron">
+                <div class="text-start mb-4">
+                    <i style="font-size: 25px !important;" class="fas fa-list"></i> <span style="font-size: 25px !important;">&nbsp; Tickets</span>
+                </div>
+                <div style="border-bottom: 5px solid #5e72e4;   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" class="card">
+                    <div style="border-bottom: 1px solid grey" class="card-header"><i class="fas fa-ticket"></i>&nbsp;Tickets</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">#ID</th>
+                                    <th scope="col">Subject</th>
+                                    <th scope="col">Priority</th>
+                                    <th scope="col">Client</th>
+                                    <th scope="col">Server</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Read</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr th:each="t : ${tickets}">
+                                    <th scope="row"><a th:href="'/admin/ticket?id='+${t.id}" class="text-primary">#[(${t.id})]</a></th>
+                                    <td><a class="text-primary">[(${t.subject})]</a></td>
+                                    <td>[(${t.priority})]</td>
+                                    <td><a th:href="'/admin/user?id='+${t.user.id}" class="text-success">[(${t.user.fullName})]&nbsp;<i class="fa-solid fa-location-arrow"></i></a></td>
+                                    <td><a th:href="'/admin/server?id='+${t.serverId}" class="btn btn-primary btn-sm">SERVER&nbsp;<i class="fa-solid fa-location-arrow"></i></a></td>
+                                    <td><a href="#" class="text-warning">[(${t.status})]</a></td>
+                                    <td><a th:classappend="${t.isRead ? 'text-success' : 'text-danger'}" th:text="${t.isRead ? 'Yes' : 'No'}"></a></td>
+                                  </tr>
+                                  <tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="user/base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section class="mt-5">
+    <div class="container">
+        <div class="jumbotron">
+            <div class="text-start">
+                <i style="font-size: 35px !important;" class="fa fa-life-ring"></i><span style="font-size: 35px !important;">&nbsp; Support</span>
+                <hr style="margin-top: 2px;">
+            </div>
+            <div class="text-end mb-3">
+                <a href="/me/support/new" class="btn btn-warning btn-sm"><i class="fa-solid fa-plus"></i>&nbsp;New Ticket</a>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                <h1 th:if="${#lists.size(tickets)} == 0" style="font-size: 18px !important;" class="text-white font-weight-bold">You don't have any submitted ticket!</h1>
+                <div th:if="${#lists.size(tickets)} != 0" class="table-responsive">
+                    <table class="table table-hover table-md">
+                        <thead>
+                            <tr>
+                              <th scope="col">#ID</th>
+                              <th scope="col">Title</th>
+                              <th scope="col">Date</th>
+                              <th scope="col">Prio</th>
+                              <th scope="col">Server</th>
+                              <th scope="col">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr th:each="ticket : ${tickets}">
+                              <td><a th:href="'/me/support?ticketId='+${ticket.id}" class="text-primary">#[(${ticket.id})]</a></td>
+                              <td><a th:href="'/me/support?ticketId='+${ticket.id}" class="text-primary">[(${ticket.subject})]</a></td>
+                              <td>[(${#dates.format(ticket.submittedDate, 'dd.MM.yyyy, HH:mm')})]</td>
+                              <td>[(${ticket.priority})]</td>
+                              <td><a th:href="'/me/server?id='+${ticket.serverId}" class="text-success">[(${ticket.serverId})]</a></td>
+                              <td><a th:href="'/me/support?ticketId='+${ticket.id}" th:classappend="${ticket.status == 'No Response' ? 'text-danger' : 'text-success'}">[(${ticket.status})]</a></td>
+                            </tr>
+
+                          </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+</body>
+</html>

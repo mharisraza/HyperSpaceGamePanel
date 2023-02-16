@@ -1,18 +1,23 @@
 package com.hyperspacegamepanel.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "users")
@@ -20,6 +25,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class User {
 
     @Id
@@ -43,12 +49,11 @@ public class User {
 
     private Date registeredDate;
 
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", fullName=" + fullName + ", email=" + email + ", password=" + password
-                + ", isEnabled=" + isEnabled + "]";
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Ticket> tickets;
 
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    private List<TicketReply> ticketReplies = new ArrayList<>();
 
     
 }
