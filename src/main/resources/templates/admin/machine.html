@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section class="mt-5">
+           <div class="container">
+            <div class="jumbotron">
+                <div style="border-bottom: 5px solid #5e72e4;" class="card">
+                    <div style="border-bottom: 1px solid grey;" class="card-header"><i class="fa fa-server"></i>&nbsp; [(${machine.name})]</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div style="border: 1px solid grey;" class="card mb-2">
+                                    <div style="border-bottom: 1px solid grey;" class="card-header"><i class="fa-solid fa-thumbtack"></i>&nbsp;Machine Information</div>
+                                    <div class="card-body">
+                                        Machine Name: <span class="text-info font-weight-bold">[(${machine.name})]</span>
+                                        <br>
+                                        IP Address: <span class="text-warning font-weight-bold">[(${machine.ipAddress})]</span>
+                                        <br>
+                                        SSH Port: <span class="text-primary font-weight-bold">[(${machine.port})]</span>
+                                        <br>
+                                        Status: <span th:text="${vps_info.isMachineOnline ? 'Online' : 'Offline'}" th:classappend="${vps_info.isMachineOnline    ? 'text-success' : 'text-danger'}" class="font-weight-bold"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 rounded">
+                                <div style="border: 1px solid grey;" class="card mb-2">
+                                    <div style="border-bottom: 1px solid grey;" class="card-header"><i class="fas fa-info-circle"></i>&nbsp;Machine Details #2</div>
+                                    <div class="card-body">
+                                      CPU Processor: <span class="font-weight-bold text-success">[(${vps_info.getCPUProcessor()})]</span>
+                                      <br>
+                                      Ram Total: <span class="text-warning font-weight-bold">[(${vps_info.getTotalRam()})]</span>
+                                      <br>
+                                      Storage Capacity: <span class="text-success font-weight-bold">[(${vps_info.getTotalStorage()})]</span>
+                                      <br>
+                                      Uptime: <span class="text-success">[(${vps_info.getUptime()})]</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 mb-2 mt-3">
+                                <div style="border: 1px solid grey;" class="card">
+                                    <div style="border-bottom:  1px solid grey;" class="card-header">Machine Information #3</div>
+                                    <div class="card-body">
+                                        Hostname: <span class="font-weight-bold text-success">[(${vps_info.getHostName()})]</span>
+                                        <br>
+                                        Number of CPUs: <span class="font-weight-bold text-success">[(${vps_info.getTotalCPUs()})]</span>
+                                        <br>
+                                        Location: <span class="font-weight-bold text-warning">[(${vps_info.getLocation()})]</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 mb-2 mt-3">
+                                <div style="border: 1px solid grey;" class="card">
+                                    <div style="border-bottom: 1px solid grey;" class="card-header">Supported Actions</div>
+                                    <div class="card-body">
+                                        <a th:href="'/admin/machine?id='+${machine.id}+'&action=restart'" class="btn btn-sm btn-warning"><i class="fa-solid fa-arrows-rotate"></i>&nbsp;Restart</a>
+                                        <button class="btn btn-sm btn-neutral"><i class="fa-solid fa-pen-to-square text-primary"></i>&nbsp;Change Hostname</button>
+                                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i>&nbsp;Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           </div>
+    </section>
+</body>
+</html>

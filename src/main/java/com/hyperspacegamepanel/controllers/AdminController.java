@@ -113,4 +113,10 @@ public class AdminController {
         return "admin/tickets.html";
     }
 
+    @GetMapping("/machines")
+    public String allMachines(Model m) {
+        m.addAttribute("title", "Machines | HyperSpaceGamePanel");
+        return "admin/machines.html";
+    }
+
 }

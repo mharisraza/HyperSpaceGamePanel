@@ -20,6 +20,7 @@ Registration | Completed :white_check_mark:
 Spring Security | Completed :white_check_mark:
 Login | Implemented login logic :white_check_mark:, Forgot password: Completed :white_check_mark:
 Support System | Completed support module :white_check_mark:
+Machine Module | Implemented machine module :white_check_mark:
 Game Panel | In Progress :clock10:
 Profile Management | Not Started :x:
 Order Game server | Not Started :x:

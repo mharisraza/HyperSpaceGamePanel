@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section class="mt-5">
+    <div class="container">
+        <div class="jumbotron">
+            <div class="text-start">
+                <i style="font-size: 25px !important;" class="fas fa-hdd"></i><span style="font-size: 25px !important;">&nbsp;Machine</span>
+                <br>
+                <br>
+                <span style="margin-top: 2px;">You can add new machine (Virtual Private Server) here.</span>
+                <hr style="margin-top: 2px ;">
+            </div>
+
+            <form action="/admin/machine/create-new" method="POST" class="row" th:object="${machine}">
+ 
+                <!-- IP Address field  -->
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>IP Address</label>
+                        <input name="ipAddress" type="text" class="form-control" placeholder="192.168.0.1"
+                        th:classappend="${#fields.hasErrors('ipAddress') ? 'is-invalid' : ''}"> 
+                        <div th:if="${#fields.hasErrors('ipAddress')}" class="invalid-feedback">
+                            <i class="fa-solid fa-circle-info text-warning"></i>&nbsp;Invalid IP Address.
+                        </div>
+                    </div>
+                </div>
+
+              <!-- IP Address field end  -->
+
+              <!-- Machine name field  -->
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Machine Name</label>
+                        <input name="name" type="text" class="form-control" placeholder="VPS ~ #1"
+                        th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ''}">
+                        <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+                            <i class="fa-solid fa-circle-info text-warning"></i>&nbsp; Machine name is required.
+                        </div> 
+                    </div>
+                </div>
+                <!-- Machine name field end  -->
+
+                <!-- SSH Port field  -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Machine SSH Port</label>
+                        <input name="port" type="text" class="form-control" placeholder="22" 
+                        th:classappend="${#fields.hasErrors('port') ? 'is-invalid' : ''}">
+                        <div th:if="${#fields.hasErrors('port')}" class="invalid-feedback">
+                            <i class="fa-solid fa-circle-info text-warning"></i>&nbsp;Port is required.
+                        </div> 
+                    </div>
+                </div>
+                <!-- SSH PORT FIELD END  -->
+
+                <!-- Machine username field  -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Machine Username</label>
+                        <input name="username" type="text" class="form-control" placeholder="root"
+                        th:classappend="${#fields.hasErrors('username') ? 'is-invalid' : ''}">
+                        <div th:if="${#fields.hasErrors('username')}" class="invalid-feedback">
+                            <i class="fa-solid fa-circle-info text-warning"></i>&nbsp; Username is required.
+                        </div> 
+                    </div>
+                </div>
+                <!-- MAchine username field end  -->
+
+                     <!-- Machine password field  -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Machine Password</label>
+                        <input name="password" type="password" class="form-control" placeholder="****"
+                        th:classappend="${#fields.hasErrors('password') ? 'is-invalid' : ''}">
+                        <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback">
+                            <i class="fa-solid fa-circle-info text-warning"></i>&nbsp; Password is required.
+                        </div> 
+                    </div>
+                </div>
+                <!-- Machine passsword field end  -->
+
+                <div class="container text-center">
+                    <hr>
+                    <button type="submit" class="btn btn-primary w-100"><i class="fa-solid fa-floppy-disk"></i>&nbsp;Add Machine</button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    </section>
+</body>
+</html>

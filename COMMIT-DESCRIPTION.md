@@ -1,3 +1,7 @@
+# Implemented machine(VPS) module
+`desc`: Implemented machine module where admin can add vps to the admin panel so that they can add new game-servers
+Machine details are coming dynamically.
+
 # implemented support[ticket] module
 `desc`: Implemented ticket module where user can request a query for their problems to the admin.
 user can reply to the admin message to the existing ticket (can close or unclose the ticket[not if it closed by admin])

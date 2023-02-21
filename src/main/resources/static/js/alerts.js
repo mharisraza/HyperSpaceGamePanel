@@ -130,4 +130,16 @@ $(document).ready(function() {
     if(status == "CANT_UNCLOSE_TICKET_CLOSED_BY_ADMIN") {
         toastr["error"]("Cannot unlock the ticket, it was closed by admin", "Error");
     }
+
+    if(status == "WRONG_CREDENTIALS_CONNECTION_FAILED") {
+        toastr["error"]("Can't connect to machine, credentials is not correct.", "Error");
+    }
+
+    if(status == "MACHINE_ADDED_SUCCESSFULLY") {
+        toastr["success"]("Machine added successfully.", "Success");
+    }
+
+    if(status == "CANT_FIND_MACHINE") {
+        toastr["error"]("The machine is didn't exist or got deleted.", "Error");
+    }
 });

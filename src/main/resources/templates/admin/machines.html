@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::Layout(~{::section})">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section class="mt-5">
+        <div class="container">
+            <div class="jumbotron">
+                <div class="text-start">
+                    <i style="font-size: 25px !important;" class="fas fa-server"></i>&nbsp;<span style="font-size: 25px !important;">&nbsp;Machines</span>
+                    <hr style="margin-top: 2px !important;">
+                </div>
+                <div class="text-end mb-2">
+                  <a href="/admin/machine/new" class="btn btn-warning btn-sm"><i class="fas fa-plus"></i>&nbsp;Add New Machine</a>
+                </div>
+                <div style="border-bottom: 2px solid #5e72e4;" class="jumbotron">
+                    
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">#ID</th>
+                                <th scope="col">Machine name</th>
+                                <th scope="col">IP</th>
+                                <th scope="col">Ttl Servers</th>
+                                <th scope="col">RAM (Memory)</th>
+                                <th scope="col">CPU Usage</th>
+                                <th scope="col">HDD (Memory)</th>
+                                <th scope="col">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row"><a class="text-primary" href="/admin/machine?id=">#1</a></th>
+                                <td><a class="text-primary" href="/admin/machine?id=">France VPS</a></td>
+                                <td><a class="text-primary">192.168.0.1</a></td>
+                                <td><a class="text-success">10</a></td>
+                                <td><a class="text-warning">2GB</a></td>
+                                <td><a class="text-danger">1GB</a></td>
+                                <td><a class="text-warning">25GB</a></td>
+                                <td><a class="text-success">Online</a></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
