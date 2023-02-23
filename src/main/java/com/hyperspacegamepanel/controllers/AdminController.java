@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hyperspacegamepanel.entities.Machine;
 import com.hyperspacegamepanel.entities.Ticket;
 import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.helper.Helper;
+import com.hyperspacegamepanel.repositories.MachineRepository;
 import com.hyperspacegamepanel.repositories.TicketRepository;
 import com.hyperspacegamepanel.repositories.UserRepository;
 import com.hyperspacegamepanel.services.UserService;
@@ -34,6 +37,9 @@ public class AdminController {
     private UserService userService;
 
     @Autowired
+    private MachineRepository machineRepo;
+
+    @Autowired
     private TicketRepository ticketRepo;
 
     /*
@@ -45,6 +51,11 @@ public class AdminController {
     @ModelAttribute("users")
     public List<User> getUsers() {
         return userRepo.findAll();
+    }
+
+    @ModelAttribute("machines")
+    public List<Machine> getMachines() {
+        return machineRepo.findAll();
     }
 
     @ModelAttribute("tickets")
@@ -116,6 +127,7 @@ public class AdminController {
     @GetMapping("/machines")
     public String allMachines(Model m) {
         m.addAttribute("title", "Machines | HyperSpaceGamePanel");
+        m.addAttribute("helper", new Helper());
         return "admin/machines.html";
     }
 

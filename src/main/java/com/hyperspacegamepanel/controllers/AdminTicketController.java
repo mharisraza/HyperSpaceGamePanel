@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hyperspacegamepanel.entities.Machine;
 import com.hyperspacegamepanel.entities.Ticket;
 import com.hyperspacegamepanel.entities.TicketReply;
 import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.repositories.MachineRepository;
 import com.hyperspacegamepanel.repositories.TicketReplyRepository;
 import com.hyperspacegamepanel.repositories.TicketRepository;
 import com.hyperspacegamepanel.repositories.UserRepository;
@@ -43,6 +45,9 @@ public class AdminTicketController {
     @Autowired
     private UserRepository userRepo;
 
+    @Autowired
+    private MachineRepository machineRepo;
+
     /*
      * The @ModelAttribute annotation allows you to centralize data preparation
      * and reuse it across multiple request handling methods,
@@ -53,6 +58,11 @@ public class AdminTicketController {
      public List<User> getUsers() {
          return userRepo.findAll();
      }
+
+     @ModelAttribute("machines")
+     public List<Machine> getMachines() {
+        return machineRepo.findAll();
+    }
  
      @ModelAttribute("tickets")
      public List<Ticket> getTickets() {

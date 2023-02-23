@@ -16,32 +16,32 @@
                 <div class="text-end mb-2">
                   <a href="/admin/machine/new" class="btn btn-warning btn-sm"><i class="fas fa-plus"></i>&nbsp;Add New Machine</a>
                 </div>
-                <div style="border-bottom: 2px solid #5e72e4;" class="jumbotron">
-                    
+                <h1 th:if="${#lists.size(machines) == 0}" class="text-white" style="font-size: 25px !important;">There is not any machine to show, please add a new one.</h1>
+                <div th:if="${#lists.size(machines) != 0}" style="border-bottom: 2px solid #5e72e4;" class="jumbotron">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-bordered">
                             <thead>
                               <tr>
                                 <th scope="col">#ID</th>
-                                <th scope="col">Machine name</th>
+                                <th scope="col">Name</th>
                                 <th scope="col">IP</th>
-                                <th scope="col">Ttl Servers</th>
-                                <th scope="col">RAM (Memory)</th>
-                                <th scope="col">CPU Usage</th>
-                                <th scope="col">HDD (Memory)</th>
+                                <th scope="col">Servers</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">Ram</th>
+                                <th scope="col">Storage</th>
                                 <th scope="col">Status</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <th scope="row"><a class="text-primary" href="/admin/machine?id=">#1</a></th>
-                                <td><a class="text-primary" href="/admin/machine?id=">France VPS</a></td>
-                                <td><a class="text-primary">192.168.0.1</a></td>
-                                <td><a class="text-success">10</a></td>
-                                <td><a class="text-warning">2GB</a></td>
-                                <td><a class="text-danger">1GB</a></td>
-                                <td><a class="text-warning">25GB</a></td>
-                                <td><a class="text-success">Online</a></td>
+                              <tr th:each="m : ${machines}">
+                                <th scope="row"><a class="badge badge-primary" th:href="'/admin/machine?id='+${m.id}">#[(${m.id})]</a></th>
+                                <td><a class="badge badge-warning badge-pill" th:href="'/admin/machine?id='+${m.id}">[(${m.name})]</a></td>
+                                <td><a class="badge badge-primary badge-pill">[(${m.ipAddress})]</a></td>
+                                <td><a th:href="'/admin/machine?id='+${m.id}" style="color: #5e72e4;" class="badge badge-neutral badge-pill">10</a></td>
+                                <td><a th:href="'/admin/machine?id='+${m.id}" class="badge badge-warning badge-pill">[(${m.machineInfo.location})]</a></td>
+                                <td><a th:href="'/admin/machine?id='+${m.id}" class="badge badge-success badge-pill">[(${m.machineInfo.totalRam})]</a></td>
+                                <td><a th:href="'/admin/machine?id='+${m.id}" class="badge bg-default badge-pill">[(${m.machineInfo.totalStorage})]</a></td>
+                                <td><a th:href="'/admin/machine?id='+${m.id}" th:classappend="${helper.isMachineOnline(m.ipAddress) ? 'badge bg-success badge-pill' : 'badge bg-danger badge-pill'}">[(${helper.isMachineOnline(m.ipAddress) ? 'Online' : 'Offline'})]</a></td>
                               </tr>
                             </tbody>
                           </table>

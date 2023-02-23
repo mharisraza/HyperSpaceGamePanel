@@ -46,7 +46,7 @@
 
                             <div class="col-lg-6 mb-2 mt-3">
                                 <div style="border: 1px solid grey;" class="card">
-                                    <div style="border-bottom:  1px solid grey;" class="card-header">Machine Information #3</div>
+                                    <div style="border-bottom:  1px solid grey;" class="card-header"><i class="fas fa-circle-info"></i>&nbsp;Machine Information #3</div>
                                     <div class="card-body">
                                         Hostname: <span class="font-weight-bold text-success">[(${vps_info.getHostName()})]</span>
                                         <br>
@@ -59,11 +59,11 @@
 
                             <div class="col-lg-6 mb-2 mt-3">
                                 <div style="border: 1px solid grey;" class="card">
-                                    <div style="border-bottom: 1px solid grey;" class="card-header">Supported Actions</div>
+                                    <div style="border-bottom: 1px solid grey;" class="card-header"><i class="fa-solid fa-gear"></i>&nbsp;Supported Actions</div>
                                     <div class="card-body">
-                                        <a th:href="'/admin/machine?id='+${machine.id}+'&action=restart'" class="btn btn-sm btn-warning"><i class="fa-solid fa-arrows-rotate"></i>&nbsp;Restart</a>
-                                        <button class="btn btn-sm btn-neutral"><i class="fa-solid fa-pen-to-square text-primary"></i>&nbsp;Change Hostname</button>
-                                        <button class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i>&nbsp;Delete</button>
+                                        <button th:if="${vps_info.isMachineOnline()}" data-toggle="modal" data-target="#restartMachineModal" type="button" class="btn btn-sm btn-warning"><i class="fa-solid fa-arrows-rotate"></i>&nbsp;Restart</a>
+                                        <button th:if="${vps_info.isMachineOnline()}" data-toggle="modal" data-target="#changeHostNameMachineModal" type="button" class="btn btn-sm btn-neutral"><i class="fa-solid fa-pen-to-square text-primary"></i>&nbsp;Change Hostname</button>
+                                        <button data-toggle="modal" data-target="#deleteThisMachineModal" type="button" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i>&nbsp;Delete</button>
                                     </div>
                                 </div>
                             </div>
@@ -72,6 +72,81 @@
                 </div>
             </div>
            </div>
+
+           <!-- Modal for deleting machine modal -->
+<div class="modal fade" id="deleteThisMachineModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-white" id="exampleModalLabel">Are you sure you want to delete this machine?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <span class="text-white">If you agreed to delete the machine you must know that all the servers that are associcated with this machine will be delete too (not files) and there is no going back!</span>
+          <br>
+          <br>
+          <a style="background-color: red; color: white;" class="btn btn-sm" onclick="showLoader()" th:href="'/admin/machine?id='+${machine.id}+'&action=delete'"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Yes i know, delete the machine.</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+           <!-- Modal for restart machine -->
+<div class="modal fade" id="restartMachineModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-white" id="exampleModalLabel">Are you sure you want to restart the machine?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <span class="text-white">If you agreed to restart the machine, 
+            you must know that all servers that are associcated with this machine will be offline while
+             machine is being restarting.
+          </span>
+          <br>
+          <br>
+          <a onclick="showLoader()" th:href="'/admin/machine?id='+${machine.id}+'&action=restart'" class="btn btn-warning btn-sm"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Yes i know, restart the machine.</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal for restart machine end  -->
+
+   <!-- Modal for change hostname of machine -->
+<div class="modal fade" id="changeHostNameMachineModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-white" id="exampleModalLabel">Are you sure you want to change hostname of the machine?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <span class="text-white">If you agreed to update hostname of the machine, 
+            you must know that it can lead to several problems.
+          </span>
+          <br>
+          <br>
+          <form action="/admin/machine/updateHostname" method="POST">
+            <input type="hidden" name="machineId" th:value="${machine.id}">
+            <span class="text-warning"><i class="fas fa-circle-info text-warning"></i>&nbsp; Hostname shoudn't containt any special char.</span>
+            <input class="form-control" type="text" name="hostname" placeholder="New Hostname" required>
+            <div class="text-end mt-3">
+                <button type="submit" class="btn btn-outline-primary">Update Hostname&nbsp;<i class="fa-solid fa-location-arrow"></i></button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Modal for restart machine end  -->
+
     </section>
 </body>
 </html>

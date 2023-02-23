@@ -142,4 +142,24 @@ $(document).ready(function() {
     if(status == "CANT_FIND_MACHINE") {
         toastr["error"]("The machine is didn't exist or got deleted.", "Error");
     }
+
+    if(status == "MACHINE_DELETED_SUCCESSFULLY") {
+        toastr["success"]("Machine and the all associated server are deleted successfully.", "Success");
+    }
+
+    if(status == "HOST_NAME_IS_EMPTY") {
+        toastr["error"]("Hostname shouldn't be empty", "Error");
+    }
+
+    if(status == "HOSTNAME_CONTAINING_SPECIAL_CHAR") {
+        toastr["error"]("Hostname shouldn't contain any special characters.", "Error");
+    }
+
+    if(status == "VPS_RESTARTED_SUCCESSFULLY") {
+        toastr["success"]("Machine restarted successfully, it could take some time to up the associated the game-servers.", "Success!")
+    }
+
+    if(status == "HOSTNAME_CHANGED_SUCCESSFULLY") {
+        toastr["success"]("Hostname updated successfully.", "Success");
+    }
 });

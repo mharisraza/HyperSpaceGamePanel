@@ -12,7 +12,6 @@ public class VPSServiceImpl implements VPSService {
     private final Machine machine;
 
 
-
     public VPSServiceImpl(VPSConnector connector, Machine machine) {
         this.connector = connector;
         this.machine = machine;

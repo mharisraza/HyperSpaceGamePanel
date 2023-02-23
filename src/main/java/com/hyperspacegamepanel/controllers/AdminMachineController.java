@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hyperspacegamepanel.entities.Machine;
 import com.hyperspacegamepanel.entities.Ticket;
 import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.entities.MachineDetails;
 import com.hyperspacegamepanel.helper.VPSConnector;
 import com.hyperspacegamepanel.repositories.MachineRepository;
 import com.hyperspacegamepanel.repositories.TicketRepository;
 import com.hyperspacegamepanel.repositories.UserRepository;
+import com.hyperspacegamepanel.repositories.MachineDetailsRepository;
 import com.hyperspacegamepanel.services.VPSService;
 import com.hyperspacegamepanel.services.impl.VPSServiceImpl;
 import com.jcraft.jsch.JSchException;
@@ -43,6 +45,9 @@ public class AdminMachineController {
     private MachineRepository machineRepo;
 
     @Autowired
+    private MachineDetailsRepository machineDetailsRepo;
+
+    @Autowired
     private HttpSession httpSession;
 
     @Autowired
@@ -58,6 +63,11 @@ public class AdminMachineController {
     @ModelAttribute("users")
     public List<User> getUsers() {
         return userRepo.findAll();
+    }
+
+    @ModelAttribute("machines")
+    public List<Machine> getMachines() {
+        return machineRepo.findAll();
     }
 
     @ModelAttribute("tickets")
@@ -90,9 +100,24 @@ public class AdminMachineController {
         try {
 
         this.connector.connect(machine);
+        VPSService vpsService = new VPSServiceImpl(this.connector, machine);
 
         if(this.connector.isConnected()) {
+
+            MachineDetails machineDetails = new MachineDetails();
+
+            machineDetails.setHostname(vpsService.getHostName());
+            machineDetails.setCpuProcessor(vpsService.getCPUProcessor());
+            machineDetails.setLocation(vpsService.getLocation());
+            machineDetails.setTotalCPUs(vpsService.getTotalCPUs());
+            machineDetails.setTotalRam(vpsService.getTotalRam());
+
+            String totalStorage = vpsService.getTotalStorage();
+            machineDetails.setTotalStorage(totalStorage.substring(totalStorage.indexOf("/") + 1, totalStorage.indexOf("(")));
+            machineDetails.setMachine(machine);
+
           Machine createdMachine = this.machineRepo.save(machine);
+          this.machineDetailsRepo.save(machineDetails);
           httpSession.setAttribute("status", "MACHINE_ADDED_SUCCESSFULLY");
           return "redirect:/admin/machine?id=" + createdMachine.getId();
         }
@@ -107,13 +132,14 @@ public class AdminMachineController {
          }
 
          httpSession.setAttribute("status", "SOMETHING_WENT_WRONG");
+         e.printStackTrace();
         }
         return "redirect:/admin/machines";
     }
 
     // showing machine details with provided machine Id
     @GetMapping("")
-    public String getMachine(@RequestParam(name = "id", required = false) Integer machineId, Model m) {
+    public String getMachine(@RequestParam(name = "id", required = false) Integer machineId, @RequestParam(required = false) String action, Model m) {
         
         if(machineId == null) {
             httpSession.setAttribute("status", "CANT_FIND_MACHINE");
@@ -128,9 +154,70 @@ public class AdminMachineController {
 
         VPSService vpsService = new VPSServiceImpl(this.connector, machine.get());
 
+        if(action != null) {
+
+            switch(action) {
+
+                case "restart":
+                vpsService.restartMachine();
+                httpSession.setAttribute("status", "VPS_RESTARTED_SUCCESSFULLY");
+                return "redirect:/admin/machine?id="+machineId;
+
+                // first disconnect the vps connection
+                // then delete it from database.
+
+                case "delete":
+                this.connector.disconnect();
+                this.machineRepo.deleteById(machineId);
+                httpSession.setAttribute("status", "MACHINE_DELETED_SUCCESSFULLY");
+                return "redirect:/admin/machines";
+            }
+        }
+
         m.addAttribute("vps_info", vpsService);
         m.addAttribute("machine", machine.get());
+        m.addAttribute("title", machine.get().getName() + " | HyperSpaceGamePanel");
         return "admin/machine.html";
+    }
+
+    // updating hostname of the machine
+    @PostMapping("/updateHostname")
+    public String updateHostName(@RequestParam(required = false) Integer machineId, @RequestParam(required = false) String hostname) {
+        try {
+
+            if(machineId == null) {
+                httpSession.setAttribute("status", "CANT_FIND_MACHINE");
+                return "redirect:/admin/machines";
+            }
+    
+            Optional<Machine> machine = this.machineRepo.findById(machineId);
+            if(!machine.isPresent()) {
+                httpSession.setAttribute("status", "CANT_FIND_MACHINES");
+                return "redirect:/admin/machines";
+            }
+    
+            if(hostname == null) {
+                httpSession.setAttribute("status", "HOST_NAME_IS_EMPTY");
+                return "redirect:/admin/machine?id="+machineId;
+            }
+    
+            if(hostname.matches(".*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
+                httpSession.setAttribute("status", "HOSTNAME_CONTAINING_SPECIAL_CHAR");
+                return "redirect:/admin/machine?id="+machineId;
+            }
+    
+            VPSService vpsService = new VPSServiceImpl(this.connector, machine.get());
+            vpsService.updateHostname(hostname);
+    
+            httpSession.setAttribute("status", "HOSTNAME_CHANGED_SUCCESSFULLY");
+
+        } catch(Exception e) {
+            e.printStackTrace();
+            httpSession.setAttribute("status", "SOMETHING_WENT_WRONG");
+        }
+
+        return "redirect:/admin/machine?id="+machineId;
+
     }
 
 

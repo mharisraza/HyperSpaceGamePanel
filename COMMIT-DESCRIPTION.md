@@ -1,3 +1,7 @@
+# added `restart` and `update hostname` functionality
+`desc`: Added `restart` and `update hostname` functionality where admin can restart the machine if require or update hostname if they want.
+
+
 # Implemented machine(VPS) module
 `desc`: Implemented machine module where admin can add vps to the admin panel so that they can add new game-servers
 Machine details are coming dynamically.

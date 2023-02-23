@@ -14,11 +14,13 @@
                 <div class="text-start mb-4">
                     <i style="font-size: 25px !important;" class="fas fa-list"></i> <span style="font-size: 25px !important;">&nbsp; Tickets</span>
                 </div>
-                <div style="border-bottom: 5px solid #5e72e4;   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" class="card">
+                <hr style="margin-top: 2px;">
+                <h1 class="text-white" style="font-size:  25px !important;" th:if="${#lists.size(tickets) == 0}">There is no any tickets.</h1>
+                <div th:if="${#lists.size(tickets) != 0}" style="border-bottom: 5px solid #5e72e4;   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" class="card">
                     <div style="border-bottom: 1px solid grey" class="card-header"><i class="fas fa-ticket"></i>&nbsp;Tickets</div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table table-bordered">
                                 <thead>
                                   <tr>
                                     <th scope="col">#ID</th>

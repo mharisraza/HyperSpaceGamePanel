@@ -306,3 +306,18 @@ a:hover {
     box-shadow: 0 0 20px #28a745;
   }
 }
+
+
+/* modal related code  */
+
+.modal-content {
+  background-color: rgba(18, 21, 36, 0.94)!important;
+  border-top: 5px solid #5e72e4 !important;
+}
+
+.close > span:not(.sr-only) {
+  font-size: 25px!important;
+  color: #ffffffff !important;
+}
+
+/* =============================  */
