@@ -28,9 +28,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto createUser(UserDto userDto) {
+        
         User user = this.mapper.map(userDto, User.class);
-
-        user.setRole("ROLE_NORMAL");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRegisteredDate(new Date());
         User createdUser = this.userRepo.save(user);

@@ -1,5 +1,7 @@
 package com.hyperspacegamepanel.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +56,20 @@ public class MainController {
         m.addAttribute("title", "Login | HyperSpaceGamePanel");
         return "login.html";
     }
+
+    @GetMapping("/addAdmin")
+    public String addAdmin(Model m, HttpSession httpSession) {
+
+        List<User> users = this.userRepo.findAllByRole("ROLE_ADMIN");
+
+        if(!users.isEmpty()) {
+            return "redirect:/register";
+        }
+        
+        m.addAttribute("title", "Add Admin | HyperSpaceGamePanel");
+        m.addAttribute("user", new UserDto());
+       return "add_admin.html";
+    }
+
     
 }

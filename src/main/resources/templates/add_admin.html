@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section class="mt-5">
+       <div class="container">
+        <div style="border-bottom: 5px solid #57e; box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;" class="jumbotron">
+            <h1 style="font-size: 25px!important;" class="text-white font-weight-bold text-center">🎉 HyperSpaceGamePanel Installed and run successfully! 🎉</h1>
+            <h2 style="font-size: 20px!important;" class="text-white text-center">To Continue, you need to register atleast one admin user to manage the panel.</h2>
+            <h3 style="font-size: 15px!important;" class="text-white text-center">Just fill the details and start exploring HyperSpaceGamePanel.</3>
+                <br>
+                <div class="container mt-4">
+                    <span style="font-size: 20px !important;" class="badge badge-primary"><i style="font-size: 25px !important;" class="fa-solid fa-user-shield"></i>&nbsp;Register Yourself as an Admin</span>
+
+                    <form th:object="${user}" class="row mt-5" action="/addAdmin" method="post">
+
+                        <!-- Full Name field  -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input name="fullName" class="form-control" placeholder="Full Name"
+                                        type="text"
+                                        th:classappend="${#fields.hasErrors('fullName') ? 'is-invalid' : ''}">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('fullName')}"
+                                        th:each="e : ${#fields.errors('fullName')}" th:text="${e}">
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <!-- Full Name Field end  -->
+
+
+                        <!-- Email address field  -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-group mb-4">
+                                    <input name="email" class="form-control" placeholder="Email Address"
+                                        type="email"
+                                        th:classappend="${#fields.hasErrors('email') ? 'is-invalid' : ''}">
+                                        
+                                        <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
+                                        th:each="e : ${#fields.errors('email')}" th:text="${e}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Email address field end  -->
+
+                        <!-- Password field  -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-group mb-4">
+                                    <input name="password" class="form-control" placeholder="Password"
+                                        type="password"
+                                        th:classappend="${#fields.hasErrors('password') ? 'is-invalid' : ''}"
+                                        >
+                                        <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}"
+                                        th:each="e : ${#fields.errors('password')}" th:text="${e}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- password field end  -->
+
+                        <!-- Confirm Password field  -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-group mb-4">
+                                    <input th:field="*{confirmPassword}" name="confirmPassword" class="form-control"
+                                        placeholder="Confirm Password" type="password"
+                                        th:classappend="${#fields.hasErrors('confirmPassword') ? 'is-invalid' : ''}"
+                                        >
+                                        <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}"
+                                        th:each="e : ${#fields.errors('confirmPassword')}" th:text="${e}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Confirm password field end  -->
+
+                        <!-- submit button  -->
+                        <div class="container text-center">
+                            <button type="submit" class="btn btn-primary w-75">Register&nbsp;<i
+                                    class="fa fa-sign-in"></i></button>
+                        </div>
+                        <!-- submit button end  -->
+                    </form>
+                </div>
+        </div>
+       </div>
+    </section>
+</body>
+</html>

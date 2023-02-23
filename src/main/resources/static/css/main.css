@@ -120,7 +120,9 @@ body {
 /* forms and input related code  */
 
 .form-control {
-  background-color: transparent!important;
+  background-color: #1c1e2a !important;
+  border: none !important;
+  border-bottom: 1px solid #5e72e4 !important;
 }
 
 .input-group-text {
@@ -128,6 +130,7 @@ body {
 }
 
 /* ====================  */
+
 
 /* modal related code  */
 
@@ -580,3 +583,9 @@ float: left!important;
 }
 
 /* loader end  */
+
+/* jumbotron  style */
+
+.jumbotron {
+  background-color: rgb(28, 33, 55, 0.8)!important;
+}
