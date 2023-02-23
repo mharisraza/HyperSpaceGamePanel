@@ -13,6 +13,9 @@ public class Constants {
     public static final int TICKET_MESSAGE_SIZE = 1000; // change to your needs.
     public static final String TICKET_MAXIMUM_MESSAGE_ERROR = "Maximum 1000 characters are allowed";
 
+    // Secret key for password encoder 
+    public static final String PASSWORD_ENCODER_SECRET_KEY = "AcCeLwPMx02xISEwwEu0A6cyhRsBvW";
+
     // assigning game ids (statically)
     public static final Map<String, Integer> GAME_IDS = new HashMap<>();
 

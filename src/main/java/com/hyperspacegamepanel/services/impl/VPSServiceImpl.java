@@ -3,6 +3,7 @@ package com.hyperspacegamepanel.services.impl;
 import java.net.InetAddress;
 
 import com.hyperspacegamepanel.entities.Machine;
+import com.hyperspacegamepanel.helper.PasswordEncoder;
 import com.hyperspacegamepanel.helper.VPSConnector;
 import com.hyperspacegamepanel.services.VPSService;
 
@@ -15,6 +16,12 @@ public class VPSServiceImpl implements VPSService {
     public VPSServiceImpl(VPSConnector connector, Machine machine) {
         this.connector = connector;
         this.machine = machine;
+
+        // decrypting password if encrypted.
+        if(this.machine.getPassword().startsWith("ENCRYPTED")) {
+            this.machine.setPassword(PasswordEncoder.decrypt(this.machine.getPassword().substring(9)));
+        }
+        
 
     // By calling the connectIfNotConnected() method here, we avoid the need to call it
     // manually in each method. This helps to reduce redundancy and improve code maintainability.

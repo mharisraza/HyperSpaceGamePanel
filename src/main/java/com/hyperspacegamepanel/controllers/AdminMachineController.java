@@ -27,6 +27,7 @@ import com.hyperspacegamepanel.repositories.MachineRepository;
 import com.hyperspacegamepanel.repositories.TicketRepository;
 import com.hyperspacegamepanel.repositories.UserRepository;
 import com.hyperspacegamepanel.repositories.MachineDetailsRepository;
+import com.hyperspacegamepanel.services.MachineService;
 import com.hyperspacegamepanel.services.VPSService;
 import com.hyperspacegamepanel.services.impl.VPSServiceImpl;
 import com.jcraft.jsch.JSchException;
@@ -46,6 +47,9 @@ public class AdminMachineController {
 
     @Autowired
     private MachineDetailsRepository machineDetailsRepo;
+
+    @Autowired
+    private MachineService machineService;
 
     @Autowired
     private HttpSession httpSession;
@@ -116,7 +120,7 @@ public class AdminMachineController {
             machineDetails.setTotalStorage(totalStorage.substring(totalStorage.indexOf("/") + 1, totalStorage.indexOf("(")));
             machineDetails.setMachine(machine);
 
-          Machine createdMachine = this.machineRepo.save(machine);
+          Machine createdMachine = this.machineService.createMachine(machine);
           this.machineDetailsRepo.save(machineDetails);
           httpSession.setAttribute("status", "MACHINE_ADDED_SUCCESSFULLY");
           return "redirect:/admin/machine?id=" + createdMachine.getId();
@@ -126,9 +130,11 @@ public class AdminMachineController {
 
          String exceptionMessage = e.getMessage();
 
-         if(exceptionMessage.equalsIgnoreCase("Auth fail") || exceptionMessage == "Auth fail") {
-            httpSession.setAttribute("status", "WRONG_CREDENTIALS_CONNECTION_FAILED");
-            return "redirect:/admin/machines";
+         if(exceptionMessage != null) {
+            if(exceptionMessage.equalsIgnoreCase("Auth fail") || exceptionMessage == "Auth fail") {
+                httpSession.setAttribute("status", "WRONG_CREDENTIALS_CONNECTION_FAILED");
+                return "redirect:/admin/machines";
+             }
          }
 
          httpSession.setAttribute("status", "SOMETHING_WENT_WRONG");
