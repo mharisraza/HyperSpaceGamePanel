@@ -9,6 +9,10 @@ public interface VPSService {
     String getTotalCPUs();
     String getHostName();
     String getLocation();
+
+    // perfom actions on the machine
+    void restartMachine();
+    void updateHostname(String hostname);
     
     boolean isMachineOnline();
 
