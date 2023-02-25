@@ -28,6 +28,7 @@ import com.hyperspacegamepanel.dtos.UserDto;
 import com.hyperspacegamepanel.entities.User;
 import com.hyperspacegamepanel.helper.Constants;
 import com.hyperspacegamepanel.repositories.UserRepository;
+import com.hyperspacegamepanel.services.MailService;
 import com.hyperspacegamepanel.services.UserService;
 
   @Controller
@@ -38,6 +39,9 @@ import com.hyperspacegamepanel.services.UserService;
 
       @Autowired
       private UserService userService;
+
+      @Autowired
+      private MailService mailService;
 
       @Autowired
       private ModelMapper mapper;
@@ -56,38 +60,20 @@ import com.hyperspacegamepanel.services.UserService;
           }
 
           this.user = this.userRepo.getByEmail(email);
-          boolean messageSent = false;
           this.token = generateToken();
           this.tokenTime = System.currentTimeMillis(); 
 
           String tokenURL = request.getRequestURL().toString().replace("forgotPassword", "resetPassword") + "?token=" + token;
 
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-          props.put("mail.smtp.starttls.enable", "true");
-          props.put("mail.smtp.host", "smtp.gmail.com");
-          props.put("mail.smtp.port", "587");
+          String message = String.format("<h1 style='font-size: 18px;'>Hello, %s!</h1> \nYour request for resetting password has been received! \n Please use the following link to reset your password: %s \nThis code will be expired in 30 minutes, \nif you didn't initiate this request please ignore this mail. \nBest Regards, \nHyperSpace - GamePanel", user.getFullName(), tokenURL);
 
-        Session session = Session.getInstance(props, new Authenticator() {
-          @Override
-              protected PasswordAuthentication getPasswordAuthentication() {
-                  return new PasswordAuthentication(Constants.EMAIL_FROM, Constants.EMAIL_APP_PASSWORD);
-              }
-        });
+          try {
+            mailService.sendMail(email, "Password Reset Request", message);
+            httpSession.setAttribute("status", "TOKEN_SENT_SUCCESSFULLY");
+          } catch (Exception e) {
+            httpSession.setAttribute("status", "SOMETHING_WENT_WRONG");
+          }
 
-        String htmlText = String.format("<h1 style='font-size: 18px;'>Hello, %s!</h1> \nYour request for resetting password has been received! \n Please use the following link to reset your password: %s \nThis code will be expired in 30 minutes, \nif you didn't initiate this request please ignore this mail. \nBest Regards, \nHyperSpace - GamePanel", user.getFullName(), tokenURL);
-
-        MimeMessage msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress(email));
-        msg.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-        msg.setSubject("Reset Password Request.");
-        msg.setContent(htmlText, "text/html");
-        Transport.send(msg);
-        messageSent = true;
-
-        if(messageSent) {
-          httpSession.setAttribute("status", "TOKEN_SENT_SUCCESSFULLY");
-        }
           return "login.html";
       }
 
@@ -125,14 +111,13 @@ import com.hyperspacegamepanel.services.UserService;
             httpSession.setAttribute("status", "PASSWORD_CONFPW_NOT_MATCH");
             return "redirect:/resetPassword?token="+this.token;
           }
-          boolean passwordUpdated = false;
+
           UserDto user = this.mapper.map(this.user, UserDto.class);
           user.setPassword(password);
-          userService.updateUser(user, user.getId());
-          passwordUpdated = true;
+          user = userService.updateUser(user, user.getId());
           this.token = "expired";
 
-          if(passwordUpdated) {
+          if(user != null) {
             httpSession.setAttribute("status", "PASSWORD_UPDATED");
             return "redirect:/login?";
           }
