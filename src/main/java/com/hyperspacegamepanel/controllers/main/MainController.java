@@ -1,4 +1,4 @@
-package com.hyperspacegamepanel.controllers;
+package com.hyperspacegamepanel.controllers.main;
 
 import java.util.List;
 

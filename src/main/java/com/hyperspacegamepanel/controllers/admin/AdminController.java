@@ -1,4 +1,4 @@
-package com.hyperspacegamepanel.controllers;
+package com.hyperspacegamepanel.controllers.admin;
 
 import java.security.Principal;
 import java.util.List;
@@ -74,27 +74,10 @@ public class AdminController {
         return "admin/index.html";
     }
 
-    @GetMapping("/users/all")
+    @GetMapping("/users")
     public String userPage(Model m) {
         m.addAttribute("title", "Users | HyperSpaceGamePanel");
         return "admin/users.html";
-    }
-
-    @GetMapping("/user")
-    public String userDetails(@RequestParam(required = false) Integer id, Model m) {
-        if (id == null) {
-            httpSession.setAttribute("status", "CANT_FIND_USER_WITH_PROVIDED_ID");
-            return "redirect:/admin/users/all";
-        }
-        Optional<User> user = this.userRepo.findById(id);
-        if (!user.isPresent()) {
-            httpSession.setAttribute("status", "CANT_FIND_USER_WITH_PROVIDED_ID");
-            return "redirect:/admin/users/all";
-        }
-
-        m.addAttribute("user", user.get());
-        m.addAttribute("title", user.get().getFullName() + " | HyperSpaceGamePanel");
-        return "admin/user.html";
     }
 
     @GetMapping(params = "action")

@@ -1,4 +1,4 @@
-package com.hyperspacegamepanel.controllers;
+package com.hyperspacegamepanel.controllers.user;
 
 import java.security.Principal;
 

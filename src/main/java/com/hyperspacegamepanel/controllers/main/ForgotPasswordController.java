@@ -1,18 +1,9 @@
-  package com.hyperspacegamepanel.controllers;
+  package com.hyperspacegamepanel.controllers.main;
 
   import java.security.SecureRandom;
   import java.util.Base64;
-  import java.util.Properties;
-
-  import javax.mail.Authenticator;
-  import javax.mail.Message;
   import javax.mail.MessagingException;
-  import javax.mail.PasswordAuthentication;
-  import javax.mail.Session;
-  import javax.mail.Transport;
   import javax.mail.internet.AddressException;
-  import javax.mail.internet.InternetAddress;
-  import javax.mail.internet.MimeMessage;
   import javax.servlet.http.HttpServletRequest;
   import javax.servlet.http.HttpSession;
 
@@ -26,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hyperspacegamepanel.dtos.UserDto;
 import com.hyperspacegamepanel.entities.User;
-import com.hyperspacegamepanel.helper.Constants;
 import com.hyperspacegamepanel.repositories.UserRepository;
 import com.hyperspacegamepanel.services.MailService;
 import com.hyperspacegamepanel.services.UserService;

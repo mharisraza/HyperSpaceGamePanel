@@ -1,4 +1,4 @@
-package com.hyperspacegamepanel.controllers;
+package com.hyperspacegamepanel.controllers.admin;
 
 import java.security.Principal;
 import java.util.Date;

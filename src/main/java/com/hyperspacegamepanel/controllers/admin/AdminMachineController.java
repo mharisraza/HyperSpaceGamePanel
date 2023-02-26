@@ -1,4 +1,4 @@
-package com.hyperspacegamepanel.controllers;
+package com.hyperspacegamepanel.controllers.admin;
 
 import java.io.IOException;
 import java.security.Principal;
