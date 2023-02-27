@@ -1,8 +1,6 @@
 package com.hyperspacegamepanel.controllers.admin;
 
 import java.io.IOException;
-import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -19,13 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hyperspacegamepanel.entities.Machine;
-import com.hyperspacegamepanel.entities.Ticket;
-import com.hyperspacegamepanel.entities.User;
 import com.hyperspacegamepanel.entities.MachineDetails;
 import com.hyperspacegamepanel.helper.VPSConnector;
 import com.hyperspacegamepanel.repositories.MachineRepository;
-import com.hyperspacegamepanel.repositories.TicketRepository;
-import com.hyperspacegamepanel.repositories.UserRepository;
 import com.hyperspacegamepanel.repositories.MachineDetailsRepository;
 import com.hyperspacegamepanel.services.MachineService;
 import com.hyperspacegamepanel.services.VPSService;
@@ -34,13 +28,7 @@ import com.jcraft.jsch.JSchException;
 
 @Controller
 @RequestMapping("/admin/machine")
-public class AdminMachineController {
-
-    @Autowired
-    private UserRepository userRepo;
-
-    @Autowired
-    private TicketRepository ticketRepo;
+public class AdminMachineController extends AdminController {
 
     @Autowired
     private MachineRepository machineRepo;
@@ -57,32 +45,6 @@ public class AdminMachineController {
     @Autowired
     private VPSConnector connector;
 
-
-    /*
-     * The @ModelAttribute annotation allows you to centralize data preparation
-     * and reuse it across multiple request handling methods,
-     * avoiding duplication and making the data easily accessible to all views.
-     */
-
-    @ModelAttribute("users")
-    public List<User> getUsers() {
-        return userRepo.findAll();
-    }
-
-    @ModelAttribute("machines")
-    public List<Machine> getMachines() {
-        return machineRepo.findAll();
-    }
-
-    @ModelAttribute("tickets")
-    public List<Ticket> getTickets() {
-        return this.ticketRepo.findAll();
-    }
-
-    @ModelAttribute("admin")
-    public User getLoggedInUser(Principal principal) {
-        return userRepo.getByEmail(principal.getName());
-    }
 
     // showing page where user can add new machine to the database.
     @GetMapping("/new")

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+th:replace="admin/base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section class="mt-5">
+        <div class="container">
+            <div class="jumbotron">
+                <div class="text-start">
+                    <i style="font-size: 25px !important;" class="fas fa-user-plus"></i> <span style="font-size: 25px !important;" class="text-white font-weight-bold">&nbsp;Add User</span>
+                    <br>
+                    <span class="mt-3">You can add new user with any role.</span>
+                    <hr style="margin-top: 2px;">
+                </div>
+                <div class="jumbotron">
+                    <i class="fas fa-info-circle"></i><span>&nbsp; Email must be valid, Random generated password with other credentials will be automatically mailed to the provided email address.</span>
+                    <form action="/admin/user/new" method="POST" class="row mt-3">
+                        <div class="col-md-6 mt-3">
+                            <label>Full Name</label>
+                            <input name="fullName" type="text" placeholder="e.g: John Doe" class="form-control" required> 
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <label>Email Address</label>
+                            <input name="email" type="email" placeholder="e.g: johndoe@example.com" class="form-control" required>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label for="role">User Role</label>
+                            <select class="form-control" id="role" name="role" required>
+                                <option value="admin">Admin</option>
+                                <option value="user">User</option>
+                            </select>
+                        </div>
+
+                        <div class="container text-center mt-3">
+                            <button type="submit" class="btn btn-primary w-75">Add User&nbsp;<i class="fas fa-plus"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

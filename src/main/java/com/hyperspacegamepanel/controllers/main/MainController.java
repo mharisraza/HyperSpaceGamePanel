@@ -37,7 +37,7 @@ public class MainController {
 
     @GetMapping("/login")
     public String loginPage(Model m, HttpSession httpSession) {
-
+        
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if(!(auth instanceof AnonymousAuthenticationToken)) {
@@ -52,11 +52,12 @@ public class MainController {
             }
         }
 
-
         m.addAttribute("title", "Login | HyperSpaceGamePanel");
         return "login.html";
     }
 
+    // ..showing page for the registerable admin user if there is no any admin user in the database.
+    // the processing and handling logic method is in "SupportController" class.
     @GetMapping("/addAdmin")
     public String addAdmin(Model m, HttpSession httpSession) {
 

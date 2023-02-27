@@ -19,8 +19,14 @@ public class UserController {
     @Autowired
     private UserRepository userRepo;
 
+     /*
+     * The @ModelAttribute annotation allows you to centralize data preparation
+     * and reuse it across multiple request handling methods,
+     * avoiding duplication and making the data easily accessible to all views.
+     */
+
     @ModelAttribute("user")
-    public User getUser(Principal principal) {
+    public User getLoggedInUser(Principal principal) {
         return this.userRepo.findByEmail(principal.getName()).get();
     }
 

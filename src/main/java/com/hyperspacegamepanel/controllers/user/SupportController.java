@@ -28,7 +28,7 @@ import com.hyperspacegamepanel.services.TicketService;
 
 @Controller
 @RequestMapping("/me/support")
-public class SupportController {
+public class SupportController extends UserController {
 
     @Autowired
     private TicketService ticketService;
@@ -44,12 +44,6 @@ public class SupportController {
 
     @Autowired
     private HttpSession httpSession;
-
-    // getting loggedIn user info.
-    @ModelAttribute("user")
-    public User getLoggedInUser(Principal principal) {
-        return this.userRepo.findByEmail(principal.getName()).get();
-    }
 
     // showing all the user's ticket.
     @GetMapping("/tickets")

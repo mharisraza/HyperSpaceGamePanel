@@ -1,6 +1,7 @@
 package com.hyperspacegamepanel.helper;
 
 import java.net.InetAddress;
+import java.util.Random;
 
 public class Helper {
 
@@ -17,6 +18,21 @@ public class Helper {
         }
         
         return isReachable;
+    }
+
+    public static String randomPasswordGenerator() {
+
+        String allCharacters = "abcdefghijklmnopqrstuvwxyz,ABCDEFGHIJKLMNOPQRSTUVWXYZ,0123456789,!@#$%^&*()_-+={}[]\\|:;\'<>,.?/";
+
+        Random random = new Random();
+        StringBuilder passwordBuilder = new StringBuilder();
+
+        for(int i = 0; i < 20; i++) {
+            int randomIndex = random.nextInt(allCharacters.length());
+            passwordBuilder.append(allCharacters.charAt(randomIndex));
+        }
+
+        return passwordBuilder.toString();
     }
     
 }

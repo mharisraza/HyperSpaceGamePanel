@@ -11,24 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hyperspacegamepanel.entities.Machine;
 import com.hyperspacegamepanel.entities.Ticket;
 import com.hyperspacegamepanel.entities.TicketReply;
 import com.hyperspacegamepanel.entities.User;
-import com.hyperspacegamepanel.repositories.MachineRepository;
 import com.hyperspacegamepanel.repositories.TicketReplyRepository;
 import com.hyperspacegamepanel.repositories.TicketRepository;
-import com.hyperspacegamepanel.repositories.UserRepository;
 import com.hyperspacegamepanel.services.TicketReplyService;
 
 @Controller
 @RequestMapping("/admin/ticket")
-public class AdminTicketController {
+public class AdminTicketController extends AdminController {
 
     @Autowired
     private HttpSession httpSession;
@@ -42,37 +38,6 @@ public class AdminTicketController {
     @Autowired
     private TicketReplyRepository ticketReplyRepo;
 
-    @Autowired
-    private UserRepository userRepo;
-
-    @Autowired
-    private MachineRepository machineRepo;
-
-    /*
-     * The @ModelAttribute annotation allows you to centralize data preparation
-     * and reuse it across multiple request handling methods,
-     * avoiding duplication and making the data easily accessible to all views.
-     */
-
-     @ModelAttribute("users")
-     public List<User> getUsers() {
-         return userRepo.findAll();
-     }
-
-     @ModelAttribute("machines")
-     public List<Machine> getMachines() {
-        return machineRepo.findAll();
-    }
- 
-     @ModelAttribute("tickets")
-     public List<Ticket> getTickets() {
-         return this.ticketRepo.findAll();
-     }
- 
-     @ModelAttribute("admin")
-     public User getLoggedInUser(Principal principal) {
-         return userRepo.getByEmail(principal.getName());
-     }
 
     @GetMapping("")
     public String showTicket(@RequestParam(name = "id", required = false) Integer ticketId, @RequestParam(required = false) String action, @RequestParam(required =  false) Integer messageId, Model m) {
