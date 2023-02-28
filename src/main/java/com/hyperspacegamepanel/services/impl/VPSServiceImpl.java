@@ -17,10 +17,8 @@ public class VPSServiceImpl implements VPSService {
         this.connector = connector;
         this.machine = machine;
 
-        // decrypting password if encrypted.
-        if(this.machine.getPassword().startsWith("ENCRYPTED")) {
-            this.machine.setPassword(PasswordEncoder.decrypt(this.machine.getPassword().substring(9)));
-        }
+        // decrypting password.
+        this.machine.setPassword(PasswordEncoder.decrypt(this.machine.getPassword()));
         
 
     // By calling the connectIfNotConnected() method here, we avoid the need to call it
@@ -73,7 +71,6 @@ public class VPSServiceImpl implements VPSService {
         connector.executeCommand("hostnamectl set-hostname "+hostname);
     }
     
-
     @Override
     public boolean isMachineOnline() {
         boolean isReachable = false;
@@ -98,5 +95,5 @@ public class VPSServiceImpl implements VPSService {
             e.printStackTrace();
         }
     }
-
+  
 }
