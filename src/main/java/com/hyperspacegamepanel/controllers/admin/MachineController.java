@@ -28,7 +28,9 @@ import com.jcraft.jsch.JSchException;
 
 @Controller
 @RequestMapping("/admin/machine")
-public class AdminMachineController extends AdminController {
+public class MachineController extends HelperController {
+
+    
 
     @Autowired
     private MachineRepository machineRepo;
@@ -136,7 +138,7 @@ public class AdminMachineController extends AdminController {
 
                 case "delete":
                 this.connector.disconnect();
-                this.machineRepo.deleteById(machineId);
+                this.machineRepo.delete(machine.get());
                 httpSession.setAttribute("status", "MACHINE_DELETED_SUCCESSFULLY");
                 return "redirect:/admin/machines";
             }

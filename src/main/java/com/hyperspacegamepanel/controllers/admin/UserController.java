@@ -21,7 +21,7 @@ import com.hyperspacegamepanel.services.UserService;
 
 @Controller
 @RequestMapping("/admin/user")
-public class AdminUserController extends AdminController {
+public class AdminUserController extends HelperController {
 
     @Autowired
     private UserRepository userRepo;

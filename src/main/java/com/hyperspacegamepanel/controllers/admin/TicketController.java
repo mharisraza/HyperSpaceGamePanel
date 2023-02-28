@@ -24,7 +24,7 @@ import com.hyperspacegamepanel.services.TicketReplyService;
 
 @Controller
 @RequestMapping("/admin/ticket")
-public class AdminTicketController extends AdminController {
+public class AdminTicketController extends HelperController {
 
     @Autowired
     private HttpSession httpSession;

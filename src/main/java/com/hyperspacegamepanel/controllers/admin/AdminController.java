@@ -25,7 +25,7 @@ import com.hyperspacegamepanel.services.UserService;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminController extends HelperController {
 
     @Autowired
     private UserRepository userRepo;
@@ -41,32 +41,6 @@ public class AdminController {
 
     @Autowired
     private TicketRepository ticketRepo;
-
-    /*
-     * The @ModelAttribute annotation allows you to centralize data preparation
-     * and reuse it across multiple request handling methods,
-     * avoiding duplication and making the data easily accessible to all views.
-     */
-
-    @ModelAttribute("users")
-    public List<User> getUsers() {
-        return userRepo.findAll();
-    }
-
-    @ModelAttribute("machines")
-    public List<Machine> getMachines() {
-        return machineRepo.findAll();
-    }
-
-    @ModelAttribute("tickets")
-    public List<Ticket> getTickets() {
-        return this.ticketRepo.findAll();
-    }
-
-    @ModelAttribute("admin")
-    public User getLoggedInUser(Principal principal) {
-        return userRepo.getByEmail(principal.getName());
-    }
 
     @GetMapping("/dashboard")
     public String home(Model m, Principal principal) {
@@ -112,6 +86,12 @@ public class AdminController {
         m.addAttribute("title", "Machines | HyperSpaceGamePanel");
         m.addAttribute("helper", new Helper());
         return "admin/machines.html";
+    }
+
+    @GetMapping("/servers")
+    public String allServers(Model m) {
+        m.addAttribute("title", "Servers | HyperSpaceGamePanel");
+        return "admin/servers.html";
     }
 
 }
