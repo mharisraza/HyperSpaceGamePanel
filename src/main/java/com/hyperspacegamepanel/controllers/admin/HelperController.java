@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.hyperspacegamepanel.helper.Helper;
+
 import com.hyperspacegamepanel.entities.Machine;
 import com.hyperspacegamepanel.entities.Ticket;
 import com.hyperspacegamepanel.entities.User;
@@ -52,5 +54,10 @@ public class HelperController {
      @ModelAttribute("admin")
      public User getLoggedInUser(Principal principal) {
          return userRepo.getByEmail(principal.getName());
+     }
+
+     @ModelAttribute("helper")
+     public Helper provideHelper() {
+        return new Helper();
      }
 }

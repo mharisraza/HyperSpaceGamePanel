@@ -1,20 +1,18 @@
 package com.hyperspacegamepanel.services;
 
+import java.util.Map;
+
 public interface VPSService {
     
-    String getTotalRam();
-    String getTotalStorage();
-    String getCPUProcessor();
-    String getUptime();
-    String getTotalCPUs();
-    String getHostName();
-    String getLocation();
+    // get vps info
+    Map<String, String> getMachineInfo();
 
     // perfom actions on the machine
     void restartMachine();
     void updateHostname(String hostname);
+
     
-    boolean isMachineOnline();
+
 
 
 }

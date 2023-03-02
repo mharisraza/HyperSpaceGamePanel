@@ -1,6 +1,7 @@
 package com.hyperspacegamepanel.controllers.admin;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -47,6 +48,15 @@ public class MachineController extends HelperController {
     @Autowired
     private VPSConnector connector;
 
+    // global variable for VPS machine info
+    private String totalRam;
+    private String totalStorage;
+    private String hostname;
+    private String location;
+    private String totalCPUs;
+    private String cpuProcessorName;
+    private String uptime;
+
 
     // showing page where user can add new machine to the database.
     @GetMapping("/new")
@@ -74,13 +84,15 @@ public class MachineController extends HelperController {
 
             MachineDetails machineDetails = new MachineDetails();
 
-            machineDetails.setHostname(vpsService.getHostName());
-            machineDetails.setCpuProcessor(vpsService.getCPUProcessor());
-            machineDetails.setLocation(vpsService.getLocation());
-            machineDetails.setTotalCPUs(vpsService.getTotalCPUs());
-            machineDetails.setTotalRam(vpsService.getTotalRam());
+            Map<String, String> machineInfo = vpsService.getMachineInfo();
 
-            String totalStorage = vpsService.getTotalStorage();
+            machineDetails.setHostname(machineInfo.get("hostname"));
+            machineDetails.setCpuProcessor(machineInfo.get("cpu_name"));
+            machineDetails.setLocation(machineInfo.get("location"));
+            machineDetails.setTotalCPUs(machineInfo.get("total_cpus"));
+            machineDetails.setTotalRam(machineInfo.get("total_ram"));
+
+            String totalStorage = machineInfo.get("total_storage");
             machineDetails.setTotalStorage(totalStorage.substring(totalStorage.indexOf("/") + 1, totalStorage.indexOf("(")));
             machineDetails.setMachine(machine);
 
@@ -123,6 +135,7 @@ public class MachineController extends HelperController {
         }
 
         VPSService vpsService = new VPSServiceImpl(this.connector, machine.get());
+        getMachineInfo(vpsService);
 
         if(action != null) {
 
@@ -144,7 +157,16 @@ public class MachineController extends HelperController {
             }
         }
 
-        m.addAttribute("vps_info", vpsService);
+        // setting attribute for machine information
+        m.addAttribute("vps_totalRam", this.totalRam);
+        m.addAttribute("vps_totalStorage", this.totalStorage);
+        m.addAttribute("vps_hostname", this.hostname);
+        m.addAttribute("vps_cpuName", this.cpuProcessorName);
+        m.addAttribute("vps_uptime", this.uptime);
+        m.addAttribute("vps_location", this.location);
+        m.addAttribute("vps_totalCPUS", this.totalCPUs);
+
+
         m.addAttribute("machine", machine.get());
         m.addAttribute("title", machine.get().getName() + " | HyperSpaceGamePanel");
         return "admin/machine.html";
@@ -188,6 +210,18 @@ public class MachineController extends HelperController {
 
         return "redirect:/admin/machine?id="+machineId;
 
+    }
+
+
+    public void getMachineInfo(VPSService vpsService) {
+             Map<String, String> machineInfo = vpsService.getMachineInfo();
+             this.totalRam = machineInfo.get("total_ram");
+             this.totalStorage = machineInfo.get("total_storage");
+             this.cpuProcessorName = machineInfo.get("cpu_name");
+             this.totalCPUs = machineInfo.get("total_cpus");
+             this.hostname = machineInfo.get("hostname");
+             this.location = machineInfo.get("location");
+             this.uptime = machineInfo.get("uptime");
     }
 
 

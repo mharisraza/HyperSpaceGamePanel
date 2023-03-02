@@ -1,8 +1,14 @@
 package com.hyperspacegamepanel.services.impl;
 
-import java.net.InetAddress;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
+import org.springframework.cache.annotation.Cacheable;
 
 import com.hyperspacegamepanel.entities.Machine;
+import com.hyperspacegamepanel.helper.Constants;
 import com.hyperspacegamepanel.helper.PasswordEncoder;
 import com.hyperspacegamepanel.helper.VPSConnector;
 import com.hyperspacegamepanel.services.VPSService;
@@ -27,41 +33,6 @@ public class VPSServiceImpl implements VPSService {
     }
 
     @Override
-    public String getTotalRam() {
-        return connector.executeCommand("free -k | awk 'NR==2{printf \"%dGB\\n\", $2/1024/1024}'");
-    }
-
-    @Override
-    public String getTotalStorage() {
-        return connector.executeCommand("df -h / | awk 'NR==2{printf \"%s/%s (%s)\", $3,$2,$5}'");
-    }
-
-    @Override
-    public String getCPUProcessor() {
-        return connector.executeCommand("cat /proc/cpuinfo | grep 'model name' | uniq | awk -F':' '{print $2}'");
-    }
-
-    @Override
-    public String getUptime() {
-        return connector.executeCommand("awk '{d=int($1/86400);h=int($1%86400/3600);m=int(($1%3600)/60); printf \"%d days %d hours %d minutes\\n\", d, h, m}' /proc/uptime");
-    }
-
-    @Override
-    public String getTotalCPUs() {
-        return connector.executeCommand("nproc");
-    }
-
-    @Override
-    public String getHostName() {
-        return connector.executeCommand("hostname");
-    }
-
-    @Override
-    public String getLocation() {
-        return connector.executeCommand("curl https://ipapi.co/country_name");
-    }
-
-    @Override
     public void restartMachine() {
         connector.executeCommand("reboot");
     }
@@ -70,21 +41,24 @@ public class VPSServiceImpl implements VPSService {
     public void updateHostname(String hostname) {
         connector.executeCommand("hostnamectl set-hostname "+hostname);
     }
-    
+
     @Override
-    public boolean isMachineOnline() {
-        boolean isReachable = false;
-        try {
-            InetAddress address = InetAddress.getByName(machine.getIpAddress());
-            isReachable = address.isReachable(5000); // Time out in milliseconds (5 seconds here)
-
-        } catch (Exception e) {
-            e.printStackTrace();
+    @Cacheable(value = "machineInfoCache", key = "machineInfo")
+    public Map<String, String> getMachineInfo() {
+        String scriptFile = Constants.SCRIPTS_FOLDER_LOCATION + "getvpsinfo.sh";
+        connector.uploadFile(scriptFile);
+        String output = connector.executeCommand("bash /scripts/getvpsinfo.sh");
+        Map<String, String> machineInfo = new HashMap<>();
+        String[] lines = output.split("\n");
+        for(String line : lines) {
+            String[] parts = line.split("=");
+            if(parts.length == 2) {
+                machineInfo.put(parts[0], parts[1].trim());
+            }
         }
-        
-        return isReachable;
+        return machineInfo;
     }
-
+    
     private void connectIfNotConnected() {
         try {
             if(!this.connector.isConnected()) {
@@ -95,5 +69,7 @@ public class VPSServiceImpl implements VPSService {
             e.printStackTrace();
         }
     }
+
+
   
 }

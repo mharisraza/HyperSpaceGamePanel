@@ -24,7 +24,7 @@
                                         <br>
                                         SSH Port: <span class="text-primary font-weight-bold">[(${machine.port})]</span>
                                         <br>
-                                        Status: <span th:text="${vps_info.isMachineOnline ? 'Online' : 'Offline'}" th:classappend="${vps_info.isMachineOnline    ? 'text-success' : 'text-danger'}" class="font-weight-bold"></span>
+                                        Status:  <span th:classappend="${helper.isMachineOnline(machine.ipAddress) ? 'text-success' : 'text-danger'}">[(${helper.isMachineOnline(machine.ipAddress) ? 'Online' : 'Offline'})]</span>
                                     </div>
                                 </div>
                             </div>
@@ -33,13 +33,13 @@
                                 <div style="border: 1px solid grey;" class="card mb-2">
                                     <div style="border-bottom: 1px solid grey;" class="card-header"><i class="fas fa-info-circle"></i>&nbsp;Machine Details #2</div>
                                     <div class="card-body">
-                                      CPU Processor: <span class="font-weight-bold text-success">[(${vps_info.getCPUProcessor()})]</span>
+                                      CPU Processor: <span class="font-weight-bold text-success">[(${vps_cpuName})]</span>
                                       <br>
-                                      Ram Total: <span class="text-warning font-weight-bold">[(${vps_info.getTotalRam()})]</span>
+                                      Ram Total: <span class="text-warning font-weight-bold">[(${vps_totalRam})]</span>
                                       <br>
-                                      Storage Capacity: <span class="text-success font-weight-bold">[(${vps_info.getTotalStorage()})]</span>
+                                      Storage Capacity: <span class="text-success font-weight-bold">[(${vps_totalStorage})]</span>
                                       <br>
-                                      Uptime: <span class="text-success">[(${vps_info.getUptime()})]</span>
+                                      Uptime: <span class="text-success">[(${vps_uptime})]</span>
                                     </div>
                                 </div>
                             </div>
@@ -48,11 +48,11 @@
                                 <div style="border: 1px solid grey;" class="card">
                                     <div style="border-bottom:  1px solid grey;" class="card-header"><i class="fas fa-circle-info"></i>&nbsp;Machine Information #3</div>
                                     <div class="card-body">
-                                        Hostname: <span class="font-weight-bold text-success">[(${vps_info.getHostName()})]</span>
+                                        Hostname: <span class="font-weight-bold text-success">[(${vps_hostname})]</span>
                                         <br>
-                                        Number of CPUs: <span class="font-weight-bold text-success">[(${vps_info.getTotalCPUs()})]</span>
+                                        Number of CPUs: <span class="font-weight-bold text-success">[(${vps_totalCPUS})]</span>
                                         <br>
-                                        Location: <span class="font-weight-bold text-warning">[(${vps_info.getLocation()})]</span>
+                                        Location: <span class="font-weight-bold text-warning">[(${vps_location})]</span>
                                     </div>
                                 </div>
                             </div>
@@ -61,8 +61,8 @@
                                 <div style="border: 1px solid grey;" class="card">
                                     <div style="border-bottom: 1px solid grey;" class="card-header"><i class="fa-solid fa-gear"></i>&nbsp;Supported Actions</div>
                                     <div class="card-body">
-                                        <button th:if="${vps_info.isMachineOnline()}" data-toggle="modal" data-target="#restartMachineModal" type="button" class="btn btn-sm btn-warning"><i class="fa-solid fa-arrows-rotate"></i>&nbsp;Restart</a>
-                                        <button th:if="${vps_info.isMachineOnline()}" data-toggle="modal" data-target="#changeHostNameMachineModal" type="button" class="btn btn-sm btn-neutral"><i class="fa-solid fa-pen-to-square text-primary"></i>&nbsp;Change Hostname</button>
+                                        <button data-toggle="modal" data-target="#restartMachineModal" type="button" class="btn btn-sm btn-warning"><i class="fa-solid fa-arrows-rotate"></i>&nbsp;Restart</a>
+                                        <button data-toggle="modal" data-target="#changeHostNameMachineModal" type="button" class="btn btn-sm btn-neutral"><i class="fa-solid fa-pen-to-square text-primary"></i>&nbsp;Change Hostname</button>
                                         <button data-toggle="modal" data-target="#deleteThisMachineModal" type="button" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i>&nbsp;Delete</button>
                                     </div>
                                 </div>

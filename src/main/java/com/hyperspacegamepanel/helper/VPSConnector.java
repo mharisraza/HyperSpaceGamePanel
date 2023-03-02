@@ -1,21 +1,25 @@
 package com.hyperspacegamepanel.helper;
 
-import java.io.IOException;
+import java.io.File;
 import java.io.InputStream;
 import java.util.Scanner;
 
 import org.springframework.stereotype.Service;
 
 import com.hyperspacegamepanel.entities.Machine;
+import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpATTRS;
+import com.jcraft.jsch.SftpException;
 
 @Service
 public class VPSConnector {
     
     private Session session;
+    private ChannelSftp sftpChannel;
 
     public void connect(Machine machine) {
         try {
@@ -63,6 +67,54 @@ public class VPSConnector {
 
         return result;
     }
-    
-    
+
+    // scriptFilePath: exact path to the actual script file otherwise it can lead to runtime exception.
+    public void uploadFile(String localScriptFilePath) {
+        try {
+
+            File scriptFile = new File(localScriptFilePath);
+
+            if(!scriptFile.exists()) {
+                 throw new RuntimeException("SCRIPT_FILE_DOESNT_EXISTS");
+            }
+
+            // our scripts should be under /scripts folder in every machine to understand
+            String remoteScriptFilePath = "/scripts/" + scriptFile.getName();
+
+            Channel channel = session.openChannel("sftp");
+            channel.connect();
+            this.sftpChannel = (ChannelSftp) channel;
+
+            // returning if file already exist in vps
+            if(isFileExist(remoteScriptFilePath)) {
+                  return;
+            }
+
+            try {
+                sftpChannel.cd("/");
+                sftpChannel.cd("scripts");
+            } catch(SftpException e) {
+                if(e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE) {
+                    sftpChannel.cd("/");
+                    sftpChannel.mkdir("scripts");
+                }    
+            }
+
+            // firstly we're providing our localScriptFilePath which is in our machine, and other is to upload to the remote machine
+            sftpChannel.put(localScriptFilePath, remoteScriptFilePath);
+
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+    }
+
+    // returns true if file exist, false if doesn't
+    public boolean isFileExist(String remoteFilePath) {
+        try {
+            SftpATTRS attrs = this.sftpChannel.stat(remoteFilePath);
+            return attrs != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
