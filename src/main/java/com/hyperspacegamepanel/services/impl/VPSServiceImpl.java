@@ -45,8 +45,7 @@ public class VPSServiceImpl implements VPSService {
     @Override
     @Cacheable(value = "machineInfoCache", key = "machineInfo")
     public Map<String, String> getMachineInfo() {
-        String scriptFile = Constants.SCRIPTS_FOLDER_LOCATION + "getvpsinfo.sh";
-        connector.uploadFile(scriptFile);
+        connector.uploadFile(Constants.SCRIPTS_FILES.get("VPS_INFO_SCRIPT"));
         String output = connector.executeCommand("bash /scripts/getvpsinfo.sh");
         Map<String, String> machineInfo = new HashMap<>();
         String[] lines = output.split("\n");
