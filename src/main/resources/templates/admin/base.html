@@ -32,9 +32,7 @@
 
 
     <!-- fonts -->
-
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet">
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,600,700,900">
     <!-- fonts end -->
 
@@ -99,10 +97,10 @@
                                     </a>
 
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item text-white" href="/admin/servers/all"><i
+                                        <a class="dropdown-item text-white" href="/admin/servers"><i
                                                 class="fas fa-list"></i>All Servers&nbsp;&nbsp;<span
                                                 class="badge badge-primary">325</span></span></a>
-                                        <a class="dropdown-item text-white" href="/admin/servers/new"><i
+                                        <a class="dropdown-item text-white" href="/admin/server/new"><i
                                                 class="fas fa-plus"></i>Add New Server</a>
                                     </div>
                                 </div>
@@ -117,10 +115,10 @@
                                     </a>
 
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item text-white" href="/admin/users/all"><i
+                                        <a class="dropdown-item text-white" href="/admin/users"><i
                                                 class="fas fa-list"></i>All Users&nbsp;&nbsp;<span
                                                 class="badge badge-primary">[(${#lists.size(users)})]</span></a>
-                                        <a class="dropdown-item text-white" href="/admin/users/new"><i
+                                        <a class="dropdown-item text-white" href="/admin/user/new"><i
                                                 class="fas fa-plus"></i>Add New User</a>
                                     </div>
                                 </div>
@@ -168,7 +166,7 @@
                                 <div class="dropdown w-100">
                                     <button class="btn btn-primary btn-block" type="button" id="multiDropdownMenu"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> [(${admin.fullName})]
+                                        <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> [(${user.fullName})]
                                         <div class="ripple-container"></div>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="multiDropdownMenu">

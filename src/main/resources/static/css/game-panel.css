@@ -176,3 +176,28 @@
     box-shadow: 0 0 20px #28a745;
   }
 }
+
+/* dropdowns style  */
+
+.dropdown-menu {
+  background-color: rgba(18, 21, 36, 0.94)!important;
+  color: white !important;
+  border-bottom: 5px solid #5e72e4 !important;
+}
+
+.navbar-nav .dropdown-menu:before {
+  background-color: rgba(18, 21, 36, 0.94)!important;
+  margin-top: 5px !important;
+}
+
+.dropdown-item:hover {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.nav-item:hover {
+  background-color: #5e72e4;
+  border-radius: 4px;
+}
+
+/* ======================  */

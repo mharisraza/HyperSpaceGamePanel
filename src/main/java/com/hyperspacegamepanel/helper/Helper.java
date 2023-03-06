@@ -5,6 +5,8 @@ import java.util.Random;
 
 public class Helper {
 
+    private static final Random random = new Random();
+
     // here are those methods that use globally without any dependencies whether via thymeleaf or server-side.
 
     public boolean isMachineOnline(String ipAddress) {
@@ -23,8 +25,6 @@ public class Helper {
     public static String randomPasswordGenerator() {
 
         String allCharacters = "abcdefghijklmnopqrstuvwxyz,ABCDEFGHIJKLMNOPQRSTUVWXYZ,0123456789,!@#$%^&*()_-+={}[]\\|:;\'<>,.?/";
-
-        Random random = new Random();
         StringBuilder passwordBuilder = new StringBuilder();
 
         for(int i = 0; i < 20; i++) {
@@ -33,6 +33,15 @@ public class Helper {
         }
 
         return passwordBuilder.toString();
+    }
+
+    public static String randomUsernameGenerator() {
+        String characters =  "0123456790ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        StringBuilder usernamBuilder = new StringBuilder();
+        for(int i = 0; i < 9; i++) {
+            usernamBuilder.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return usernamBuilder.toString();
     }
     
 }

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section class="mt-5">
+        <div class="container">
+            <div class="jumbotron">
+                <div class="text-start">
+                    <i style="font-size: 25px !important;" class="fas fa-gamepad"></i><span style="font-size: 25px !important;" class="font-weight-bold">&nbsp;Add A New Server</span>
+                    <hr style="margin-top: 2px;">
+                </div>
+                <div style="border-bottom: 5px solid #57e;" class="card">
+                    <div style="border-bottom: 2px solid grey;" class="card-header"><i class="fas fa-plus"></i>&nbsp;Add New Server</div>
+                    <div class="card-body">
+                      <form action="/admin/server/new" method="POST" class="row" th:object="${server}">
+
+                         <!-- Machine field  -->
+                        <div class="col-md-4 mt-3">
+                            <label for="machine">Select Machine</label>
+                            <select class="form-control" id="machine" name="machineId">
+                                <option th:each="m : ${machines}" th:value="${m.id}">[(${m.name})]</option>
+                            </select>
+                        </div>
+                        <!-- Machine field end  -->
+
+                        <!-- User field  -->
+                        <div class="col-md-4 mt-3">
+                            <label>Select User</label>
+                            <select class="form-control" name="userId">
+                                <option th:each="u : ${users}" th:value="${u.id}">[(${u.fullName})]</option>
+                            </select>
+                        </div>
+                        <!-- User field end  -->
+
+                        <!-- Game field  -->
+                        <div class="col-md-4 mt-3">
+                            <label>Select Game</label>
+                            <select class="form-control" name="serverGameType">
+                                <option value="cs">Counter Strike</option>
+                                <option value="csgo">Counter Strike Global Offensive</option>
+                                <option value="samp">San Andreas Multiplayer</option>
+                                <option value="minecraft">Minecraft</option>
+                            </select>
+                        </div>
+                         <!-- Game field end  -->
+
+                         <!-- Server name field  -->
+                         <div class="col-md-4 mt-3">
+                            <label>Server Name</label>
+                            <input required type="text" name="serverName" placeholder="e.g: Reborn Public 24/7" class="form-control">
+                         </div>
+                         <!-- Server name field end  -->
+
+                         <!-- Server Slots field  -->
+                         <div class="col-md-4 mt-3">
+                            <label>Slots</label>
+                            <input required type="number" min="10" max="32" class="form-control" placeholder="Min: 12, Max: 32" name="serverSlots">
+                         </div>
+                        <!-- Server slots field end  -->
+
+                        <div class="col-md-4 mt-3">
+                            <label>Port</label>
+                            <input required type="number" min="2000" max="65535" class="form-control" placeholder="Min: 2000, Max: 65535" name="serverPort">
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <label>FTP Username</label>
+                            <input required class="form-control" readonly th:value="${randomftpusername}" name="serverFtpUsername">
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <label>FTP Password</label>
+                            <input class="form-control" readonly  required th:value="${randomftppassword}" name="serverFtpPassword">
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <label>Expiration Date</label>
+                            <input required type="date" class="form-control" id="serverExpirationDate" placeholder="Expiration Date" name="expirationDate">
+                        </div>
+
+                        <div class="container text-center mt-3">
+                            <button type="submit" class="btn btn-primary w-100">Add New Server&nbsp;<i class="fas fa-plus"></i></button>
+                        </div>
+
+                      </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package com.hyperspacegamepanel.controllers.admin;
+package com.hyperspacegamepanel.controllers.main;
 
 import java.security.Principal;
 import java.util.List;
@@ -50,14 +50,21 @@ public class HelperController {
      public List<Ticket> getTickets() {
          return this.ticketRepo.findAll();
      }
+
+     @ModelAttribute("unread_tickets")
+     public List<Ticket> getUnReadTickets() {
+        return this.ticketRepo.getUnReadTickets();
+     }
  
-     @ModelAttribute("admin")
+     @ModelAttribute("user")
      public User getLoggedInUser(Principal principal) {
+        if(principal == null) return null;
          return userRepo.getByEmail(principal.getName());
      }
-
      @ModelAttribute("helper")
      public Helper provideHelper() {
         return new Helper();
      }
+
+
 }

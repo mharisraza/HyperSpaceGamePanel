@@ -22,7 +22,7 @@ import com.hyperspacegamepanel.services.MailService;
 import com.hyperspacegamepanel.services.UserService;
 
   @Controller
-  public class ForgotPasswordController {
+  public class ForgotPasswordController extends HelperController {
 
       @Autowired
       private UserRepository userRepo;

@@ -49,11 +49,14 @@ public class User {
 
     private Date registeredDate;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;
 
-    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TicketReply> ticketReplies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "owner")
+    private List<Server> servers;
 
     
 }

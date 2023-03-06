@@ -8,6 +8,8 @@ import java.util.Map;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.hyperspacegamepanel.entities.Machine;
+import com.hyperspacegamepanel.entities.Server;
+import com.hyperspacegamepanel.entities.User;
 import com.hyperspacegamepanel.helper.Constants;
 import com.hyperspacegamepanel.helper.PasswordEncoder;
 import com.hyperspacegamepanel.helper.VPSConnector;
@@ -67,6 +69,13 @@ public class VPSServiceImpl implements VPSService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String createGameServer(User serverOwner, Server server) {
+        connector.uploadFile(Constants.SCRIPTS_FILES.get("CREATE_GAME_SERVER_SCRIPT"));
+        String response = connector.executeCommand(String.format("bash /scripts/create_server.sh '%s' '%s' '%s' '%s'", server.getServerFtpUsername(), server.getServerFtpPassword(), server.getServerGameType(), server.getId()));
+        return response.contains("GAME_SERVER_CREATED_SUCCESSFULLY") ? "GAME_SERVER_CREATED_SUCCESSFULLY" : "GAME_SERVER_CREATED_FAILED";
     }
 
 

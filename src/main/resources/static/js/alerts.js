@@ -163,6 +163,30 @@ $(document).ready(function() {
         toastr["success"]("Hostname updated successfully.", "Success");
     }
 
+    if(status == "REQUIRED_FIELDS_ARE_BLANK") {
+        toastr["error"]("Required fields cannot be blanked.", "Error");
+    }
+
+    if(status == "USER_CREATED_SUCCESSFULLY") {
+        toastr["success"]("User created successfully.", "Success");
+    }
+
+    if(status == "CANNOT_FIND_THE_MACHINE_OR_USER") {
+        toastr["error"]("Cannot find the machine or user.", "Error");
+    }
+    
+    if(status == "BIND_RESULT_HAS_ERROR") {
+        toastr["error"]("There were errors, please try again.", "Error");
+    }
+
+    if(status == "EXPIRATON_DATE_IS_WRONG") {
+        toastr["error"]("The selected expiray date is wrong, expiration date must be after the current date.", "Error")
+    }
+
+    if(status == "SERVER_CREATED_SUCCESSFULLY") {
+        toastr["success"]("Server created successfully.", "Success");
+    }
+
     // if there is no any admin we're redirecting to the page where user can register himself as admin 
     // so that the other operation can be perfomable such as adding machine and game-servers
     if(status == "THERE_IS_NO_ANY_ADMIN_USER") {
@@ -170,4 +194,5 @@ $(document).ready(function() {
              return window.location = "/addAdmin";
         }
     }
+    
 });

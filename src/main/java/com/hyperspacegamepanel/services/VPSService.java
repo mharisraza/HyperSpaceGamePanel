@@ -2,6 +2,9 @@ package com.hyperspacegamepanel.services;
 
 import java.util.Map;
 
+import com.hyperspacegamepanel.entities.Server;
+import com.hyperspacegamepanel.entities.User;
+
 public interface VPSService {
     
     // get vps info
@@ -10,6 +13,8 @@ public interface VPSService {
     // perfom actions on the machine
     void restartMachine();
     void updateHostname(String hostname);
+
+    String createGameServer(User serverOwner, Server server);
 
     
 

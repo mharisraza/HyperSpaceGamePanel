@@ -5,6 +5,11 @@ $(document).ready(function () {
 		showLoader();
 	})
 
+	// do not let select previous date
+	const today = new Date().toISOString().split('T')[0];
+    document.getElementById("serverExpirationDate").setAttribute("min", today);
+
+
 	 // order page
 	 const select = document.getElementById("game-select");
 	 const urlParams = new URLSearchParams(window.location.search);
@@ -23,13 +28,13 @@ $(document).ready(function () {
 	$(document).ready(function () {
 
 		var boxheight = $('#myCarousel .carousel-inner').innerHeight();
-		var itemlength = $('#myCarousel .item').length;
+		var itemlength = $('#myCarousel .carousel-item').length;
 		var triggerheight = Math.round(boxheight / itemlength + 1);
 		$('#myCarousel .list-group-item').outerHeight(triggerheight);
 	
 		var clickEvent = false;
 		$('#myCarousel').carousel({
-			interval: 4000
+			interval: 2500
 		}).on('click', '.list-group li', function () {
 			clickEvent = true;
 			$('.list-group li').removeClass('active');
@@ -53,11 +58,6 @@ $(document).ready(function () {
 	function showLoader() {
 		document.getElementById("loader").style.display = "block";
 		document.getElementById("main").classList.add("overlay");
-		// setTimeout(function(){
-		// 	document.getElementById("loader").style.display = "none";
-		// 	document.getElementById("main").classList.remove("overlay");
-		// 	document.querySelector(".overlay").style.display = "none";
-		// }, 1000); // 3000 milliseconds = 3 seconds
 	}
 	
 

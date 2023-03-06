@@ -10,7 +10,7 @@ import com.hyperspacegamepanel.entities.Order;
 
 @Controller
 @RequestMapping("/order")
-public class OrderController {
+public class OrderController extends HelperController {
 
     @GetMapping("")
     public String home(Model m) {

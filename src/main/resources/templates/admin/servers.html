@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section class="mt-5">
+        <div class="container">
+            <div class="jumbotron">
+                <div class="text-start">
+                    <i style="font-size: 25px !important;" class="fas fa-gamepad"></i>&nbsp; <span style="font-size: 25px !important;" class="font-weight-bold text-white">Servers</span>
+                    <strong><hr style="margin-top: 2px;"></strong>
+                </div>
+                <div style="border-bottom: 5px solid #57e;" class="card">
+                    <div style="border-bottom: 2px solid grey;" class="card-header"><i class="fas fa-list"></i>&nbsp;Server Lists</div>
+                    <div class="card-body">
+                     <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                              <tr>
+                                <th>#ID</th>
+                                <th>Game</th>
+                                <th>IP:PORT</th>
+                                <th>OWNER</th>
+                                <th>EXP DATE</th>
+                                <th>Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row">1</th>
+                                <td><a><img src="/images/icons/game-cs.png"></a></td>
+                                <td><a>192.168.0.1</a></td>
+                                <td><a>Muhammad Haris</a></td>
+                                <td>20 - Feb - 2023</td>
+                                <td>Online</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                     </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

@@ -1,10 +1,13 @@
 package com.hyperspacegamepanel.entities;
 
 import java.util.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
@@ -33,7 +36,8 @@ public class TicketReply {
 
     private Date repliedDate;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
     @ManyToOne

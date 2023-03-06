@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hyperspacegamepanel.controllers.main.HelperController;
 import com.hyperspacegamepanel.entities.Ticket;
 import com.hyperspacegamepanel.entities.TicketReply;
 import com.hyperspacegamepanel.entities.User;
@@ -24,7 +25,7 @@ import com.hyperspacegamepanel.services.TicketReplyService;
 
 @Controller
 @RequestMapping("/admin/ticket")
-public class AdminTicketController extends HelperController {
+public class TicketController extends HelperController {
 
     @Autowired
     private HttpSession httpSession;
