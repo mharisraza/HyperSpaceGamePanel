@@ -63,6 +63,16 @@
     				<version>1.9.3</version>
 				</dependency>
 
+				<!-- Query Game Server  -->
+
+			   <dependency>
+                 <groupId>com.github.koraktor</groupId>
+    			   <artifactId>steam-condenser</artifactId>
+                     <version>1.3.9</version>
+				</dependency>
+
+
+
 
             <dependency>
 			<groupId>org.springframework.boot</groupId>
