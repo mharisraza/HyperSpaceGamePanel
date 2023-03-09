@@ -27,6 +27,7 @@ public class ServerServiceImpl implements ServerService {
         Date currentDate = new Date();
         server.setCreatedDate(currentDate);
         server.setMachine(machine);
+        server.setIpAddress(machine.getIpAddress()+":"+server.getPort());
         server.setOwner(owner);
 
         Date expirationDate = server.getExpirationDate();
@@ -47,7 +48,6 @@ public class ServerServiceImpl implements ServerService {
         }
 
         if(response != "GAME_SERVER_CREATED_SUCCESSFULLY") {
-            System.out.println("server created nahin hua ");
             this.serverRepo.delete(server);
             return null;
         }
@@ -59,6 +59,5 @@ public class ServerServiceImpl implements ServerService {
     public Server updateServer(Server server) {
         return null;
     }
-
     
 }

@@ -47,7 +47,7 @@ public class AdminController extends HelperController {
         return "admin/users.html";
     }
 
-    @GetMapping(params = "action")
+    @GetMapping("")
     public String adminActions(@RequestParam(required = false) String action,
             @RequestParam(required = false) Integer userId, Model m) {
         if (action == null) {
