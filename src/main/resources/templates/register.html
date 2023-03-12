@@ -9,10 +9,10 @@
 </head>
 
 <body>
-    <section class="mt-5">
+    <section style="margin-top: 70px !important;">
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header text-center">
                         <i class="fa-solid fa-user-plus custom-icons"></i>&nbsp;Register
@@ -21,7 +21,7 @@
                         <form th:object="${user}" class="row" action="/create-account" method="post">
 
                             <!-- Full Name field  -->
-                            <div class="col-md-6">
+                            <div class="col-12">
                                 <label>Full Name</label>
                                 <div class="form-group">
                                     <div class="input-group">
@@ -40,7 +40,7 @@
 
 
                             <!-- Email address field  -->
-                            <div class="col-md-6">
+                            <div class="col-6">
                                 <label>Email Address</label>
                                 <div class="form-group">
                                     <div class="input-group mb-4">
@@ -56,8 +56,25 @@
                             </div>
                             <!-- Email address field end  -->
 
+                            <!-- Username address field  -->
+                            <div class="col-6">
+                                <label>Username</label>
+                                <div class="form-group">
+                                    <div class="input-group mb-4">
+                                        <input name="username" class="form-control" placeholder="Username"
+                                            type="text"
+                                            th:classappend="${#fields.hasErrors('username') ? 'is-invalid' : ''}">
+                                            
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}"
+                                            th:each="e : ${#fields.errors('username')}" th:text="${e}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Username field end  -->
+
                             <!-- Password field  -->
-                            <div class="col-md-6">
+                            <div class="col-6">
                                 <label>Password</label>
                                 <div class="form-group">
                                     <div class="input-group mb-4">
@@ -74,7 +91,7 @@
                             <!-- password field end  -->
 
                             <!-- Confirm Password field  -->
-                            <div class="col-md-6">
+                            <div class="col-6">
                                 <label>Confirm Password</label>
                                 <div class="form-group">
                                     <div class="input-group mb-4">
@@ -92,8 +109,9 @@
 
                             <!-- submit button  -->
                             <div class="container text-center">
-                                <button type="submit" class="btn btn-primary w-75">Register&nbsp;<i
+                                <button type="submit" style="padding: 15px !important;" class="btn btn-primary w-100 mb-3">Register&nbsp;<i
                                         class="fa fa-sign-in"></i></button>
+                                        <span>Already have an account? <a href="/login" class="badge badge-sm badge-success">Login now.</a></span>
                             </div>
                             <!-- submit button end  -->
                         </form>

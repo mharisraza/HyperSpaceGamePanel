@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hyperspacegamepanel.dtos.UserDto;
 import com.hyperspacegamepanel.entities.User;
@@ -30,7 +31,7 @@ public class RegisterController {
     // process registration here
     @PostMapping("/create-account")
     public String processRegistration(@Valid @ModelAttribute("user") UserDto user, BindingResult bindingResult,
-            Model m, HttpSession httpSession) {
+            Model m, RedirectAttributes redirectAttributes, HttpSession httpSession) {
 
        try {
 
@@ -38,11 +39,11 @@ public class RegisterController {
             bindingResult.rejectValue("confirmPassword", "error.user", "Password and confirm password do not match.");
         }
         if (bindingResult.hasErrors()) {
-            m.addAttribute("user", user);
+           m.addAttribute("user", user);
             return "register";
         }
 
-        if(this.userRepo.existsByEmail(user.getEmail())) {
+        if(this.userRepo.existsByEmail(user.getEmail()) || this.userRepo.existsByUsername(user.getUsername())) {
             throw new UserAlreadyExistException(user.getEmail());
         }
         

@@ -1,13 +1,8 @@
 package com.hyperspacegamepanel.dtos;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.validation.constraints.NotBlank;
-
-import com.hyperspacegamepanel.entities.Ticket;
-import com.hyperspacegamepanel.entities.TicketReply;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +22,9 @@ public class UserDto {
 
     @NotBlank(message = "Email Address is required.")
     private String email;
+
+    @NotBlank(message = "Username is required.")
+    private String username;
 
     @NotBlank(message = "Password is required.")
     private String password;
