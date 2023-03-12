@@ -60,4 +60,31 @@ public class ServerServiceImpl implements ServerService {
         return null;
     }
     
+    @Override
+    public void startServer(Server server) {
+        try {
+           VPSServiceImpl vpsService = new VPSServiceImpl(connector, server.getMachine());
+           vpsService.connectIfNotConnected();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       if(server.getGameType().equals("cs")) {
+        connector.executeCommandWithoutOutput(String.format("screen -dmS %s sh -c 'cd /home/game-servers/%s/%s/game_files && chmod +x hlds_run && chmod +x hlds_linux && ./hlds_run -game cstrike +ip %s +port %s +maxplayers %s +map de_dust2' > /dev/null 2>&1", server.getGameType()+"_"+server.getId(), server.getGameType(), server.getId(), server.getMachine().getIpAddress(), server.getPort(), server.getSlots()));
+       }
+    }
+
+    @Override
+    public void stopServer(Server server) {
+        try {
+            VPSServiceImpl vpsService = new VPSServiceImpl(connector, server.getMachine());
+            vpsService.connectIfNotConnected();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(server.getGameType().equals("cs")) {
+            connector.executeCommandWithoutOutput(String.format("screen -S cs_%d -X quit", server.getId()));
+        }
+    }
+
+    
 }

@@ -9,20 +9,9 @@
 <body>
     <section class="mt-5">
          <div class="container">
-            
-            <div class="jumbotron">
-                <div class="text-start mb-5">
-                    <i style="font-size: 35px !important;" class="fa fa-comment"></i>&nbsp;<span style="font-size: 35px !important;" class="text-white">&nbsp;Support</span>
-                    <br>
-                    <br>
-                    <span style="font-size: 25px !important;">[(${ticket.subject})]</span>
-                   <div th:if="${ticket.isRead != true}" class="text-end"><a th:href="'/admin/ticket?id='+${ticket.id}+'&action=MarkAsRead'" class="btn btn-success btn-sm">Mark as Read&nbsp;<i class="fa-solid fa-check"></i></a></div>
-                   <hr style="margin-top: 10px;">
-                </div>
-
                 <div class="row">
                     <div class="col-md-8">
-                        <div style="border-bottom: 3px solid #5e72e4; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" class="card">
+                        <div style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" class="card">
                             <div style="border-bottom: 1px solid grey;" class="card-header">
                                     <i class="fas fa-user-circle"></i>&nbsp;[(${ticket.user.fullName})]
                                     <span style="float: right !important; display: flex !important; margin-right: 10px;"><i class="fas fa-clock mt-1 mr-1"></i>[(${#dates.format(ticket.submittedDate, 'dd.MM.yyyy, HH:mm')})]</span>
@@ -32,10 +21,10 @@
                         </div>
                     </div>
 
-                    <div th:each="ticketReply : ${ticketReplies}"  style="border-bottom: 3px solid #5e72e4;" class="card mt-5">
+                    <div th:each="ticketReply : ${ticketReplies}"  class="card mt-5">
 
                         <div style="border-bottom: 1px solid grey;" class="card-header">
-                            <span th:if="${ticketReply.sender.role == 'ROLE_ADMIN'}" th:classappend="${ticketReply.sender.role == 'ROLE_ADMIN' ? 'badge bg-success admin-glow-badge' : ''}"><i class="fas fa-user-circle"></i>&nbsp;ADMIN ~ [(${ticketReply.sender.fullName})]</span>
+                            <span th:if="${ticketReply.sender.role == 'ROLE_ADMIN'}" th:classappend="${ticketReply.sender.role == 'ROLE_ADMIN' ? 'badge bg-primary admin-glow-badge' : ''}"><i class="fas fa-user-circle"></i>&nbsp;ADMIN ~ [(${ticketReply.sender.fullName})]</span>
                             <span th:if="${ticketReply.sender.role != 'ROLE_ADMIN'}"><i class="fas fa-user-circle"></i>&nbsp;[(${ticketReply.sender.fullName})]</span>
                             <span style="float: right !important; display: flex !important; margin-right: 10px;"><i class="fas fa-clock mt-1 mr-1"></i>[(${#dates.format(ticketReply.repliedDate, 'dd.MM.yyyy, HH:mm')})]</span>
                         </div>
@@ -46,14 +35,14 @@
                          </div>
                     </div>
 
-                    <div th:if="${ticket.isClosed != true}" style="border-bottom: 3px solid #5e72e4;" class="card mt-5">
+                    <div th:if="${ticket.isClosed != true}" class="card mt-5">
                         <div style="border-bottom: 1px solid grey;" class="card-header"><i class="fa-solid fa-thumbtack"></i>&nbsp;Send a Reply Message</div>
                         <div class="card-body">
                           <form action="/admin/ticket/process-reply" method="POST">
                             <input type="hidden" th:value="${ticket.id}" name="ticketId">
                             <textarea class="form-control" name="replyMessage"  cols="30" rows="10" placeholder="Send a reply message.."></textarea>
                             <div class="text-end mt-3">
-                             <button type="submit"  class="btn btn-warning btn-sm">REPLY <i class="fa-solid fa-paper-plane"></i></button>
+                             <button type="submit"  class="btn btn-primary p-2 w-100">REPLY <i class="fa-solid fa-paper-plane"></i></button>
                             </div>
                           </form>
                         </div>
@@ -75,7 +64,6 @@
                     </div>
                 </div>
             </div>
-         </div>
     </section>
     
 </body>

@@ -20,7 +20,7 @@ $(document).ready(function() {
     // check status and based on status give specific toast.
 
     if(status == "USER_REGISTERED_SUCCESSFULLY") {
-        toastr["success"]("Register Successfully!", "Success");
+        toastr["success"]("Register Successfully, you can login now!", "Success");
     }
 
     if(status == "USER_ALREADY_EXISTS_WITH_PROVIDED_EMAIL") {
@@ -185,6 +185,14 @@ $(document).ready(function() {
 
     if(status == "SERVER_CREATED_SUCCESSFULLY") {
         toastr["success"]("Server created successfully.", "Success");
+    }
+
+    if(status == "SERVER_STARTED_SUCCESSFULLY") {
+        toastr["success"]("Server started successfully.", "Success");
+    }
+
+    if(status == "SERVER_SHUTDOWN_SUCCESSFULLY") {
+        toastr["success"]("Server stopped successfully", "Success");
     }
 
     // if there is no any admin we're redirecting to the page where user can register himself as admin 

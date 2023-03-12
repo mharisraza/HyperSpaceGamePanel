@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="admin/base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <section class="mt-5">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                      <h5 style="font-size: 20px !important;" class="mb-0 text-white font-weight-bold">Users List</h5>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                      <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" placeholder="Search in users" aria-label="Search">
+                        <div class="input-group-append">
+                          <button class="btn btn-secondary" type="button">
+                            <i class="fa fa-search text-primary"></i>
+                          </button>
+                          <a href="/admin/user/new" class="btn btn-primary">Create New</a>
+                        </div>
+                      </div>
+                    </div>
+            </div>
+            </div>
+            <div style="padding: 0 !important;" class="card-body">
+                 <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>Username</th>
+                            <th>User Role</th>
+                            <th>Registered Date</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr th:each="u : ${users}">
+                            <th><code>[(${u.id})]</code></th>
+                            <td><a th:href="'/admin/user/view/'+${u.id}" class="text-primary">[(${u.fullName})]</a></td>
+                            <td>[(${u.username})]</td>
+                            <td><code>[(${u.role})]</code></td>
+                            <td>[(${#dates.format(u.registeredDate, 'dd.MM.yyyy')})]</td>
+                            <td><span class="badge badge-sm" th:classappend="${u.isEnabled ? 'badge-success' : 'badge-danger'}">[(${u.isEnabled ? 'Active' : 'Suspended'})]</span></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                 </div>
+            </div>
+        </div>
+    </div>
+  </section>
+</body>
+</html>

@@ -14,6 +14,8 @@ public interface VPSService {
     void restartMachine();
     void updateHostname(String hostname);
 
+    void configureMachine();
+
     String createGameServer(User serverOwner, Server server);
 
     

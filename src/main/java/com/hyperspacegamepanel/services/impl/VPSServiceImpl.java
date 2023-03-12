@@ -48,7 +48,7 @@ public class VPSServiceImpl implements VPSService {
     @Cacheable(value = "machineInfoCache", key = "machineInfo")
     public Map<String, String> getMachineInfo() {
         connector.uploadFile(Constants.SCRIPTS_FILES.get("VPS_INFO_SCRIPT"));
-        String output = connector.executeCommand("bash /scripts/getvpsinfo.sh");
+        String output = connector.executeCommand("cd / && bash " +Constants.SCRIPTS_FILES.get("VPS_INFO_SCRIPT"));
         Map<String, String> machineInfo = new HashMap<>();
         String[] lines = output.split("\n");
         for(String line : lines) {
@@ -60,7 +60,7 @@ public class VPSServiceImpl implements VPSService {
         return machineInfo;
     }
     
-    private void connectIfNotConnected() {
+    public void connectIfNotConnected() {
         try {
             if(!this.connector.isConnected()) {
                 connector.connect(machine);
@@ -74,8 +74,14 @@ public class VPSServiceImpl implements VPSService {
     @Override
     public String createGameServer(User serverOwner, Server server) {
         connector.uploadFile(Constants.SCRIPTS_FILES.get("CREATE_GAME_SERVER_SCRIPT"));
-        String response = connector.executeCommand(String.format("bash /scripts/create_server.sh '%s' '%s' '%s' '%s'", server.getServerFtpUsername(), server.getServerFtpPassword(), server.getServerGameType(), server.getId()));
+        String response = connector.executeCommand(String.format("cd / && bash %s '%s' '%s' '%s' '%s'", Constants.SCRIPTS_FILES.get("CREATE_GAME_SERVER_SCRIPT"), server.getFtpUsername(), server.getFtpPassword(), server.getGameType(), server.getId()));
         return response.contains("GAME_SERVER_CREATED_SUCCESSFULLY") ? "GAME_SERVER_CREATED_SUCCESSFULLY" : "GAME_SERVER_CREATED_FAILED";
+    }
+
+    @Override
+    public void configureMachine() {
+        connector.uploadFile(Constants.SCRIPTS_FILES.get("MACHINE_CONFIGURE_SCRIPT"));
+        connector.executeCommand("cd / && bash "+Constants.SCRIPTS_FILES.get("MACHINE_CONFIGURE_SCRIPT"));
     }
 
 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <section class="mt-5">
+     <div class="container">
+       <div class="row">
+        <div class="col-lg-8 mb-2">
+          <div class="card">
+            <div class="card-header">Machine Information</div>
+            <div style="padding: 0 !important;" class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td class="font-weight-bold">Internal Identifier</td>
+                      <td><code>[(${machine.id})]</code></td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold">Machine Name</td>
+                      <td><span class="badge badge-sm badge-default">[(${machine.name})]</span></td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold">IP Address</td>
+                      <td><span class="badge badge-sm badge-default">[(${machine.ipAddress})]</span></td>
+                    </tr>
+                    <tr>
+                      <td class="font-weight-bold">Hostname</td>
+                      <td><span class="badge badge-sm badge-default">[(${machine.machineInfo.hostname})]</span></td>
+                    </tr>
+                    <tr th:with="isMachineOnline=${helper.isMachineOnline(machine.ipAddress)}">
+                      <td class="font-weight-bold">Status</td>
+                      <td>
+                        <span class="badge badge-sm" th:classappend="${isMachineOnline} ? 'badge-success' : 'badge-danger'">
+                          [(${isMachineOnline} ? 'Active' : 'InActive')]
+                        </span>
+                      </td>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+     </div>
+  </section>
+</body>
+</html>

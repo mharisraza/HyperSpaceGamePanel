@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hyperspacegamepanel.controllers.main.HelperController;
-import com.hyperspacegamepanel.repositories.MachineRepository;
-import com.hyperspacegamepanel.repositories.TicketRepository;
 import com.hyperspacegamepanel.repositories.UserRepository;
 import com.hyperspacegamepanel.services.UserService;
 
@@ -29,12 +27,6 @@ public class AdminController extends HelperController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private MachineRepository machineRepo;
-
-    @Autowired
-    private TicketRepository ticketRepo;
-
     @GetMapping("/dashboard")
     public String home(Model m, Principal principal) {
         m.addAttribute("title", "Admin Panel | HyperSpaceGamePanel");
@@ -44,7 +36,7 @@ public class AdminController extends HelperController {
     @GetMapping("/users")
     public String userPage(Model m) {
         m.addAttribute("title", "Users | HyperSpaceGamePanel");
-        return "admin/users.html";
+        return "admin/user_module/users.html";
     }
 
     @GetMapping("")
@@ -58,12 +50,12 @@ public class AdminController extends HelperController {
             case "ban":
                 this.userService.suspendUser(this.userRepo.findById(userId).get());
                 httpSession.setAttribute("status", "USER_BANNED_SUCCESSFULLY");
-                return "redirect:/admin/user?id=" + userId;
+                return "redirect:/admin/user/view/" + userId;
 
             case "unban":
                 this.userService.unbanUser(this.userRepo.findById(userId).get());
                 httpSession.setAttribute("status", "USER_UNBANNED_SUCCESSFULLY");
-                return "redirect:/admin/user?id=" + userId;
+                return "redirect:/admin/user/view/" + userId;
         }
         return "redirect:/admin/dashboard";
     }
@@ -71,19 +63,19 @@ public class AdminController extends HelperController {
     @GetMapping("/tickets")
     public String allTickets(Model m) {
         m.addAttribute("title", "Tickets | HyperSpaceGamePanel");
-        return "admin/tickets.html";
+        return "admin/ticket_module/tickets.html";
     }
 
     @GetMapping("/machines")
     public String allMachines(Model m) {
         m.addAttribute("title", "Machines | HyperSpaceGamePanel");
-        return "admin/machines.html";
+        return "admin/machine_module/machines.html";
     }
 
     @GetMapping("/servers")
     public String allServers(Model m) {
         m.addAttribute("title", "Servers | HyperSpaceGamePanel");
-        return "admin/servers.html";
+        return "admin/server_module/servers.html";
     }
 
 }

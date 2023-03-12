@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::Layout(~{::section})">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <section class="mt-5">
+    <div class="container">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-sm-6">
+              <h5 style="font-size: 20px !important;" class="mb-0 text-white font-weight-bold">Tickets List</h5>
+            </div>
+            <div class="col-sm-6 text-right">
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" placeholder="Search in Tickets" aria-label="Search">
+                <div class="input-group-append">
+                  <button class="btn btn-secondary" type="button">
+                    <i class="fa fa-search text-primary"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="padding: 0 !important;" class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>Priority</th>
+                  <th>Server</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="t : ${tickets}">
+                 <th><code>[(${t.id})]</code></th>
+                 <th><a th:href="'/admin/user/view/'+${t.user.id}" class="text-primary">[(${t.user.fullName})]</a></th>
+                 <th>[(${t.priority})]</th>
+                 <th class="text-primary">Server <a th:href="'/admin/server/view/'+${t.serverId}"><i class="fas fa-external-link-alt"></i></a></th>
+                 <th>[(${t.status})]</th>
+                 <th><a th:href="'/admin/ticket/view/'+${t.id}" class="badge badge-secondary text-primary">Open</a></th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+
+</body>
+
+</html>

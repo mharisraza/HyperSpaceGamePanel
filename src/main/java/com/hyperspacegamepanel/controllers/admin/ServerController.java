@@ -6,23 +6,28 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hyperspacegamepanel.controllers.main.GameServerInfoController;
 import com.hyperspacegamepanel.controllers.main.HelperController;
 import com.hyperspacegamepanel.entities.Machine;
 import com.hyperspacegamepanel.entities.Server;
 import com.hyperspacegamepanel.entities.User;
 import com.hyperspacegamepanel.helper.Helper;
 import com.hyperspacegamepanel.repositories.MachineRepository;
+import com.hyperspacegamepanel.repositories.ServerRepository;
 import com.hyperspacegamepanel.repositories.UserRepository;
 import com.hyperspacegamepanel.services.ServerService;
+
 
 @Controller
 @RequestMapping("/admin/server")
@@ -38,6 +43,9 @@ public class ServerController extends HelperController {
     private MachineRepository machineRepo;
 
     @Autowired
+    private ServerRepository serverRepo;
+
+    @Autowired
     private ServerService serverService;
 
     @GetMapping("/new")
@@ -46,7 +54,7 @@ public class ServerController extends HelperController {
         m.addAttribute("randomftpusername", Helper.randomUsernameGenerator());
         m.addAttribute("randomftppassword", Helper.randomPasswordGenerator());
         m.addAttribute("title", "New Server | HyperSpaceGamePanel");
-        return "admin/new_server.html";
+        return "admin/server_module/new_server.html";
     }
 
     @PostMapping("/new")
@@ -54,8 +62,11 @@ public class ServerController extends HelperController {
 
         if(bindingResult.hasErrors()) {
             httpSession.setAttribute("status", "BIND_RESULT_HAS_ERROR");
+            System.out.println(bindingResult.getAllErrors());
+            m.addAttribute("randomftpusername", Helper.randomUsernameGenerator());
+            m.addAttribute("randomftppassword", Helper.randomPasswordGenerator());
             m.addAttribute("server", server);
-            return "admin/new_server.html";
+            return "admin/server_module/new_server.html";
         }
 
         Optional<Machine> machine = this.machineRepo.findById(machineId);
@@ -72,7 +83,7 @@ public class ServerController extends HelperController {
 
          if(server != null) {
             httpSession.setAttribute("status", "SERVER_CREATED_SUCCESSFULLY");
-            return "redirect:/admin/server?id="+server.getId();
+            return "redirect:/admin/server/view/"+server.getId();
          }
 
         } catch(Exception e) {
@@ -89,9 +100,49 @@ public class ServerController extends HelperController {
         return "redirect:/admin/server/new";
     }
 
-    @GetMapping("")
-    public String showServer(Model m) {
-        return "admin/server.html";
-    }
 
+    // showing server 
+    @GetMapping("/view/{serverId}")
+    public String showServer(@PathVariable(required = false) Integer serverId, @RequestParam(required = false) String action, Model m) {
+
+        if(serverId == null) {
+            httpSession.setAttribute("status", "CANT_FIND_SERVER");
+            return "redirect:/admin/servers";
+        }
+
+        Optional<Server> server = this.serverRepo.findById(serverId);
+
+        if(!server.isPresent()) {
+            httpSession.setAttribute("status", "CANT_FIND_SERVER");
+            return "redirect:/admin/servers";
+        }
+
+        if(action != null) {
+            
+            int ping = GameServerInfoController.getServerPing(server.get());
+
+            switch(action) {
+
+                case "start":
+                if(ping == 0) {
+                    this.serverService.startServer(server.get());
+                    httpSession.setAttribute("status", "SERVER_STARTED_SUCCESSFULLY");
+                }
+                return "redirect:/admin/server/view/"+server.get().getId();
+
+                case "stop":                
+                if(ping > 0) {
+                    this.serverService.stopServer(server.get());
+                    httpSession.setAttribute("status", "SERVER_SHUTDOWN_SUCCESSFULLY");
+                }
+                return "redirect:/admin/server/view/"+server.get().getId();
+
+            }
+        }
+
+        m.addAttribute("server", server.get());
+        m.addAttribute("title", server.get().getName() + " | HyperSpaceGamePanel");
+        return "admin/server_module/server.html";
+    }
+    
 }

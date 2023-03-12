@@ -11,14 +11,8 @@
 <body>
     <section class="mt-5">
         <div class="container">
-            <div class="jumbotron">
-                <div class="text-start">
-                    <i style="font-size: 25px !important;" class="fas fa-gamepad"></i><span
-                        style="font-size: 25px !important;" class="font-weight-bold">&nbsp;Add A New Server</span>
-                    <hr style="margin-top: 2px;">
-                </div>
-                <div style="border-bottom: 5px solid #57e;" class="card">
-                    <div style="border-bottom: 2px solid grey;" class="card-header"><i class="fas fa-plus"></i>&nbsp;Add
+                <div class="card">
+                    <div class="card-header"><i class="fas fa-plus"></i>&nbsp;Add
                         New Server</div>
                     <div class="card-body">
                         <form action="/admin/server/new" method="POST" class="row" th:object="${server}">
@@ -102,7 +96,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 </body>
 

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,7 +65,7 @@ public class MachineController extends HelperController {
     public String newMachine(Model m) {
         m.addAttribute("machine", new Machine());
         m.addAttribute("title", "New Machine | HyperSpaceGamePanel");
-        return "admin/new_machine.html";
+        return "admin/machine_module/new_machine.html";
     }
 
     /*  processing and handling logic for newly added machine via
@@ -73,34 +74,37 @@ public class MachineController extends HelperController {
     @PostMapping("/create-new")
     public String processNewMachine(@Valid @ModelAttribute Machine machine, BindingResult bindingResult) throws JSchException, IOException {
         if(bindingResult.hasErrors()) {
-            return "admin/new_machine.html";
+            return "admin/machine_module/new_machine.html";
         }
 
         try {
 
         this.connector.connect(machine);
+
         VPSService vpsService = new VPSServiceImpl(this.connector, machine);
 
         if(this.connector.isConnected()) {
 
+            vpsService.configureMachine();
+
             MachineDetails machineDetails = new MachineDetails();
 
-            Map<String, String> machineInfo = vpsService.getMachineInfo();
+            getMachineInfo(vpsService);
 
-            machineDetails.setHostname(machineInfo.get("hostname"));
-            machineDetails.setCpuProcessor(machineInfo.get("cpu_name"));
-            machineDetails.setLocation(machineInfo.get("location"));
-            machineDetails.setTotalCPUs(machineInfo.get("total_cpus"));
-            machineDetails.setTotalRam(machineInfo.get("total_ram"));
+            machineDetails.setHostname(this.hostname);
+            machineDetails.setCpuProcessor(this.cpuProcessorName);
+            machineDetails.setTotalCPUs(this.totalCPUs);
+            machineDetails.setTotalRam(this.totalRam);
+            machineDetails.setLocation(this.location);
 
-            String totalStorage = machineInfo.get("total_storage");
+            String totalStorage = this.totalStorage;
             machineDetails.setTotalStorage(totalStorage.substring(totalStorage.indexOf("/") + 1, totalStorage.indexOf("(")));
             machineDetails.setMachine(machine);
 
           Machine createdMachine = this.machineService.createMachine(machine);
           this.machineDetailsRepo.save(machineDetails);
           httpSession.setAttribute("status", "MACHINE_ADDED_SUCCESSFULLY");
-          return "redirect:/admin/machine?id=" + createdMachine.getId();
+          return "redirect:/admin/machine/view/" + createdMachine.getId();
         }
 
         } catch (Exception e) {
@@ -121,8 +125,8 @@ public class MachineController extends HelperController {
     }
 
     // showing machine details with provided machine Id
-    @GetMapping("")
-    public String getMachine(@RequestParam(name = "id", required = false) Integer machineId, @RequestParam(required = false) String action, Model m) {
+    @GetMapping("/view/{machineId}")
+    public String getMachine(@PathVariable(required = false) Integer machineId, @RequestParam(required = false) String action, Model m) {
         
         if(machineId == null) {
             httpSession.setAttribute("status", "CANT_FIND_MACHINE");
@@ -145,7 +149,7 @@ public class MachineController extends HelperController {
                 case "restart":
                 vpsService.restartMachine();
                 httpSession.setAttribute("status", "VPS_RESTARTED_SUCCESSFULLY");
-                return "redirect:/admin/machine?id="+machineId;
+                return "redirect:/admin/machine/view/"+machineId;
 
                 // first disconnect the vps connection
                 // then delete it from database.
@@ -170,7 +174,7 @@ public class MachineController extends HelperController {
 
         m.addAttribute("machine", machine.get());
         m.addAttribute("title", machine.get().getName() + " | HyperSpaceGamePanel");
-        return "admin/machine.html";
+        return "admin/machine_module/machine.html";
     }
 
     // updating hostname of the machine
@@ -191,12 +195,12 @@ public class MachineController extends HelperController {
     
             if(hostname == null) {
                 httpSession.setAttribute("status", "HOST_NAME_IS_EMPTY");
-                return "redirect:/admin/machine?id="+machineId;
+                return "redirect:/admin/machine/view/"+machineId;
             }
     
             if(hostname.matches(".*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
                 httpSession.setAttribute("status", "HOSTNAME_CONTAINING_SPECIAL_CHAR");
-                return "redirect:/admin/machine?id="+machineId;
+                return "redirect:/admin/machine/view/"+machineId;
             }
     
             VPSService vpsService = new VPSServiceImpl(this.connector, machine.get());
@@ -209,7 +213,7 @@ public class MachineController extends HelperController {
             httpSession.setAttribute("status", "SOMETHING_WENT_WRONG");
         }
 
-        return "redirect:/admin/machine?id="+machineId;
+        return "redirect:/admin/machine/view/"+machineId;
 
     }
 
@@ -221,8 +225,8 @@ public class MachineController extends HelperController {
              this.cpuProcessorName = machineInfo.get("cpu_name");
              this.totalCPUs = machineInfo.get("total_cpus");
              this.hostname = machineInfo.get("hostname");
-             this.location = machineInfo.get("location");
              this.uptime = machineInfo.get("uptime");
+             this.location = machineInfo.get("location");
     }
 
 

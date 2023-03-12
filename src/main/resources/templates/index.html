@@ -1,226 +1,233 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	th:replace="base::Layout(~{::section})">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <section class="mt-5">
-    <div class="container">
-        <div class="row">
-            <!-- Slider -->
-			<div class="col-md-12">
-                <div data-interval="true" id="myCarousel" class="carousel slide" data-ride="carousel">
-                      <div class="carousel-inner">      
-                        <div class="carousel-item active">
-                              <img src="/images/cs.jpg">
-                               <div class="carousel-caption">
-                                <h4><a href="#">Counter Strike 1.6</a></h4>
-                                <p>Counter-Strike is a popular and critically acclaimed first-person shooter game series. As one of the first games of its kind, the original Counter-Strike set first-person shooting as the most popular gaming platform in the world.</p>
-                              </div>
-                        </div><!-- End Item -->
-                         <div class="carousel-item">
-                              <img src="/images/gta.jpg">
-                               <div class="carousel-caption">
-                                <h4><a href="#">GTA San Andreas MultiPlayer</a></h4>
-                                <p>Probably no game has woken up as many ghosts before as GTA San Andreas, the latest sequel to the celebrated Rockstar Games studio series.</p>
-                              </div>
-                        </div><!-- End Item -->       
-                        <div class="carousel-item">
-                              <img src="/images/mc.jpg">
-                               <div class="carousel-caption">
-                                <h4><a href="#">Minecraft</a></h4>
-                                <p>Minecraft Game is a great online version of Minecraft Games where you have the freedom to dig and explore the infinitely large world.</p>
-                              </div>
-                        </div><!-- End Item -->
-                
-                        <div class="carousel-item">
-                              <img src="/images/ts3.jpg">
-                               <div class="carousel-caption">
-                                <h4><a href="#">Team Speak 3</a></h4>
-                                <p>TeamSpeak 3 is proprietary voice communications software (VoIP) that allows computer users to speak on a chat channel with other computer users, such as a phone call.</p>
-                              </div>
-                        </div><!-- End Item -->
-        
-                        <div class="carousel-item">
-                              <img src="/images/csgo.jpg">
-                               <div class="carousel-caption">
-                                <h4><a href="#">Counter Strike Global Offensive</a></h4>
-                                <p>Similar to the previous Counter-Strike game, players play as terrorists or antiterrorists and have to complete tasks while trying to eliminate an opposing team.
-                                </p>
-                              </div>
-                        </div><!-- End Item -->              
-                      </div><!-- End Carousel Inner -->
-                    <ol class="list-group col-sm-4">
-                          <li data-target="#myCarousel" data-slide-to="0" class="list-group-item active"><h4 class="text-white"><img src="/images/icons/game-cs.png"> Counter Strike 1.6</h4></li>
-                          <li data-target="#myCarousel" data-slide-to="1" class="list-group-item"><h4 class="text-white"><img src="/images/icons/game-samp.png"> GTA San Andreas MultiPlayer</h4></li>
-                          <li data-target="#myCarousel" data-slide-to="2" class="list-group-item"><h4 class="text-white"><img src="/images/icons/game-minecraft.png"> Minecraft</h4></li>
-                          <li data-target="#myCarousel" data-slide-to="3" class="list-group-item"><h4 class="text-white"><img src="/images/icons/game-ts3.png"> Team Speak 3</h4></li>
-                          <li data-target="#myCarousel" data-slide-to="4" class="list-group-item"><h4 class="text-white"><img src="/images/icons/game-csgo.png"> Counter Strike Global Offensive</h4></li>
-                    </ol>
-                      <!-- Controls -->
-                      <div class="carousel-controls">
-                          <a role="button" class="left carousel-control" href="#myCarousel" data-slide="prev">
-                            <i class="fas fa-arrow-left"></i>
-                            
-                          </a>
-                          <a role="button" class="right carousel-control" href="#myCarousel" data-slide="next">
-                            <i class="fas fa-arrow-right"></i>
-                          </a>
-                      </div>
-                </div>
-                </div>
-        </div>
-    </div>
-
-    <br>
-    
-
-    <div class="container">
-        <div class="card">
-            <div class="card-body">
-                <div class="row text-center">
-                     <!-- Game servers  -->
-                     <div style="padding: 0;" class="col-md-3">
-                        <div style="width: 17rem;" class="card game-server-card shadow">
-                            <img class="card-img-top" src="/images/games/cs.png" />
-                            <div class="card-body">
-                                <div class="text-left">
-                                    <p style="line-height: 0.5; margin-top: 0;">Counter Strike 1.6</p>
-                                <p style="line-height: 0.5; margin-bottom: 0;">$0.6/slot per month</p>
+        <div class="container">
+            <div class="row">
+                <!-- Slider -->
+                <div class="col-md-12">
+                    <div data-interval="true" id="myCarousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="/images/cs.jpg">
+                                <div class="carousel-caption">
+                                    <h4><a href="#">Counter Strike 1.6</a></h4>
+                                    <p>Counter-Strike is a popular and critically acclaimed first-person shooter game
+                                        series. As one of the first games of its kind, the original Counter-Strike set
+                                        first-person shooting as the most popular gaming platform in the world.</p>
                                 </div>
-                                <div class="text-center mt-3">
-                                    <a href="/order?gameserver=cs" class="text-white btn btn-outline-primary w-100">ORDER NOW&nbsp;<i class="fas fa-shopping-cart"></i></a>
+                            </div><!-- End Item -->
+                            <div class="carousel-item">
+                                <img src="/images/gta.jpg">
+                                <div class="carousel-caption">
+                                    <h4><a href="#">GTA San Andreas MultiPlayer</a></h4>
+                                    <p>Probably no game has woken up as many ghosts before as GTA San Andreas, the
+                                        latest sequel to the celebrated Rockstar Games studio series.</p>
                                 </div>
-                            </div>
+                            </div><!-- End Item -->
+                            <div class="carousel-item">
+                                <img src="/images/mc.jpg">
+                                <div class="carousel-caption">
+                                    <h4><a href="#">Minecraft</a></h4>
+                                    <p>Minecraft Game is a great online version of Minecraft Games where you have the
+                                        freedom to dig and explore the infinitely large world.</p>
+                                </div>
+                            </div><!-- End Item -->
+
+                            <div class="carousel-item">
+                                <img src="/images/ts3.jpg">
+                                <div class="carousel-caption">
+                                    <h4><a href="#">Team Speak 3</a></h4>
+                                    <p>TeamSpeak 3 is proprietary voice communications software (VoIP) that allows
+                                        computer users to speak on a chat channel with other computer users, such as a
+                                        phone call.</p>
+                                </div>
+                            </div><!-- End Item -->
+
+                            <div class="carousel-item">
+                                <img src="/images/csgo.jpg">
+                                <div class="carousel-caption">
+                                    <h4><a href="#">Counter Strike Global Offensive</a></h4>
+                                    <p>Similar to the previous Counter-Strike game, players play as terrorists or
+                                        antiterrorists and have to complete tasks while trying to eliminate an opposing
+                                        team.
+                                    </p>
+                                </div>
+                            </div><!-- End Item -->
+                        </div><!-- End Carousel Inner -->
+                        <ol class="list-group col-sm-4">
+                            <li data-target="#myCarousel" data-slide-to="0" class="list-group-item active">
+                                <h4 class="text-white"><img src="/images/icons/game-cs.png"> Counter Strike 1.6</h4>
+                            </li>
+                            <li data-target="#myCarousel" data-slide-to="1" class="list-group-item">
+                                <h4 class="text-white"><img src="/images/icons/game-samp.png"> GTA San Andreas
+                                    MultiPlayer</h4>
+                            </li>
+                            <li data-target="#myCarousel" data-slide-to="2" class="list-group-item">
+                                <h4 class="text-white"><img src="/images/icons/game-minecraft.png"> Minecraft</h4>
+                            </li>
+                            <li data-target="#myCarousel" data-slide-to="3" class="list-group-item">
+                                <h4 class="text-white"><img src="/images/icons/game-ts3.png"> Team Speak 3</h4>
+                            </li>
+                            <li data-target="#myCarousel" data-slide-to="4" class="list-group-item">
+                                <h4 class="text-white"><img src="/images/icons/game-csgo.png"> Counter Strike Global
+                                    Offensive</h4>
+                            </li>
+                        </ol>
+                        <!-- Controls -->
+                        <div class="carousel-controls">
+                            <a role="button" class="left carousel-control" href="#myCarousel" data-slide="prev">
+                                <i class="fas fa-arrow-left"></i>
+
+                            </a>
+                            <a role="button" class="right carousel-control" href="#myCarousel" data-slide="next">
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
                         </div>
                     </div>
-
-                    <div style="padding: 0;" class="col-md-3">
-                        <div  style="width: 17rem;" class="card game-server-card shadow">
-                            <img class="card-img-top" src="/images/games/csgo.png" />
-                            <div class="card-body">
-                                <div class="text-left">
-                                    <p style="line-height: 0.5; margin-top: 0;">Counter Strike Global Offensive</p>
-                                <p style="line-height: 0.5; margin-bottom: 0;">$0.6/slot per month</p>
-                                </div>
-                                <div class="text-center mt-3">
-                                    <a href="/order?gameserver=csgo" class="text-white btn btn-outline-primary w-100">ORDER NOW&nbsp;<i class="fas fa-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="padding: 0;" class="col-md-3">
-                        <div style="width: 17rem;" class="card game-server-card shadow">
-                            <img class="card-img-top" src="/images/games/mc.png" />
-                            <div class="card-body">
-                                <div class="text-left">
-                                    <p style="line-height: 0.5; margin-top: 0;">Minecraft</p>
-                                <p style="line-height: 0.5; margin-bottom: 0;">$0.6/slot per month</p>
-                                </div>
-                                <div class="text-center mt-3">
-                                 <a href="/order?gameserver=mc" class="text-white btn btn-outline-primary w-100">ORDER NOW&nbsp;<i class="fas fa-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="padding: 0;" class="col-md-3">
-                        <div style="width: 17rem;" class="card game-server-card shadow">
-                            <img class="card-img-top" src="/images/games/samp.png" />
-                            <div class="card-body">
-                                <div class="text-left">
-                                    <p style="line-height: 0.5; margin-top: 0;">GTA SA:MP</p>
-                                <p style="line-height: 0.5; margin-bottom: 0;">$0.6/slot per month</p>
-                                </div>
-                                <div class="text-center mt-3">
-                                    <a href="/order?gameserver=samp" class="text-white btn btn-outline-primary w-100">ORDER NOW&nbsp;<i class="fas fa-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card game-server-card mt-4">
-                    <div class="card-body">
-                        <div class="pull-left">
-                            <p style="line-height: 1; margin-top: 0;">We have a great range of awesome game-servers available within minutes!</p>
-                            <p style="line-height: 1; margin-bottom: 0;" class="text-muted p-0">Powered by XEON E5 and Intel Core i7 6700k with Solid State technology.</p>
-                        </div>
-                        <div class="pull-right ">
-                            <a class="btn btn-primary"><i class="fa-solid fa-gamepad"></i>&nbsp;Game Servers</a>
-                        </div>
-                    </div>
-                </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <br>
-    <br>
+        <br>
 
-    <div class="container mb-5">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
+
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row text-center">
+                        <!-- Game servers  -->
+                        <div style="padding: 0;" class="col-md-3">
+                            <div style="width: 17rem;" class="card game-server-card shadow">
+                                <img class="card-img-top" src="/images/games/cs.png" />
+                                <div class="card-body">
+                                    <div class="text-left">
+                                        <p style="line-height: 0.5; margin-top: 0;" class="font-weight-bold">Counter
+                                            Strike 1.6</p>
+                                    </div>
+                                    <div class="text-center mt-3">
+                                        <a href="/order?gameserver=cs" class="btn btn-primary w-100">View
+                                            Plans&nbsp;<i class="fas fa-sign-in"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="padding: 0;" class="col-md-3">
+                            <div style="width: 17rem;" class="card game-server-card shadow">
+                                <img class="card-img-top" src="/images/games/csgo.png" />
+                                <div class="card-body">
+                                    <div class="text-left">
+                                        <p style="line-height: 0.5; margin-top: 0;" class="font-weight-bold">Counter
+                                            Strike Global Offensive</p>
+                                    </div>
+                                    <div class="text-center mt-3">
+                                        <a href="/order?gameserver=csgo" class="btn btn-primary w-100">View
+                                            Plans&nbsp;<i class="fas fa-sign-in"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="padding: 0;" class="col-md-3">
+                            <div style="width: 17rem;" class="card game-server-card shadow">
+                                <img class="card-img-top" src="/images/games/mc.png" />
+                                <div class="card-body">
+                                    <div class="text-left">
+                                        <p style="line-height: 0.5; margin-top: 0;" class="font-weight-bold">Minecraft
+                                        </p>
+                                    </div>
+                                    <div class="text-center mt-3">
+                                        <a href="/order?gameserver=mc" class="btn btn-primary w-100">View
+                                            Plans&nbsp;<i class="fas fa-sign-in"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="padding: 0;" class="col-md-3">
+                            <div style="width: 17rem;" class="card game-server-card shadow">
+                                <img class="card-img-top" src="/images/games/samp.png" />
+                                <div class="card-body">
+                                    <div class="text-left">
+                                        <p style="line-height: 0.5; margin-top: 0;" class="font-weight-bold">GTA SA:MP
+                                        </p>
+                                    </div>
+                                    <div class="text-center mt-3">
+                                        <a href="/order?gameserver=samp" class="btn btn-primary w-100">View
+                                            Plans&nbsp;<i class="fas fa-sign-in"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card game-server-card mt-4">
+                        <div class="card-body">
+                            <div class="pull-left">
+                                <p style="line-height: 1; margin-top: 0;">We have a great range of awesome game-servers
+                                    available within minutes!</p>
+                                <p style="line-height: 1; margin-bottom: 0;" class="text-muted p-0">Powered by XEON E5
+                                    and Intel Core i7 6700k with Solid State technology.</p>
+                            </div>
+                            <div class="pull-right ">
+                                <a class="btn btn-primary"><i class="fa-solid fa-gamepad"></i>&nbsp;Game Servers</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <br>
+        <br>
+
+        <div class="container mb-5">
+            <div class="card">
+                <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3 text-center features">
-                            <i class="fa-solid fa-ticket"></i>
-                            <h1>24/7 SUPPORT</h1>
-                            <p>By purchasing one or more servers, you get support that is online 24 hours a day.</p>
-                        </div>
-        
-                        <div class="col-md-3 text-center features">
-                            <i class="fa-solid fa-shield-halved"></i>
-                            <h1>Security</h1>
-                            <p>Server security and maintaining data integrity is of paramount importance to our company.</p>
-                        </div>
-        
-                        <div class="col-md-3 text-center features">
-                            <i class="fa fa-map"></i>
-                            <h1>Game Panel</h1>
-                            <p>Our control panel is customized for all beginners, while offering extras for those more advanced.</p>
-                        </div>
-        
-                        <div class="col-md-3 text-center features">
-                            <i class="fa fa-wallet"></i>
-                            <h1>Guarantee</h1>
-                            <p>If you find that we have not used you in accordance with our rules, you will refund your money within 5 days.</p>
+                        <div class="row">
+                            <div class="col-md-3 col-6 text-center features">
+                                <i class="fa-solid fa-ticket"></i>
+                                <h1>24/7 SUPPORT</h1>
+                                <p>By purchasing one or more servers, you get support that is online 24 hours a day.</p>
+                            </div>
+
+                            <div class="col-md-3 col-6 text-center features">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <h1>Security</h1>
+                                <p>Server security and maintaining data integrity is of paramount importance to our
+                                    company.</p>
+                            </div>
+
+                            <div class="col-md-3 col-6 text-center features">
+                                <i class="fa fa-map"></i>
+                                <h1>Game Panel</h1>
+                                <p>Our control panel is customized for all beginners, while offering extras for those
+                                    more advanced.</p>
+                            </div>
+
+                            <div class="col-md-3 col-6 text-center features">
+                                <i class="fa fa-wallet"></i>
+                                <h1>Guarantee</h1>
+                                <p>If you find that we have not used you in accordance with our rules, you will refund
+                                    your money within 5 days.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
         </div>
-    </div>
-
-    <div class="container mt-5">
-        <footer class="footer">
-          <div class="pull-left">
-            HyperSpaceGamePanel
-          </div>
-          <div class="pull-right">
-            <a href="#" class="text-white">
-              <i class="fas fa-shopping-basket"></i>
-              ORDER SERVER
-            </a>
-
-            &nbsp;
-            
-            |
-
-            &nbsp;
-
-            <a href="#" class="text-white">TERMS & CONDITIONS</a>
-            
-          </div>
-        </footer>
-       </div>
-    </section>    
-
+        </div>
+    </section>
 </body>
+
 </html>

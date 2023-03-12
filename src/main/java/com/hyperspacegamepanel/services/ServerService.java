@@ -8,5 +8,8 @@ public interface ServerService {
 
     Server createServer(Server server, Machine machine, User owner) throws Exception;
     Server updateServer(Server server);
+
+    void startServer(Server server);
+    void stopServer(Server server);
     
 }

@@ -1,7 +1,10 @@
 package com.hyperspacegamepanel.helper;
 
 import java.net.InetAddress;
+import java.util.Map;
 import java.util.Random;
+
+import com.hyperspacegamepanel.helper.Constants;
 
 public class Helper {
 
@@ -43,5 +46,13 @@ public class Helper {
         }
         return usernamBuilder.toString();
     }
+
+     public static Map<String, String> getSupportedGames() {
+        return Constants.SUPPORTED_GAMES;
+     }
+
+     public static Map<String, String> getSupportedGamesIcons() {
+        return Constants.SUPPORT_GAMES_ICONS;
+     }
     
 }

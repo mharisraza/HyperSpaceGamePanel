@@ -13,7 +13,8 @@
     <!--=========-->
 
     <!--Custom CSS Plus FrameWork CSS-->
-     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"> 
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"> 
+
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.modified.css">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -48,29 +49,26 @@
       <!-- navbar -->
     <div class="container">
       <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/"><img width="200" src="/images/logo.png" /></a>
+        <a class="navbar-brand"><img width="200" src="/images/logo.png"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbar-default">
                 <div class="navbar-collapse-header">
                     <div class="row">
-                        <div class="col-6 collapse-brand">
-                            <button href="javascript:void(0)">
-                                <img width="200" src="/images/logo.png">
-                            </button>
-                        </div>
-                        <div class="col-6 collapse-close">
+                      <div class="col-6 collapse-close">
+                        <a><img width="200" height="30px"  src="/images/logo.png"></a>
+                      </div>
+                        <div class="col-6 collapse-close ms-auto">
                             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
-                                <span></span>
-                                <span></span>
+                                  <span></span>
+                                  <span></span>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <ul class="navbar-nav text-center ">
+                <ul  class="navbar-nav text-center ">
                   <li class="nav-item">
                     <a class="nav-link nav-link-icon" href="/home">
                         <i style="font-size: 9px;" class="fas fa-home"></i>
@@ -93,21 +91,19 @@
                 </ul>
 
 
-                <ul th:if="${user?.fullName == null}" class="navbar-nav ml-auto text-center">
+                <ul th:if="${user?.role == null}" class="navbar-nav ml-auto text-center">
                   <li class="nav-item">
-                    <a class="nav-link nav-link-icon" href="/login">
-                        <i style="font-size: 9px;" class="fas fa-sign-in"></i>
-                        <span class="text-white">LOGIN</span>
+                    <a class="nav-link-icon" href="/login">
+                        <button  type="button" class="btn btn-primary w-100">Login <i class="fas fa-sign-in"></i></button>
                     </a>
 
                     <li class="nav-item">
-                      <a class="nav-link nav-link-icon" href="/register">
-                          <i style="font-size: 9px;" class="fas fa-key"></i>
-                          <span class="text-white">REGISTER</span>
+                      <a class="nav-link-icon" href="/register">
+                        <button type="button" class="btn btn-outline-warning w-100">Register <i class="fas fa-user-plus"></i></button>
                       </a>
                 </ul>
 
-                <ul th:if="${user?.fullName != null}" class="navbar-nav ml-auto text-center">
+                <ul th:if="${user?.role != null}" class="navbar-nav ml-auto text-center">
                   <li class="nav-item">
                    <div class="dropdown w-100">
                      <button class="btn btn-primary btn-block" type="button" id="multiDropdownMenu"
@@ -126,11 +122,7 @@
                    </div>
                   </li>
              </ul>
-
-                
-              
             </div>
-        </div>
     </nav>
   
   

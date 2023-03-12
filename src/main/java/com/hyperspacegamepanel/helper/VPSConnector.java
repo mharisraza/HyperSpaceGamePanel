@@ -60,12 +60,26 @@ public class VPSConnector {
 
         Scanner scanner = new Scanner(in).useDelimiter("\\A");
         result = scanner.hasNext() ? scanner.next() : "";
-
+        scanner.close();
+        
        } catch (Exception e) {
         e.printStackTrace();
        }
 
         return result;
+    }
+
+    // execute comand without output
+    public void executeCommandWithoutOutput(String commad) {
+        try {
+
+        ChannelExec channel = (ChannelExec) session.openChannel("exec");
+        channel.setCommand(commad);
+        channel.connect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // scriptFilePath: exact path to the actual script file otherwise it can lead to runtime exception.
@@ -79,7 +93,7 @@ public class VPSConnector {
             }
 
             // our scripts should be under /scripts folder in every machine to understand
-            String remoteScriptFilePath = "/scripts/" + scriptFile.getName();
+            String remoteScriptFilePath = String.format("/%s/%s", Constants.REMOTE_SCRIPTS_FOLDER, scriptFile.getName());
 
             Channel channel = session.openChannel("sftp");
             channel.connect();
@@ -92,11 +106,11 @@ public class VPSConnector {
 
             try {
                 sftpChannel.cd("/");
-                sftpChannel.cd("scripts");
+                sftpChannel.cd(Constants.REMOTE_SCRIPTS_FOLDER);
             } catch(SftpException e) {
                 if(e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE) {
                     sftpChannel.cd("/");
-                    sftpChannel.mkdir("scripts");
+                    sftpChannel.mkdir(Constants.REMOTE_SCRIPTS_FOLDER);
                 }    
             }
 

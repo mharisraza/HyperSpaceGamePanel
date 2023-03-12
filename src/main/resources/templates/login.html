@@ -9,58 +9,57 @@
 </head>
 
 <body>
-    <section class="mt-5">
+    <section style="margin-top: 80px !important;">
     <div class="container">
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-6">
-                <div class="card mx-auto">
-                    <div class="card-header text-center">
-                        <i class="fa-solid fa-user custom-icons"></i>&nbsp;Login
-                    </div>
-                    <div class="card-body">
-                        <form action="/login" method="POST" class="row">
-
-                            <!-- Email address field  -->
-                            <div class="col-md-12">
-                                <label>Email Address</label>
-                                <div class="form-group">
-                                    <div class="input-group mb-4">
-                                        <input id="emailAddress" name="username" class="form-control" placeholder="johndoe@example.com"
-                                            type="email">
+               <div class="row d-flex justify-content-center">
+                <div class="col-md-6">
+                    <div style class="card">
+                        <div class="card-header text-center">
+                            <i class="fa-solid fa-user custom-icons"></i>&nbsp;Login
+                        </div>
+                        <div class="card-body">
+                            <form action="/login" method="POST" class="row">
+    
+                                <!-- Email address field  -->
+                                <div class="col-md-12">
+                                    <label>Email Address or Username</label>
+                                    <div class="form-group">
+                                        <div class="input-group mb-4">
+                                            <input id="emailAddress" name="username" class="form-control" placeholder="Username or Email Address"
+                                                type="text">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Email address field end  -->
-
-                            <!-- Password field  -->
-                            <div class="col-12">
-                                <label>Password</label>
-                                <div class="form-group">
-                                    <div class="input-group mb-4">
-                                        <input id="password" name="password" class="form-control" placeholder="Password"
-                                            type="password">
+                                <!-- Email address field end  -->
+    
+                                <!-- Password field  -->
+                                <div class="col-12">
+                                    <label>Password</label>
+                                    <div class="form-group">
+                                        <div class="input-group mb-4">
+                                            <input id="password" name="password" class="form-control" placeholder="Password"
+                                                type="password">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- password field end  -->
-
-                            <!-- submit button  -->
-                            <div class="container text-center">
-                                <button type="submit" class="btn btn-primary w-75">Login&nbsp;<i
-                                        class="fa fa-sign-in"></i></button>
-                            </div>
-                            <!-- submit button end  -->
-
-                            <div class="container text-center mt-4">
-                                <a class="text-white forgot-password" data-toggle="modal" data-target="#forgotPasswordModal">Forgot your Password?</a>
-                            </div>
-                        </form>
+                                <!-- password field end  -->
+    
+                                <!-- submit button  -->
+                                <div class="container text-center">
+                                    <button style="padding: 15px !important;" type="submit" class="btn btn-primary w-100">Login&nbsp;<i
+                                            class="fa fa-sign-in"></i></button>
+                                </div>
+                                <!-- submit button end  -->
+    
+                                <div class="container text-center mt-4">
+                                    <a class="text-white forgot-password">Forgot your Password?  <a data-toggle="modal" data-target="#forgotPasswordModal" class="badge badge-sm badge-danger password-reseter">Reset Now</a></a>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
+               </div>
             </div>
-        </div>
-    </div>
-
 
     <!-- Modal -->
 <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -75,9 +74,9 @@
         <div class="modal-body">
           <form class="row" action="/forgotPassword" method="post">
              <div class="col-md-12">
+                To reset your password, please enter your registered email address below.
                  <!-- Email address field  -->
-                 <div class="col-md-12">
-                    <label>Email Address</label>
+                 <div class="col-md-12 mt-3">
                     <div class="form-group">
                         <div class="input-group mb-4">
                             <input name="email" class="form-control" placeholder="johndoe@example.com"
@@ -89,7 +88,7 @@
              </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-outline-primary">SUBMIT&nbsp;<i class="fa-solid fa-paper-plane"></i></button>
+          <button type="submit" class="btn btn-primary w-100">SUBMIT&nbsp;<i class="fa-solid fa-paper-plane"></i></button>
         </div>
     </form>
       </div>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::Layout(~{::section})">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <section class="mt-5">
+    <div class="container">
+           <!-- secondary nav -->
+      <ul style="border-top: 5px solid #57e;" class="nav secondary-nav navbar-dark">
+          <li class="nav-item">
+              <a class="nav-link text-white font-weight-bold" th:href="'/admin/server/view/'+${server.id}">Overview</a>
+            </li>
+          <li class="nav-item">
+            <a class="nav-link text-white font-weight-bold" th:href="'/admin/server/view/'+${server.id}+'/log'">Console Log</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white font-weight-bold" th:href="'/admin/server/view/'+${server.id}+'/delete'">Delete</a>
+          </li>
+        </ul>
+    <!-- secondary nav end  -->
+            <div class="row mt-3">
+              <div class="col-lg-8 mb-3">
+                <div class="card">
+                  <div class="card-header">
+                    <span class="text-white font-weight-bold"><i class="fas fa-circle-info"></i>&nbsp;Server
+                      Information</span>
+                  </div>
+                  <div style="padding: 0 !important;" class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <tbody>
+                          <tr>
+                            <td class="font-weight-bold">Internal Identifier</td>
+                            <td><code>[(${server.id})]</code></td>
+                          </tr>
+                          <tr>
+                            <td class="font-weight-bold">Server Name</td>
+                            <td><span class="badge badge-sm badge-default">[(${server.name})]</span></td>
+                          </tr>
+                          <tr>
+                            <td class="font-weight-bold">IP Address</td>
+                            <td><span class="badge badge-sm badge-default">[(${server.ipAddress})]</span></td>
+                          </tr>
+                          <tr>
+                            <td class="font-weight-bold">Game Name</td>
+                            <td><span class="badge badge-sm badge-default">[(${helper.getSupportedGames().get(server.gameType)})]</span></td>
+                          </tr>
+                          <tr>
+                            <td class="font-weight-bold">Expire In:</td>
+                            <td><span class="badge badge-sm badge-danger" id="expiredDate" th:expiredDate="${server.expirationDate}"></span></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 mb-3">
+               <div  class="card">
+                <div class="card-header">Server Actions</div>
+                  <div  class="card-body">
+                    <input type="hidden" id="serverIdforServerInfo" th:value="${server.id}">
+                 <div class="row">
+                 <div class="col-12 mb-2">
+                  <a id="serverStartButton" onclick="showLoader()"
+                  th:href="'/admin/server/view/'+${server.id}+'/?action=start'" class="btn btn-success w-100 disabled">
+                  <i class="fa-solid fa-play"></i>&nbsp;Start
+                </a>
+                 </div>
+                <div class="col-6 p-1">
+                  <a id="serverRestartButton" style="background-color: #F0AD4E; color: white;" onclick="showLoader()"
+                  th:href="'/admin/server/view/'+${server.id}+'/?action=restart'" class="btn w-100 disabled">
+                  <i class="fa-solid fa-arrows-rotate"></i>&nbsp;Restart
+                </a>
+                </div>
+                <div class="col-6 p-1">
+                  <a th:href="'/admin/server/view/'+${server.id}+'/?action=stop'" id="serverStopButton" style="background-color: #D9534F; color:white;" onclick="showLoader()" class="btn w-100 disabled">
+                    <i class="fa-solid fa-power-off"></i>&nbsp;Stop
+                  </a>
+                </div>
+                 </div>
+                  </div>
+               </div>
+            </div>
+          </div>
+  </section>
+</body>
+</html>

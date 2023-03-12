@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::Layout(~{::section})">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+
+<body>
+  <section class="mt-5">
+    <div class="container">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-sm-6">
+              <h5 style="font-size: 20px !important;" class="mb-0 text-white font-weight-bold">Machines List</h5>
+            </div>
+            <div class="col-sm-6 text-right">
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" placeholder="Search in Machines" aria-label="Search">
+                <div class="input-group-append">
+                  <button class="btn btn-secondary" type="button">
+                    <i class="fa fa-search text-primary"></i>
+                  </button>
+                  <a href="/admin/user/new" class="btn btn-primary">Create New</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="padding: 0 !important;" class="card-body">
+          <h1 th:if="${#lists.size(machines) < 1}" style="font-size: 25px !important; padding: 15px !important;" class="text-white font-weight-bold">There is no machines, please create new one!</h1>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Machine Name</th>
+                  <th>Location</th>
+                  <th>Hostname</th>
+                  <th>Total Ram</th>
+                  <th>Total Storage</th>
+                  <th>Online Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="m : ${machines}">
+                  <td><code>[(${m.id})]</code></td>
+                  <td><a th:href="'/admin/machine/view/'+${m.id}" class="text-primary">[(${m.name})]</a></td>
+                  <td>[(${m.machineInfo.location})]</td>
+                  <td>[(${m.machineInfo.hostname})]</td>
+                  <td>[(${m.machineInfo.totalRam})]</td>
+                  <td>[(${m.machineInfo.totalStorage})]</td>
+                  <td><a th:classappend="${helper.isMachineOnline(m.ipAddress) ? 'badge badge-success' : 'badge badge-danger'}">[(${helper.isMachineOnline(m.ipAddress) ? 'Active' : 'In Active'})]</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+
+</html>

@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.hyperspacegamepanel.helper.Helper;
-
 import com.hyperspacegamepanel.entities.Machine;
+import com.hyperspacegamepanel.entities.Server;
 import com.hyperspacegamepanel.entities.Ticket;
 import com.hyperspacegamepanel.entities.User;
 import com.hyperspacegamepanel.repositories.MachineRepository;
+import com.hyperspacegamepanel.repositories.ServerRepository;
 import com.hyperspacegamepanel.repositories.TicketRepository;
 import com.hyperspacegamepanel.repositories.UserRepository;
 
@@ -28,6 +29,9 @@ public class HelperController {
 
     @Autowired
     private TicketRepository ticketRepo;
+
+    @Autowired
+    private ServerRepository serverRepo;
 
       /*
      * The @ModelAttribute annotation allows you to centralize data preparation
@@ -61,6 +65,12 @@ public class HelperController {
         if(principal == null) return null;
          return userRepo.getByEmail(principal.getName());
      }
+
+     @ModelAttribute("servers")
+     public List<Server> getServers() {
+        return serverRepo.findAll();
+     }
+
      @ModelAttribute("helper")
      public Helper provideHelper() {
         return new Helper();

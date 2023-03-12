@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,8 +41,9 @@ public class TicketController extends HelperController {
     private TicketReplyRepository ticketReplyRepo;
 
 
-    @GetMapping("")
-    public String showTicket(@RequestParam(name = "id", required = false) Integer ticketId, @RequestParam(required = false) String action, @RequestParam(required =  false) Integer messageId, Model m) {
+
+    @GetMapping("/view/{ticketId}")
+    public String showTicket(@PathVariable(required = false) Integer ticketId, @RequestParam(required = false) String action, @RequestParam(required =  false) Integer messageId, Model m) {
         if(ticketId == null) {
             httpSession.setAttribute("status", "CANT_FIND_TICKET");
             return "redirect:/admin/tickets";
@@ -65,19 +67,19 @@ public class TicketController extends HelperController {
 
             if(!ticketReply.isPresent()) {
                 httpSession.setAttribute("status", "TICKET_REPLY_DOES_NOT_EXIST");
-                return "redirect:/admin/ticket?id=" + ticketId;
+                return "redirect:/admin/ticket/view/" + ticketId;
             }
 
              this.ticketReplyRepo.deleteById(messageId);
              httpSession.setAttribute("status", "REPLY_MESSAGE_DELETED_SUCCESSFULLY");
-            return "redirect:/admin/ticket?id=" + ticketId;
+            return "redirect:/admin/ticket/view/" + ticketId;
 
         }
 
         if(action != null && action.equals("MarkAsRead")) {
             ticket.get().setRead(true);
             this.ticketRepo.save(ticket.get());
-            return "redirect:/admin/ticket?id=" + ticketId;
+            return "redirect:/admin/ticket/view/" + ticketId;
         }
         
 
@@ -88,7 +90,7 @@ public class TicketController extends HelperController {
                 this.ticketRepo.save(ticket.get());
 
                 httpSession.setAttribute("status", "TICKET_CLOSED_SUCCESSFULLY");
-                return "redirect:/admin/ticket?id=" + ticketId;
+                return "redirect:/admin/ticket/view/" + ticketId;
         }
 
         if(action != null && action.equals("uncloseTicket")) {
@@ -96,12 +98,12 @@ public class TicketController extends HelperController {
             this.ticketRepo.save(ticket.get());
 
             httpSession.setAttribute("status", "TICKET_UNCLOSED_SUCCSESFULLY");
-            return "redirect:/admin/ticket?id=" + ticketId;
+            return "redirect:/admin/ticket/view/" + ticketId;
         }
 
         m.addAttribute("ticketReplies", ticketReplies);
         m.addAttribute("ticket", ticket.get());
-        return "admin/ticket";
+        return "admin/ticket_module/ticket";
     }
 
     @PostMapping("/process-reply")
@@ -114,7 +116,7 @@ public class TicketController extends HelperController {
 
         if(replyMessage == null || replyMessage.isBlank()) {
             httpSession.setAttribute("status", "REPLY[MESSAGE]_IS_EMPTY");
-            return "redirect:/admin/ticket?id="+ticketId;
+            return "redirect:/admin/ticket/view/"+ticketId;
         }
 
         Optional<Ticket> ticket = this.ticketRepo.findById(ticketId);
@@ -136,7 +138,7 @@ public class TicketController extends HelperController {
          this.ticketReplyService.createTicketReply(ticketReply);
          this.ticketRepo.save(ticket.get());
 
-             return "redirect:/admin/ticket?id="+ticketId;
+             return "redirect:/admin/ticket/view/"+ticketId;
     }
     
 }

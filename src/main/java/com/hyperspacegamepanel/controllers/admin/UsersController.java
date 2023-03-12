@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,21 +37,21 @@ public class UsersController extends HelperController {
     @Autowired
     private MailService mailService;
 
-    @GetMapping("")
-    public String userDetails(@RequestParam(required = false) Integer id, Model m) {
+    @GetMapping("/view/{id}")
+    public String userDetails(@PathVariable(required = false) Integer id, Model m) {
         if (id == null) {
             httpSession.setAttribute("status", "CANT_FIND_USER_WITH_PROVIDED_ID");
-            return "redirect:/admin/users/all";
+            return "redirect:/admin/users";
         }
         Optional<User> user = this.userRepo.findById(id);
         if (!user.isPresent()) {
             httpSession.setAttribute("status", "CANT_FIND_USER_WITH_PROVIDED_ID");
-            return "redirect:/admin/users/all";
+            return "redirect:/admin/users";
         }
 
         m.addAttribute("user", user.get());
         m.addAttribute("title", user.get().getFullName() + " | HyperSpaceGamePanel");
-        return "admin/user.html";
+        return "admin/user_module/user.html";
     }
 
 
@@ -58,7 +59,7 @@ public class UsersController extends HelperController {
     @GetMapping("/new")
     public String newUser(Model m) {
         m.addAttribute("title", "Add New User | HyperSpaceGamePanel");
-        return "admin/new_user.html";
+        return "admin/user_module/new_user.html";
     }
 
     // processing and handling logic for adding new user via Admin Panel
@@ -99,7 +100,7 @@ public class UsersController extends HelperController {
                 mailService.sendMail(email, "Account Created Successfully", message);
                 UserDto user = userService.createUser(userDto);
                 httpSession.setAttribute("status", "USER_CREATED_SUCCESSFULLY");
-                return "redirect:/admin/user?id="+user.getId();
+                return "redirect:/admin/user/view/"+user.getId();
             } catch (Exception e) {
                 httpSession.setAttribute("status", "SOMETHING_WENT_WRONG");
             }
