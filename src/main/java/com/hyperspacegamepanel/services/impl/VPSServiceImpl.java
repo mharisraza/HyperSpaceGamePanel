@@ -45,7 +45,7 @@ public class VPSServiceImpl implements VPSService {
     }
 
     @Override
-    @Cacheable(value = "machineInfoCache", key = "machineInfo")
+    @Cacheable(value = "machineInfo", key = "machineInfo")
     public Map<String, String> getMachineInfo() {
         connector.uploadFile(Constants.SCRIPTS_FILES.get("VPS_INFO_SCRIPT"));
         String output = connector.executeCommand("cd / && bash " +Constants.SCRIPTS_FILES.get("VPS_INFO_SCRIPT"));
@@ -58,6 +58,11 @@ public class VPSServiceImpl implements VPSService {
             }
         }
         return machineInfo;
+    }
+
+    @Override
+    public String getMachineUptime() {
+        return connector.executeCommand("awk '{d=int($1/86400);h=int($1%86400/3600);m=int(($1%3600)/60); printf \"%d days %d hours %d minutes\\n\", d, h, m}' /proc/uptime");
     }
     
     public void connectIfNotConnected() {
@@ -83,7 +88,5 @@ public class VPSServiceImpl implements VPSService {
         connector.uploadFile(Constants.SCRIPTS_FILES.get("MACHINE_CONFIGURE_SCRIPT"));
         connector.executeCommand("cd / && bash "+Constants.SCRIPTS_FILES.get("MACHINE_CONFIGURE_SCRIPT"));
     }
-
-
   
 }

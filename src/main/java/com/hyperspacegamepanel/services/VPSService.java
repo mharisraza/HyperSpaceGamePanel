@@ -9,6 +9,7 @@ public interface VPSService {
     
     // get vps info
     Map<String, String> getMachineInfo();
+    String getMachineUptime();
 
     // perfom actions on the machine
     void restartMachine();
