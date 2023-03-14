@@ -30,7 +30,8 @@
           </div>
         </div>
         <div style="padding: 0 !important;" class="card-body">
-          <div class="table-responsive">
+          <h1 th:if="${#lists.size(tickets) < 1}" style="font-size: 25px !important; padding: 15px !important;" class="text-white font-weight-bold">There is no any tickets submitted by users.</h1>
+          <div th:if="${#lists.size(tickets) > 0}" class="table-responsive">
             <table class="table table-hover">
               <thead>
                 <tr>

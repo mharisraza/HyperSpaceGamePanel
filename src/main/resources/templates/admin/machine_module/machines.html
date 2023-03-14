@@ -22,7 +22,7 @@
                   <button class="btn btn-secondary" type="button">
                     <i class="fa fa-search text-primary"></i>
                   </button>
-                  <a href="/admin/user/new" class="btn btn-primary">Create New</a>
+                  <a href="/admin/machine/new" class="btn btn-primary">Create New</a>
                 </div>
               </div>
             </div>
@@ -30,7 +30,7 @@
         </div>
         <div style="padding: 0 !important;" class="card-body">
           <h1 th:if="${#lists.size(machines) < 1}" style="font-size: 25px !important; padding: 15px !important;" class="text-white font-weight-bold">There is no machines, please create new one!</h1>
-          <div class="table-responsive">
+          <div th:if="${#lists.size(machines) > 0}" class="table-responsive">
             <table class="table table-hover">
               <thead>
                 <tr>

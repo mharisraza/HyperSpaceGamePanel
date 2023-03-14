@@ -68,9 +68,10 @@ public class UsersController extends HelperController {
         @RequestParam(required = false) String fullName, 
         @RequestParam(required = false) String email, 
         @RequestParam(required = false) String role,
+        @RequestParam(required = false) String username,
          Model m) {
 
-            if(fullName.isBlank() || email.isBlank() || role.isBlank()) {
+            if(fullName.isBlank() || email.isBlank() || role.isBlank() || username.isBlank()) {
                 httpSession.setAttribute("status", "REQUIRED_FIELDS_ARE_BLANK");
                 return "redirect:/admin/user/new";
             }
@@ -92,6 +93,7 @@ public class UsersController extends HelperController {
             UserDto userDto = new UserDto();
             userDto.setFullName(fullName);
             userDto.setEmail(email);
+            userDto.setUsername(username);
             userDto.setEnabled(true);
             userDto.setPassword(randomGeneratedPassword);
             userDto.setRole(role);

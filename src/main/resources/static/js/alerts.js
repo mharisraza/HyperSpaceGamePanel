@@ -195,6 +195,10 @@ $(document).ready(function() {
         toastr["success"]("Server stopped successfully", "Success");
     }
 
+    if(status == "ADD_MACHINE_FIRST") {
+        toastr["warning"]("You'll need to add machine first to create new game-server", "Warning");
+    }
+
     // if there is no any admin we're redirecting to the page where user can register himself as admin 
     // so that the other operation can be perfomable such as adding machine and game-servers
     if(status == "THERE_IS_NO_ANY_ADMIN_USER") {
