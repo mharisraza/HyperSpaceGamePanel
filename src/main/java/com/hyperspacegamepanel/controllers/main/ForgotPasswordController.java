@@ -1,7 +1,5 @@
   package com.hyperspacegamepanel.controllers.main;
 
-  import java.security.SecureRandom;
-  import java.util.Base64;
   import javax.mail.MessagingException;
   import javax.mail.internet.AddressException;
   import javax.servlet.http.HttpServletRequest;
@@ -17,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hyperspacegamepanel.dtos.UserDto;
 import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.helper.Token;
 import com.hyperspacegamepanel.repositories.UserRepository;
 import com.hyperspacegamepanel.services.MailService;
+import com.hyperspacegamepanel.services.TokenService;
 import com.hyperspacegamepanel.services.UserService;
 
   @Controller
@@ -36,11 +36,28 @@ import com.hyperspacegamepanel.services.UserService;
       @Autowired
       private ModelMapper mapper;
 
-      private SecureRandom secureRandom = new SecureRandom();
-      private User user;
-      private String token;
-      private long tokenTime;
+      @Autowired
+      private TokenService tokenService;
+      
+      @GetMapping("/resetPassword")
+      public String resetPasswordView(@RequestParam(name = "token", required = false) String tokenValue, HttpSession httpSession, Model m) {
 
+            if(tokenValue == null) {
+              return "redirect:/login?invalidRequest";
+            }
+
+            if(!this.tokenService.isTokenValid(tokenValue)) {
+              httpSession.setAttribute("status", "INVALID_TOKEN");
+                return "redirect:/login?invalidRequest";
+            }
+
+            Token token = this.tokenService.getToken(tokenValue);
+
+            httpSession.setAttribute("resetPasswordToken", token);
+
+            m.addAttribute("title", "Reset Password | HyperSpaceGamePanel");
+            return "resetPassword.html";
+      }
 
       @PostMapping("/forgotPassword")
       public String forgotPassword(@RequestParam String email, Model m, HttpSession httpSession, HttpServletRequest request) throws AddressException, MessagingException {
@@ -49,70 +66,37 @@ import com.hyperspacegamepanel.services.UserService;
                   return "redirect:/login?forgotPassword=WrongEmailAddress";
           }
 
-          this.user = this.userRepo.getByEmail(email);
-          this.token = generateToken();
-          this.tokenTime = System.currentTimeMillis(); 
+          User user = this.userRepo.getByEmail(email);
+          httpSession.setAttribute("user", user);
 
-          String tokenURL = request.getRequestURL().toString().replace("forgotPassword", "resetPassword") + "?token=" + token;
-
-          String message = String.format("<h1 style='font-size: 18px;'>Hello, %s!</h1> \nYour request for resetting password has been received! \n Please use the following link to reset your password: %s \nThis code will be expired in 30 minutes, \nif you didn't initiate this request please ignore this mail. \nBest Regards, \nHyperSpace - GamePanel", user.getFullName(), tokenURL);
-
+          // send mail
           try {
-            mailService.sendMail(email, "Password Reset Request", message);
-            httpSession.setAttribute("status", "TOKEN_SENT_SUCCESSFULLY");
-          } catch (Exception e) {
-            httpSession.setAttribute("status", "SOMETHING_WENT_WRONG");
+            this.mailService.sendResetPasswordMail(email, user);
+          } catch(Exception e) {
+            e.printStackTrace();
           }
 
           return "login.html";
       }
 
-      private String generateToken() {
-          byte[] tokenBytes = new byte[16];
-          secureRandom.nextBytes(tokenBytes);
-          return Base64.getUrlEncoder().encodeToString(tokenBytes);
-        }
-
-        private boolean isTokenValid(String token, long tokenTime) {
-          if (token == null || token.isEmpty() || tokenTime == 0 || token.equals("expired")) {
-            return false;
-        }
-        long currentTime = (System.currentTimeMillis() / 1000L);
-        long timeDifference = currentTime - tokenTime;
-        
-        if (timeDifference > 1800) {
-            return false;
-        }
-        return token.equals(this.token);
-        }
-
-        @GetMapping("/resetPassword")
-        public String resetPasswordView(@RequestParam(required = false) String token, HttpSession httpSession) {
-              if(!isTokenValid(token, this.tokenTime)) {
-                httpSession.setAttribute("status", "INVALID_TOKEN");
-                  return "redirect:/login?forgotPassword=invalidRequest";
-              }
-              return "resetPassword.html";
-        }
-
         @PostMapping("/resetPassword")
         public String resetPasswordAndUpdate(@RequestParam String password, @RequestParam String confirmPassword, HttpSession httpSession) {
+
+          Token token = (Token) httpSession.getAttribute("resetPasswordToken");
+          User user = (User) httpSession.getAttribute("user");
+          
           if(password.isBlank() || confirmPassword.isBlank() || !password.equals(confirmPassword)) {
             httpSession.setAttribute("status", "PASSWORD_CONFPW_NOT_MATCH");
-            return "redirect:/resetPassword?token="+this.token;
+            return "redirect:/resetPassword?token="+token;
           }
 
-          UserDto user = this.mapper.map(this.user, UserDto.class);
-          user.setPassword(password);
-          user = userService.updateUser(user, user.getId());
-          this.token = "expired";
+          UserDto userDto = this.mapper.map(user, UserDto.class);
+          userDto.setPassword(password);
+          userDto = userService.updateUser(userDto, user.getId());
+          token.expire();
 
-          if(user != null) {
             httpSession.setAttribute("status", "PASSWORD_UPDATED");
-            return "redirect:/login?";
-          }
 
-          httpSession.setAttribute("status", "SOMETHING_WENT_WRONG");
             return "redirect:/login";
         }
       
