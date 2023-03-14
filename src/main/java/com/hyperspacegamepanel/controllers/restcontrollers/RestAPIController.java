@@ -1,4 +1,4 @@
-package com.hyperspacegamepanel.config.restcontrollers;
+package com.hyperspacegamepanel.controllers.restcontrollers;
 
 import java.util.Map;
 import java.util.Optional;

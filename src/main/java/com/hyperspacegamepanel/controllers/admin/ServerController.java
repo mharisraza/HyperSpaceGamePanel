@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hyperspacegamepanel.controllers.main.GameServerInfoController;
 import com.hyperspacegamepanel.controllers.main.HelperController;
+import com.hyperspacegamepanel.controllers.restcontrollers.RestAPIController;
 import com.hyperspacegamepanel.entities.Machine;
 import com.hyperspacegamepanel.entities.Server;
 import com.hyperspacegamepanel.entities.User;
@@ -50,6 +50,12 @@ public class ServerController extends HelperController {
 
     @GetMapping("/new")
     public String newServer(Model m) {
+        
+        if(getMachines().isEmpty()) {
+            httpSession.setAttribute("status", "ADD_MACHINE_FIRST");
+          return "redirect:/admin/machine/new";
+        }
+
         m.addAttribute("server", new Server());
         m.addAttribute("randomftpusername", Helper.randomUsernameGenerator());
         m.addAttribute("randomftppassword", Helper.randomPasswordGenerator());
@@ -119,7 +125,7 @@ public class ServerController extends HelperController {
 
         if(action != null) {
             
-            int ping = GameServerInfoController.getServerPing(server.get());
+            int ping = RestAPIController.getServerPing(server.get());
 
             switch(action) {
 
