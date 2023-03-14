@@ -1,5 +1,7 @@
 package com.hyperspacegamepanel.services.impl;
 
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -10,17 +12,32 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
+import com.hyperspacegamepanel.entities.User;
 import com.hyperspacegamepanel.helper.Constants;
 import com.hyperspacegamepanel.services.MailService;
+import com.hyperspacegamepanel.services.TokenService;
 
 @Service
 public class MailServiceImpl implements MailService {
 
+    @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private TemplateEngine templateEngine;
+
     @Override
-    public void sendMail(String emailAddress, String subject, String message) throws MessagingException {
+    public void sendMail(String to, String subject, String message) throws MessagingException {
 
         //if you want to use your own Mail service, you'll need to change the below details to
         // correctly configure mail server, currently this is configured for gmail mail service.
@@ -39,7 +56,7 @@ public class MailServiceImpl implements MailService {
             }
         });
 
-        InternetAddress internetAddress = new InternetAddress(emailAddress);
+        InternetAddress internetAddress = new InternetAddress(to);
 
         MimeMessage mimeMessage = new MimeMessage(session);
         mimeMessage.setFrom(internetAddress);
@@ -50,5 +67,44 @@ public class MailServiceImpl implements MailService {
         
     }
 
+    @Override
+    public void sendAccountConfirmationMail(String to, User user) throws MessagingException {
+
+        String generatedToken = this.tokenService.generateToken(user);
+
+        Context context = new Context();
+        context.setVariable("userName", user.getFullName());
+        context.setVariable("accountActivationLink", this.getBaseURL(request) + "/accountConfirmation?token=" + generatedToken);
+
+        String message = templateEngine.process("mails/account-confirmation.html", context);
+        this.sendMail(to, "Account Activation Confirmation", message);
+    }
+
+    @Override
+    public void sendResetPasswordMail(String to, User user) throws MessagingException {
+        String generatedToken = this.tokenService.generateToken(user);
+
+        Context context = new Context();
+        context.setVariable("userName", user.getFullName());
+        context.setVariable("resetPasswordLink", this.getBaseURL(request) + "/resetPassword?token=" + generatedToken);
+
+        String message = templateEngine.process("mails/reset-password-request.html", context);
+        this.sendMail(to, "Password Reset Request", message);
+    }
+
+    private String getBaseURL(HttpServletRequest request) {
+        String scheme = request.getScheme();
+        String serverName = request.getServerName();
+        int serverPort = request.getServerPort();
+        String contextPath = request.getContextPath();
+        StringBuilder sb = new StringBuilder();
+        sb.append(scheme).append("://").append(serverName);
+        if (serverPort != 80 || serverPort != 443) {
+            sb.append(":").append(serverPort);
+        }
+        sb.append(contextPath);
+        return sb.toString();
+    }
+    
     
 }
