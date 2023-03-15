@@ -33,8 +33,6 @@ import com.jcraft.jsch.JSchException;
 @RequestMapping("/admin/machine")
 public class MachineController extends HelperController {
 
-    
-
     @Autowired
     private MachineRepository machineRepo;
 
@@ -50,16 +48,6 @@ public class MachineController extends HelperController {
     @Autowired
     private VPSConnector connector;
 
-    // global variable for VPS machine info
-    private String totalRam;
-    private String totalStorage;
-    private String hostname;
-    private String location;
-    private String totalCPUs;
-    private String cpuProcessorName;
-    private String uptime;
-
-
     // showing page where user can add new machine to the database.
     @GetMapping("/new")
     public String newMachine(Model m) {
@@ -68,109 +56,87 @@ public class MachineController extends HelperController {
         return "admin/machine_module/new_machine.html";
     }
 
-    /*  processing and handling logic for newly added machine via
-    VPSConnector and VPSService.
-    */
+    /*
+     * processing and handling logic for newly added machine via
+     * VPSConnector and VPSService.
+     */
     @PostMapping("/create-new")
-    public String processNewMachine(@Valid @ModelAttribute Machine machine, BindingResult bindingResult) throws JSchException, IOException {
-        if(bindingResult.hasErrors()) {
+    public String processNewMachine(@Valid @ModelAttribute Machine machine, BindingResult bindingResult, Model m)
+            throws JSchException, IOException {
+        if (bindingResult.hasErrors()) {
             return "admin/machine_module/new_machine.html";
         }
 
         try {
 
-        this.connector.connect(machine);
+            this.connector.connect(machine);
 
-        VPSService vpsService = new VPSServiceImpl(this.connector, machine);
+            VPSService vpsService = new VPSServiceImpl(this.connector, machine);
 
-        if(this.connector.isConnected()) {
+            if (this.connector.isConnected()) {
 
-            vpsService.configureMachine();
+                MachineDetails machineDetails = getAndSetMachineDetails(vpsService, machine, m, false, true);
 
-            MachineDetails machineDetails = new MachineDetails();
-
-            getMachineInfo(vpsService);
-
-            machineDetails.setHostname(this.hostname);
-            machineDetails.setCpuProcessor(this.cpuProcessorName);
-            machineDetails.setTotalCPUs(this.totalCPUs);
-            machineDetails.setTotalRam(this.totalRam);
-            machineDetails.setLocation(this.location);
-
-            String totalStorage = this.totalStorage;
-            machineDetails.setTotalStorage(totalStorage.substring(totalStorage.indexOf("/") + 1, totalStorage.indexOf("(")));
-            machineDetails.setMachine(machine);
-
-          Machine createdMachine = this.machineService.createMachine(machine);
-          this.machineDetailsRepo.save(machineDetails);
-          httpSession.setAttribute("status", "MACHINE_ADDED_SUCCESSFULLY");
-          return "redirect:/admin/machine/view/" + createdMachine.getId();
-        }
+                Machine createdMachine = this.machineService.createMachine(machine);
+                this.machineDetailsRepo.save(machineDetails);
+                httpSession.setAttribute("status", "MACHINE_ADDED_SUCCESSFULLY");
+                return "redirect:/admin/machine/view/" + createdMachine.getId();
+            }
 
         } catch (Exception e) {
 
-         String exceptionMessage = e.getMessage();
+            String exceptionMessage = e.getMessage();
 
-         if(exceptionMessage != null) {
-            if(exceptionMessage.equalsIgnoreCase("Auth fail") || exceptionMessage == "Auth fail") {
-                httpSession.setAttribute("status", "WRONG_CREDENTIALS_CONNECTION_FAILED");
-                return "redirect:/admin/machines";
-             }
-         }
-
-         httpSession.setAttribute("status", "SOMETHING_WENT_WRONG");
-         e.printStackTrace();
+            if (exceptionMessage != null) {
+                if (exceptionMessage.equalsIgnoreCase("Auth fail")) {
+                    httpSession.setAttribute("status", "WRONG_CREDENTIALS_CONNECTION_FAILED");
+                    return "redirect:/admin/machines";
+                }
+            }
+            httpSession.setAttribute("status", "SOMETHING_WENT_WRONG");
+            e.printStackTrace();
         }
         return "redirect:/admin/machines";
     }
 
     // showing machine details with provided machine Id
     @GetMapping("/view/{machineId}")
-    public String getMachine(@PathVariable(required = false) Integer machineId, @RequestParam(required = false) String action, Model m) {
-        
-        if(machineId == null) {
+    public String getMachine(@PathVariable(required = false) Integer machineId,
+            @RequestParam(required = false) String action, Model m) {
+
+        if (machineId == null) {
             httpSession.setAttribute("status", "CANT_FIND_MACHINE");
             return "redirect:/admin/machines";
         }
 
         Optional<Machine> machine = this.machineRepo.findById(machineId);
-        if(!machine.isPresent()) {
+        if (!machine.isPresent()) {
             httpSession.setAttribute("status", "CANT_FIND_MACHINE");
             return "redirect:/admin/machines";
         }
 
         VPSService vpsService = new VPSServiceImpl(this.connector, machine.get());
-        getMachineInfo(vpsService);
+        getAndSetMachineDetails(vpsService, machine.get(), m, true, false);
 
-        if(action != null) {
+        if (action != null) {
 
-            switch(action) {
+            switch (action) {
 
                 case "restart":
-                vpsService.restartMachine();
-                httpSession.setAttribute("status", "VPS_RESTARTED_SUCCESSFULLY");
-                return "redirect:/admin/machine/view/"+machineId;
+                    vpsService.restartMachine();
+                    httpSession.setAttribute("status", "VPS_RESTARTED_SUCCESSFULLY");
+                    return "redirect:/admin/machine/view/" + machineId;
 
                 // first disconnect the vps connection
                 // then delete it from database.
 
                 case "delete":
-                this.connector.disconnect();
-                this.machineRepo.delete(machine.get());
-                httpSession.setAttribute("status", "MACHINE_DELETED_SUCCESSFULLY");
-                return "redirect:/admin/machines";
+                    this.connector.disconnect();
+                    this.machineRepo.delete(machine.get());
+                    httpSession.setAttribute("status", "MACHINE_DELETED_SUCCESSFULLY");
+                    return "redirect:/admin/machines";
             }
         }
-
-        // setting attribute for machine information
-        m.addAttribute("vps_totalRam", this.totalRam);
-        m.addAttribute("vps_totalStorage", this.totalStorage);
-        m.addAttribute("vps_hostname", this.hostname);
-        m.addAttribute("vps_cpuName", this.cpuProcessorName);
-        m.addAttribute("vps_uptime", this.uptime);
-        m.addAttribute("vps_location", this.location);
-        m.addAttribute("vps_totalCPUS", this.totalCPUs);
-
 
         m.addAttribute("machine", machine.get());
         m.addAttribute("title", machine.get().getName() + " | HyperSpaceGamePanel");
@@ -179,56 +145,83 @@ public class MachineController extends HelperController {
 
     // updating hostname of the machine
     @PostMapping("/updateHostname")
-    public String updateHostName(@RequestParam(required = false) Integer machineId, @RequestParam(required = false) String hostname) {
+    public String updateHostName(@RequestParam(required = false) Integer machineId,
+            @RequestParam(required = false) String hostname) {
         try {
 
-            if(machineId == null) {
+            if (machineId == null) {
                 httpSession.setAttribute("status", "CANT_FIND_MACHINE");
                 return "redirect:/admin/machines";
             }
-    
+
             Optional<Machine> machine = this.machineRepo.findById(machineId);
-            if(!machine.isPresent()) {
+            if (!machine.isPresent()) {
                 httpSession.setAttribute("status", "CANT_FIND_MACHINES");
                 return "redirect:/admin/machines";
             }
-    
-            if(hostname == null) {
+
+            if (hostname == null) {
                 httpSession.setAttribute("status", "HOST_NAME_IS_EMPTY");
-                return "redirect:/admin/machine/view/"+machineId;
+                return "redirect:/admin/machine/view/" + machineId;
             }
-    
-            if(hostname.matches(".*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
+
+            if (hostname.matches(".*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
                 httpSession.setAttribute("status", "HOSTNAME_CONTAINING_SPECIAL_CHAR");
-                return "redirect:/admin/machine/view/"+machineId;
+                return "redirect:/admin/machine/view/" + machineId;
             }
-    
+
             VPSService vpsService = new VPSServiceImpl(this.connector, machine.get());
             vpsService.updateHostname(hostname);
-    
+
             httpSession.setAttribute("status", "HOSTNAME_CHANGED_SUCCESSFULLY");
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             httpSession.setAttribute("status", "SOMETHING_WENT_WRONG");
         }
 
-        return "redirect:/admin/machine/view/"+machineId;
-
+        return "redirect:/admin/machine/view/" + machineId;
     }
 
+    public MachineDetails getAndSetMachineDetails(VPSService vpsService, Machine machine, Model m,
+            boolean setAttributes,
+            boolean setMachineDetails) {
 
-    public void getMachineInfo(VPSService vpsService) {
-             Map<String, String> machineInfo = vpsService.getMachineInfo();
-             this.totalRam = machineInfo.get("total_ram");
-             this.totalStorage = machineInfo.get("total_storage");
-             this.cpuProcessorName = machineInfo.get("cpu_name");
-             this.totalCPUs = machineInfo.get("total_cpus");
-             this.hostname = machineInfo.get("hostname");
-             this.uptime = machineInfo.get("uptime");
-             this.location = machineInfo.get("location");
+        Map<String, String> machineInfo = vpsService.getMachineInfo();
+
+        String totalRam = machineInfo.get("total_ram");
+        String totalStorage = machineInfo.get("total_storage");
+        String cpuProcessorName = machineInfo.get("cpu_name");
+        String hostname = machineInfo.get("hostname");
+        String location = machineInfo.get("location");
+        Integer totalCPUs = Integer.parseInt(machineInfo.get("total_cpus"));
+
+        MachineDetails machineDetails = new MachineDetails();
+
+        if (setMachineDetails) {
+
+            machineDetails.setHostname(hostname);
+            machineDetails.setCpuProcessor(cpuProcessorName);
+            machineDetails.setTotalCPUs(totalCPUs);
+            machineDetails.setTotalRam(totalRam);
+            machineDetails.setLocation(location);
+
+            machineDetails
+                    .setTotalStorage(totalStorage.substring(totalStorage.indexOf("/") + 1, totalStorage.indexOf("(")));
+
+            machineDetails.setMachine(machine);
+        }
+
+        // setting attribute for machine information
+        if (setAttributes) {
+            m.addAttribute("vps_totalRam", totalRam);
+            m.addAttribute("vps_totalStorage", totalStorage);
+            m.addAttribute("vps_hostname", hostname);
+            m.addAttribute("vps_cpuName", cpuProcessorName);
+            m.addAttribute("vps_location", location);
+            m.addAttribute("vps_totalCPUS", totalCPUs);
+        }
+        return machineDetails;
     }
-
-
 
 }

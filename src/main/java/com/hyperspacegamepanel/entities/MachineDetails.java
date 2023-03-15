@@ -25,7 +25,7 @@ public class MachineDetails {
     private String cpuProcessor;
     private String totalRam;
     private String hostname;
-    private String totalCPUs;
+    private Integer totalCPUs;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "machine_id")
