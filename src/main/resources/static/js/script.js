@@ -1,6 +1,13 @@
 $(document).ready(function () {
-	
 
+	// redirect to admin registration page (starting page)
+	const redirection = document.getElementById("redirection");
+	if(redirection.getAttribute("redirectTo") === "/addAdmin") {
+            if(window.location.pathname != "/addAdmin") {
+				window.location = "/addAdmin";
+			}
+	}
+	
 	$(function() {
 		$('.dropdown').hover(function() {
 		  $(this).addClass('show');
@@ -49,18 +56,10 @@ navLinks.forEach(link => {
     });
 
 
-	window.addEventListener("submit", function() {
-		showLoader();
-	});
-
-	// show modal for dependencies installer in vps
-	$(document).ready(function() {
-		var urlParams = new URLSearchParams(window.location.search);
-		if (urlParams.get('dependencyInstallRequired')) {
-		  $('#dependencyInstallerModal').modal().show();
-		}
+	window.addEventListener("submit", function(event) {
+		  showLoader(event.target);
 	  });
-
+	  
 	// call expiration date countdown immediately
 	expirationCountDown();
 
@@ -212,8 +211,10 @@ const serverInfoUpdate = () => {
 }
 
 const showLoader = () => {
-	document.getElementById("loader").style.display = "block";
-	document.getElementById("main").classList.add("overlay");
+		document.getElementById("loader").style.display = "block";
+	    document.getElementById("main").classList.add("overlay");
 }
+
+
 
 	

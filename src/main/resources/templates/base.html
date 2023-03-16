@@ -18,13 +18,10 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.modified.css">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"  crossorigin="anonymous" />
     <!--===========-->
 
     <!-- JavaScript Custom Plus FrameWork -->
     <script type="text/javascript" src="/js/script.js"></script>
-    <script type="text/javascript" src="/js/alerts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"  crossorigin="anonymous"></script>
     <!--=============-->
 
 
@@ -94,12 +91,12 @@
                 <ul th:if="${user?.role == null}" class="navbar-nav ml-auto text-center">
                   <li class="nav-item">
                     <a class="nav-link-icon" href="/login">
-                        <button  type="button" class="btn btn-primary w-100">Login <i class="fas fa-sign-in"></i></button>
+                        <button  type="button" class="btn btn-primary w-100 mb-2">Login <i class="fas fa-sign-in"></i></button>
                     </a>
 
                     <li class="nav-item">
                       <a class="nav-link-icon" href="/register">
-                        <button type="button" class="btn btn-outline-warning w-100">Register <i class="fas fa-user-plus"></i></button>
+                        <button type="button" class="btn btn-neutral w-100 mb-2">Register <i class="text-primary fas fa-user-plus"></i></button>
                       </a>
                 </ul>
 
@@ -130,11 +127,26 @@
 
     <!-- navbar end -->
 
-    <input type="hidden" id="status" th:value="${session.status}">
-	<th:block th:if="${session.status}"
-		th:text="${#session.removeAttribute('status')}"></th:block>
+    <input type="hidden" id="redirection" th:redirectTo="${session.redirection}">
+
+    <th:block th:if="${session.redirection != null}"
+  th:text="${#session.removeAttribute('redirection')}"></th:block>
+
+    <div class="container mt-2">
+      <div th:if="${session.status != null}" th:classappend="${session.status.alertClass}" class="alert alert-dismissible fade show" role="alert">
+        <span class="alert-type">[(${session.status.alertType})]</span>
+        [(${session.status.msg})]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    </div>
+
+  <th:block th:if="${session.status != null}"
+  th:text="${#session.removeAttribute('status')}"></th:block>
 
     <div th:replace="${content}"></div>
+
     </section>
 
 
