@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hyperspacegamepanel.dtos.UserDto;
 import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.helper.Alert;
 import com.hyperspacegamepanel.helper.Token;
 import com.hyperspacegamepanel.repositories.UserRepository;
 import com.hyperspacegamepanel.services.MailService;
@@ -47,7 +48,7 @@ import com.hyperspacegamepanel.services.UserService;
             }
 
             if(!this.tokenService.isTokenValid(tokenValue)) {
-              httpSession.setAttribute("status", "INVALID_TOKEN");
+              httpSession.setAttribute("status", new Alert("Ahh Sorry, it was an invalid request", Alert.ERROR, Alert.ERROR_CLASS));
                 return "redirect:/login?invalidRequest";
             }
 
@@ -62,7 +63,7 @@ import com.hyperspacegamepanel.services.UserService;
       @PostMapping("/forgotPassword")
       public String forgotPassword(@RequestParam String email, Model m, HttpSession httpSession, HttpServletRequest request) throws AddressException, MessagingException {
           if(!this.userRepo.existsByEmail(email)) {
-                  httpSession.setAttribute("status", "USER_DOESNT_EXIST_WITH_PROVIDED_EMAIL");
+                  httpSession.setAttribute("status", new Alert("Sorry, user not exist with provided email address, please try with valid email address.", Alert.ERROR, Alert.ERROR_CLASS));
                   return "redirect:/login?forgotPassword=WrongEmailAddress";
           }
 
@@ -72,11 +73,12 @@ import com.hyperspacegamepanel.services.UserService;
           // send mail
           try {
             this.mailService.sendResetPasswordMail(email, user);
+            httpSession.setAttribute("status", new Alert("We've sent you a mail with reset password link, please look in to your mailbox.", Alert.SUCCESS, Alert.SUCCESS_CLASS));
           } catch(Exception e) {
             e.printStackTrace();
+            httpSession.setAttribute("status", new Alert("Ahh Sorry, we cannot send the mail, something went wrong from our side", Alert.ERROR, Alert.ERROR_CLASS));
           }
-
-          return "login.html";
+          return "redirect:/login?";
       }
 
         @PostMapping("/resetPassword")
@@ -86,7 +88,7 @@ import com.hyperspacegamepanel.services.UserService;
           User user = (User) httpSession.getAttribute("user");
           
           if(password.isBlank() || confirmPassword.isBlank() || !password.equals(confirmPassword)) {
-            httpSession.setAttribute("status", "PASSWORD_CONFPW_NOT_MATCH");
+            httpSession.setAttribute("status", new Alert("Confirm password do not matches password, please try again", Alert.ERROR, Alert.ERROR_CLASS));
             return "redirect:/resetPassword?token="+token;
           }
 
@@ -95,7 +97,7 @@ import com.hyperspacegamepanel.services.UserService;
           userDto = userService.updateUser(userDto, user.getId());
           token.expire();
 
-            httpSession.setAttribute("status", "PASSWORD_UPDATED");
+            httpSession.setAttribute("status", new Alert("Password update successfully.", Alert.SUCCESS, Alert.SUCCESS_CLASS));
 
             return "redirect:/login";
         }

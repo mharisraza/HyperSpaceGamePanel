@@ -18,7 +18,7 @@
                             <i class="fa-solid fa-user custom-icons"></i>&nbsp;Login
                         </div>
                         <div class="card-body">
-                            <form action="/login" method="POST" class="row">
+                            <form id="loginForm" action="/login" method="POST" class="row">
     
                                 <!-- Email address field  -->
                                 <div class="col-md-12">
@@ -26,7 +26,7 @@
                                     <div class="form-group">
                                         <div class="input-group mb-4">
                                             <input id="emailAddress" name="username" class="form-control" placeholder="Username or Email Address"
-                                                type="text">
+                                                type="text" required>
                                         </div>
                                     </div>
                                 </div>
@@ -38,7 +38,7 @@
                                     <div class="form-group">
                                         <div class="input-group mb-4">
                                             <input id="password" name="password" class="form-control" placeholder="Password"
-                                                type="password">
+                                                type="password" required>
                                         </div>
                                     </div>
                                 </div>
@@ -67,7 +67,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-white font-weight-bold" id="exampleModalLabel">Forgot your Password?</h5>
-          <button style="" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -95,6 +95,7 @@
     </div>
   </div>
   <!-- Forgot Password Modal end -->
+
 </section>
 </body>
 </html>

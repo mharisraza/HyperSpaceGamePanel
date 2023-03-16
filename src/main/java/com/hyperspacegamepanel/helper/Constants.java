@@ -28,6 +28,13 @@ public class Constants {
         SCRIPTS_FILES.put("MACHINE_CONFIGURE_SCRIPT", "./scripts/configure_machine.sh");
     }
 
+    // path to remote scripts files
+    public static final Map<String, String> REMOTE_SCRIPTS_FILES = new HashMap<>();
+
+    static {
+        REMOTE_SCRIPTS_FILES.put("MACHINE_CONFIGURE_SCRIPT", "/scripts/configure_machine.sh");
+    }
+
     // specify the directory you want to make in VPS (where our scripts will be placed. default: scripts)
     // it is recommended to leave it default to avoid ambiguity
     

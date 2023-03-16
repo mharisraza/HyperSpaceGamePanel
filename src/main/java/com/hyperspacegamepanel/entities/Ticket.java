@@ -59,7 +59,7 @@ public class Ticket {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
     private List<TicketReply> replies = new ArrayList<>();
     
 }
