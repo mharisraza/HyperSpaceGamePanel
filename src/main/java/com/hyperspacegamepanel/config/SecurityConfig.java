@@ -17,6 +17,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -24,6 +26,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.helper.Alert;
 import com.hyperspacegamepanel.repositories.UserRepository;
 
 @Configuration
@@ -49,6 +52,16 @@ public class SecurityConfig {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(this.passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(this.userDetailsService());
+        daoAuthenticationProvider.setPostAuthenticationChecks(new UserDetailsChecker() {
+
+            @Override
+            public void check(UserDetails toCheck) {
+                if(!((CustomUserDetails) toCheck).isVerified()) {
+                    throw new DisabledException("USER_IS_NOT_VERIFIED");
+                }
+            }
+            
+        });
         return daoAuthenticationProvider;
     }
 
@@ -96,15 +109,21 @@ public class SecurityConfig {
             @Override
             public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                     AuthenticationException exception) throws IOException, ServletException {
-                        
+
+                        if(exception instanceof DisabledException && exception.getMessage().equals("USER_IS_NOT_VERIFIED")) {
+                            request.getSession().setAttribute("status", new Alert("Your account is not verified, please verify to login.", "Error", "alert-danger"));
+                            response.sendRedirect("/verifyAccount?");
+                            return;
+                        }
+                    
                         if(exception.getClass().isAssignableFrom(DisabledException.class)) {
-                            request.getSession().setAttribute("status", "user-disabled");
+                            request.getSession().setAttribute("status", new Alert("Your Account is suspended, please contact admin to unblock.", "Error", "alert-danger"));
                             response.sendRedirect("/login?=AccountSuspended");
                             return;
                         }
 
                         if(exception.getClass().isAssignableFrom(BadCredentialsException.class)) {
-                            request.getSession().setAttribute("status", "bad-credentials");
+                            request.getSession().setAttribute("status", new Alert("The username, email, or password you entered is incorrect.", "Error", "alert-danger"));
                             response.sendRedirect("/login?=BadCredentials");
                             return;
                         }
@@ -119,10 +138,10 @@ public class SecurityConfig {
             public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
                     Authentication authentication) throws IOException, ServletException {
                         if(authentication != null) {
-                            request.getSession().setAttribute("status", "logout-success");
-                            response.sendRedirect("/login?=logOut");
+                            request.getSession().setAttribute("status", new Alert("Logout successfully", "Success", "alert-success"));
+                            response.sendRedirect("/login?s=logout");
                         } else {
-                            response.sendRedirect("/login?=doLogin");
+                            response.sendRedirect("/login?e");
                         }
             }
             
@@ -134,4 +153,5 @@ public class SecurityConfig {
       
         return http.build();
     }
+
 }

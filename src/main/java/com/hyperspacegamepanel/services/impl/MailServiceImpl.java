@@ -21,6 +21,7 @@ import org.thymeleaf.context.Context;
 
 import com.hyperspacegamepanel.entities.User;
 import com.hyperspacegamepanel.helper.Constants;
+import com.hyperspacegamepanel.helper.Helper;
 import com.hyperspacegamepanel.services.MailService;
 import com.hyperspacegamepanel.services.TokenService;
 
@@ -74,7 +75,7 @@ public class MailServiceImpl implements MailService {
 
         Context context = new Context();
         context.setVariable("userName", user.getFullName());
-        context.setVariable("accountActivationLink", this.getBaseURL(request) + "/accountConfirmation?token=" + generatedToken);
+        context.setVariable("accountActivationLink", Helper.getBaseURL(request) + "/accountVerify?token=" + generatedToken);
 
         String message = templateEngine.process("mails/account-confirmation.html", context);
         this.sendMail(to, "Account Activation Confirmation", message);
@@ -86,25 +87,10 @@ public class MailServiceImpl implements MailService {
 
         Context context = new Context();
         context.setVariable("userName", user.getFullName());
-        context.setVariable("resetPasswordLink", this.getBaseURL(request) + "/resetPassword?token=" + generatedToken);
+        context.setVariable("resetPasswordLink", Helper.getBaseURL(request) + "/resetPassword?token=" + generatedToken);
 
         String message = templateEngine.process("mails/reset-password-request.html", context);
         this.sendMail(to, "Password Reset Request", message);
-    }
-
-    private String getBaseURL(HttpServletRequest request) {
-        String scheme = request.getScheme();
-        String serverName = request.getServerName();
-        int serverPort = request.getServerPort();
-        String contextPath = request.getContextPath();
-        StringBuilder sb = new StringBuilder();
-        sb.append(scheme).append("://").append(serverName);
-        if (serverPort != 80 || serverPort != 443) {
-            sb.append(":").append(serverPort);
-        }
-        sb.append(contextPath);
-        return sb.toString();
-    }
-    
+    }    
     
 }

@@ -4,7 +4,8 @@ import java.net.InetAddress;
 import java.util.Map;
 import java.util.Random;
 
-import com.hyperspacegamepanel.helper.Constants;
+import javax.servlet.http.HttpServletRequest;
+
 
 public class Helper {
 
@@ -54,5 +55,19 @@ public class Helper {
      public static Map<String, String> getSupportedGamesIcons() {
         return Constants.SUPPORT_GAMES_ICONS;
      }
+
+     public static String getBaseURL(HttpServletRequest request) {
+        String scheme = request.getScheme();
+        String serverName = request.getServerName();
+        int serverPort = request.getServerPort();
+        String contextPath = request.getContextPath();
+        StringBuilder sb = new StringBuilder();
+        sb.append(scheme).append("://").append(serverName);
+        if (serverPort != 80 || serverPort != 443) {
+            sb.append(":").append(serverPort);
+        }
+        sb.append(contextPath);
+        return sb.toString();
+    }
     
 }

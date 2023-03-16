@@ -38,4 +38,6 @@ public class UserDto {
     
     private boolean isEnabled = true;
 
+    private boolean isVerified = false;
+
 }

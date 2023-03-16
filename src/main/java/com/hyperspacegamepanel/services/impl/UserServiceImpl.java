@@ -32,6 +32,11 @@ public class UserServiceImpl implements UserService {
         User user = this.mapper.map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRegisteredDate(new Date());
+        
+        if(user.getRole().equals("ROLE_ADMIN")) {
+            user.setVerified(true);
+        }
+        
         User createdUser = this.userRepo.save(user);
         return this.mapper.map(createdUser, UserDto.class);
     }

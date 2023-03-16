@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section class="mt-5">
+        <div class="container">
+            <div class="jumbotron">
+                <div class="text-start">
+                    <h1 style="font-size: 25px !important;" class="font-weight-bold text-white">Verify Your Account ✅</h1>
+                    <hr style="margin-top: 0px !important;">
+                    <div class="row">
+
+                        <div class="col-md-6 text-center mb-5">
+                            <p>Verify your account and access game-panel and its features without any hesitation.</p>
+                            <form action="/verifyAccount" method="get">
+                                <input type="email" name="email" placeholder="Enter your registered email address"class="form-control" required>
+                                <button type="submit" class="btn btn-primary mt-3">Send Verification Link <i class="fas fa-sign-in"></i></button>
+                            </form>
+                        </div>
+
+                        <div class="col-md-6 text-center">
+                            <h1 style="font-size: 25px !important;" class="text-white font-weight-bold">Why do we required verification?</h1>
+                            <hr style="width: 50%;" class="m-0 mx-auto">
+                            <p>We take user security and privacy very seriously. To ensure that our users have the best possible experience when using our platform, we require verification for all new registrations. This helps us to prevent spam registrations and bot attacks, which can be harmful to both our users and our platform.</p>
+                        </div>
+
+                    </div>
+                   
+
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

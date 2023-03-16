@@ -28,13 +28,6 @@ public class MainController extends HelperController {
         return "index.html";
     }
 
-    @GetMapping("/register")
-    public String registerPage(Model m) {
-       m.addAttribute("title", "Register | HyperSpaceGamePanel");
-       m.addAttribute("user", new UserDto());
-       return "register.html";
-    }
-
     @GetMapping("/login")
     public String loginPage(Model m, HttpSession httpSession) {
         
@@ -70,7 +63,5 @@ public class MainController extends HelperController {
         m.addAttribute("title", "Add Admin | HyperSpaceGamePanel");
         m.addAttribute("user", new UserDto());
        return "add_admin.html";
-    }
-
-    
+    }    
 }
