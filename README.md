@@ -46,7 +46,7 @@ HyperSpace Game Panel also includes an authentication system that allows multipl
 
 This project is built with a powerful combination of these tech stacks.
 
-[![Java](https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white)](https://www.java.com/)
+[![Java](https://img.shields.io/badge/java-17-007396?style=for-the-badge&logo=java&logoColor=white)](https://www.java.com/)
 <br>
 [![Spring Boot](https://img.shields.io/badge/spring_boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
 <br>
@@ -71,65 +71,7 @@ This project is built with a powerful combination of these tech stacks.
 <!-- GETTING STARTED -->
 ## 🌟 Getting Started 🌟
 
-To run this project locally or on production, please follow the instructions below:
-
-### Prerequisites
-Make sure you have the following installed on your machine.
-
-* `Java Development Kit (JDK) version 11 or higher`
-* `MySQL Server 8.0`
-
-
-### Installation
-
-
-1. Clone the repository to your local machine using the command below:
-   ```sh
-   git clone https://github.com/mharisraza/HyperSpaceGamePanel.git
-   ```
-2. Navigate to the `src/main/resources` and open the `application.properites` file and
-   update the following details.
-   ```sh
-   spring.datasource.url = jdbc:mysq://<host>:<port>/<db_name>
-   spring.datasource.username = <username>
-   spring.datasource.password = <password>
-   ```
- 3. Make sure you have configured `Constants.java` See [Configuration](#configuration) method to configure the settings..
-  
- 3. Now run the project, make sure you have installed all the dependencies using Maven.
-
- If succeeded, go to `http://localhost:8080` and you'll redirect to `installation` page where you can `register` yourself as an `admin`.
- <hr>
- 
-## Configuration:
-<strong>HyperSpaceGamePanel</strong> requires some configuration to run application properly without any errors that include email configuration.
-You just need to change the details to your needs and that's it!
-
- Navigate to `/src/main/java/com/hyperspacegamepanel/helper` and open `Constants.java` file and update the following details:
- <br>
-   ```java
-   // mail sender setting
-    public static final String EMAIL_FROM = "<your_email>"; // the mail you want to send from
-    public static final String EMAIL_APP_PASSWORD = "<your_email_app_password>"; // app password (You can get it from the Google's Account Setting)
-    
-    // tickets setting
-    public static final int TICKET_MESSAGE_SIZE = <NUMBER_OF_MESSAGE_SIZE>; // change to your needs.
-    public static final String TICKET_MAXIMUM_MESSAGE_ERROR = "<MAXIMUM_MESSAGE_ERROR>" // default: Maximum <NUMBER_OF_MESSAGE_SIZE> characters are       allowed;
-    
-    // Secret key for password encoder 
-    public static final String PASSWORD_ENCODER_SECRET_KEY = "<SECRET_KEY>";
- 
-    // if you wish to change the scripts files keys or folder location, you'll need to update here, by default //they are in the correct place.
-    public static final Map<String, String> SCRIPTS_FILES = new HashMap<>();
-
-    // key will be script file name or whatever we want to be, value will be the location of the local scripts file
-    static {
-        SCRIPTS_FILES.put("VPS_INFO_SCRIPT", "./scripts/getvpsinfo.sh");
-        // add as much as scripts you want.
-    }
-   ```
-   
-
+README is WIP. check back soon :) 
 
 <!-- CONTRIBUTING -->
 ## Contributing
