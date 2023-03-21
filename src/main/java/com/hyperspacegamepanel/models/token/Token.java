@@ -15,10 +15,12 @@ import javax.persistence.Table;
 import com.hyperspacegamepanel.models.user.User;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tokens")
 @Data
+@NoArgsConstructor
 public class Token {
 
 
@@ -34,8 +36,8 @@ public class Token {
     @Column(name = "issued_at", nullable = false)
     private Instant issuedAt = Instant.now();
 
-    private static final long EXPIRATON_TIME = 30 * 60 * 1000;
-    private Instant expirationTime = Instant.now().plusMillis(EXPIRATON_TIME);
+    public static final long TOKEN_EXPIRATON_TIME = 30 * 60 * 1000;
+    private Instant expirationTime = Instant.now().plusMillis(TOKEN_EXPIRATON_TIME);
 
     private boolean isExpired = false;
 
@@ -44,7 +46,7 @@ public class Token {
     }
 
     public void expire() {
-        isExpired = true;
+        setExpired(true);
     }
 
     public Token(String tokenValue, User user) {

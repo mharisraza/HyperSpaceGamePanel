@@ -4,8 +4,10 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.time.Instant;
 import java.util.Base64;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
@@ -14,6 +16,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.hyperspacegamepanel.exceptions.ResourceNotFound;
 import com.hyperspacegamepanel.models.token.Token;
 import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.TokenRepository;
@@ -55,6 +58,30 @@ public class TokenServiceImpl implements TokenService  {
             throw new RuntimeException("TOKEN_IS_EXPIRED");
         }
         return CompletableFuture.completedFuture(token.getUser());
+    }
+
+    @Override
+    @Async
+    @Scheduled(fixedDelay = 60000) // run on start and every minute, invoked by spring IOC.
+    public CompletableFuture<Void> removeExpiredTokens() {
+       List<Token> expiredTokens = this.tokenRepo.findAll();
+       if(expiredTokens == null) {
+        return CompletableFuture.completedFuture(null);
+       }
+       expiredTokens.forEach((token)-> {
+        if(token.isExpired()) {
+            this.tokenRepo.delete(token);
+        }
+       });
+       return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    public CompletableFuture<Void> forceExpireToken(String tokenValue) {
+        Token token = this.tokenRepo.findByTokenValue(tokenValue).orElseThrow(()-> new ResourceNotFound("Token", "tokenValue"+tokenValue));
+        token.setExpired(true);
+        this.tokenRepo.save(token);
+        return CompletableFuture.completedFuture(null);
     }
 
     

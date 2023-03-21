@@ -10,4 +10,7 @@ public interface TokenService {
     CompletableFuture<String> generateToken(User user);
     CompletableFuture<User> validateToken(String tokenValue);
 
+    CompletableFuture<Void> forceExpireToken(String tokenValue);
+    CompletableFuture<Void> removeExpiredTokens();
+
 }
