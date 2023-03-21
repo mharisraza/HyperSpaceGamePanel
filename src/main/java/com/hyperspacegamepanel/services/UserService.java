@@ -21,5 +21,8 @@ public interface UserService {
 
     // mails: mails to send to user.
     CompletableFuture<Void> sendVerificationMail(String userEmail);
+
+
+    CompletableFuture<Void> removeNonVerifiedUsers();
     
 }

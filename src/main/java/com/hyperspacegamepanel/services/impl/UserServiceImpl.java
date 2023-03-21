@@ -1,11 +1,15 @@
 package com.hyperspacegamepanel.services.impl;
 
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +33,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private MailService mailService;
 
-
     @Autowired
     private TokenService tokenService;
+
 
     @Override
     @Async
@@ -100,7 +104,12 @@ public class UserServiceImpl implements UserService {
             User user = this.tokenService.validateToken(tokenValue).get();
             user.setVerified(true);
             this.userRepo.save(user);
+
+            // now forcefully expire the token.
+            this.tokenService.forceExpireToken(tokenValue);
+
         } catch (Exception e) {
+            e.printStackTrace();    
               if(e.getMessage() == "TOKEN_IS_EXPIRED" || e.getMessage() == "TOKEN_IS_INVALID_OR_DOESNT_EXIST") {
                 throw new RuntimeException("TOKEN_IS_EXPIRED_OR_INVALID");
               }
@@ -141,6 +150,29 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("CANNOT_SEND_THE_MAIL");
         }
         return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    @Async
+    @Scheduled(fixedDelay = 60000) // once every minute.
+    public CompletableFuture<Void> removeNonVerifiedUsers() {
+        List<User> users = this.userRepo.findAll();
+
+        if(users == null) {
+            return CompletableFuture.completedFuture(null);
+        }
+
+        // gets calendar instance and minus 24 hours which means that we are checking if user is created 24 hours ago or not.
+        // if user created 24 hours ago and didn't verify in that time we should remove that user now to avoid unnecessary space.
+        Calendar cutOff = Calendar.getInstance();
+        cutOff.add(Calendar.HOUR_OF_DAY, -24);
+
+        users.forEach((user) -> {
+            if(!user.isVerified() || user.getRegisteredDate().before(cutOff.getTime())) {
+                this.userRepo.delete(user);
+            }
+        });
+         return CompletableFuture.completedFuture(null);
     }
 
 }
