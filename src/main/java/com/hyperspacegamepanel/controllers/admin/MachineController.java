@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hyperspacegamepanel.controllers.main.HelperController;
-import com.hyperspacegamepanel.entities.Machine;
-import com.hyperspacegamepanel.entities.MachineDetails;
 import com.hyperspacegamepanel.helper.VPSConnector;
+import com.hyperspacegamepanel.models.machine.Machine;
+import com.hyperspacegamepanel.models.machine.MachineDetails;
 import com.hyperspacegamepanel.repositories.MachineRepository;
 import com.hyperspacegamepanel.repositories.MachineDetailsRepository;
 import com.hyperspacegamepanel.services.MachineService;

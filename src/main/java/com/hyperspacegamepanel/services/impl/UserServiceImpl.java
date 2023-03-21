@@ -1,24 +1,24 @@
 package com.hyperspacegamepanel.services.impl;
 
-import java.util.Date;
-import java.util.List;
 
-import org.modelmapper.ModelMapper;
+import java.util.concurrent.CompletableFuture;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.hyperspacegamepanel.dtos.UserDto;
-import com.hyperspacegamepanel.entities.User;
 import com.hyperspacegamepanel.exceptions.ResourceNotFound;
+import com.hyperspacegamepanel.models.user.UpdateUserForm;
+import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.UserRepository;
+import com.hyperspacegamepanel.services.MailService;
+import com.hyperspacegamepanel.services.TokenService;
 import com.hyperspacegamepanel.services.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
-
-    @Autowired
-    private ModelMapper mapper;
 
     @Autowired
     private UserRepository userRepo;
@@ -26,51 +26,121 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private MailService mailService;
+
+
+    @Autowired
+    private TokenService tokenService;
+
     @Override
-    public UserDto createUser(UserDto userDto) {
-        
-        User user = this.mapper.map(userDto, User.class);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRegisteredDate(new Date());
-        
-        if(user.getRole().equals("ROLE_ADMIN")) {
-            user.setVerified(true);
+    @Async
+    public CompletableFuture<User> createUser(User user) {
+        if (isUserExists(user)) {
+            throw new RuntimeException("USER_ALREADY_EXISTS");
         }
-        
-        User createdUser = this.userRepo.save(user);
-        return this.mapper.map(createdUser, UserDto.class);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(true);
+        user.setVerified(false);
+        user.setRole(User.ROLE_USER);
+
+        this.userRepo.save(user);
+        try {
+            this.mailService.sendAccountConfirmationMail(user.getEmail(), user);
+        } catch (Exception e) {
+            throw new RuntimeException("UNABLE_TO_SEND_CONFIRMATION_MAIL");
+        }
+        return CompletableFuture.completedFuture(user);
     }
 
     @Override
-    public UserDto updateUser(UserDto userDto, Integer userId) {
-        User user = this.userRepo.findById(userId).orElseThrow(()-> new ResourceNotFound("User", "Id:"+userId));
-        user.setFullName(userDto.getFullName());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        User updatedUser = this.userRepo.save(user);
-        return this.mapper.map(updatedUser, UserDto.class);
+    @Async
+    public CompletableFuture<User> updateUser(UpdateUserForm updateUser, Integer userId) {
+        User existingUser = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFound("User", "ID" + userId));
+        if (updateUser.getFullName() != null) existingUser.setFullName(updateUser.getFullName());
+        if (updateUser.getUsername() != null) existingUser.setUsername(updateUser.getUsername());
+        if (updateUser.getPassword() != null) existingUser.setPassword(passwordEncoder.encode(updateUser.getPassword()));
+        return CompletableFuture.completedFuture(existingUser);
     }
 
     @Override
-    public void deleteUser(Integer userId) {        
+    @Async
+    public CompletableFuture<Void> deleteUser(Integer userId) {
+        User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFound("User", "ID:" + userId));
+        this.userRepo.delete(user);
+        return CompletableFuture.completedFuture(null);
     }
 
     @Override
-    public UserDto getUser(Integer userId) {
-        return null;
+    @Async
+    public CompletableFuture<User> getUser(Integer userId) {
+        return CompletableFuture.completedFuture(this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFound("User", "ID" + userId)));
     }
 
     @Override
-    public User suspendUser(User user) {
+    @Async
+    public CompletableFuture<Void> banUser(User user) {
         user.setEnabled(false);
         this.userRepo.save(user);
-        return user;
+        return CompletableFuture.completedFuture(null);
     }
 
     @Override
-    public User unbanUser(User user) {
+    @Async
+    public CompletableFuture<Void> unbanUser(User user) {
         user.setEnabled(true);
         this.userRepo.save(user);
-        return user;
+        return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<Void> verifyUserAccount(String tokenValue) {
+        try {
+            User user = this.tokenService.validateToken(tokenValue).get();
+            user.setVerified(true);
+            this.userRepo.save(user);
+        } catch (Exception e) {
+              if(e.getMessage() == "TOKEN_IS_EXPIRED" || e.getMessage() == "TOKEN_IS_INVALID_OR_DOESNT_EXIST") {
+                throw new RuntimeException("TOKEN_IS_EXPIRED_OR_INVALID");
+              }
+        }
+        return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<User> createAdminUser(User user) {
+        user.setRole(User.ROLE_ADMIN);
+        user.setVerified(true);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        this.userRepo.save(user);
+        return CompletableFuture.completedFuture(user);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<Boolean> isAdminsExists() {
+        return CompletableFuture.completedFuture(!this.userRepo.findAll().isEmpty());
+    }
+
+    private boolean isUserExists(User user) {
+        return this.userRepo.existsByUsernameOrEmail(user.getUsername(), user.getEmail());
+    }
+
+    @Override
+    public CompletableFuture<Void> sendVerificationMail(String userEmail) {
+        User user = this.userRepo.findByEmail(userEmail).orElseThrow(()-> new ResourceNotFound("User", "Email"+userEmail));
+        if(user.isVerified()) {
+            throw new RuntimeException("USER_ALREADY_VERIFIED");
+        }
+        try {
+            this.mailService.sendAccountConfirmationMail(userEmail, user);
+        } catch (Exception e) {
+            throw new RuntimeException("CANNOT_SEND_THE_MAIL");
+        }
+        return CompletableFuture.completedFuture(null);
     }
 
 }

@@ -4,10 +4,10 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hyperspacegamepanel.entities.Machine;
-import com.hyperspacegamepanel.entities.Server;
-import com.hyperspacegamepanel.entities.User;
 import com.hyperspacegamepanel.helper.VPSConnector;
+import com.hyperspacegamepanel.models.machine.Machine;
+import com.hyperspacegamepanel.models.server.Server;
+import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.ServerRepository;
 import com.hyperspacegamepanel.services.ServerService;
 import com.hyperspacegamepanel.services.VPSService;

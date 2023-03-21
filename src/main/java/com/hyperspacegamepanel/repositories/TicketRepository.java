@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.hyperspacegamepanel.entities.Ticket;
+import com.hyperspacegamepanel.models.ticket.Ticket;
 
 
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {

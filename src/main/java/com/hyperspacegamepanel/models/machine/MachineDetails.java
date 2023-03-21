@@ -1,4 +1,4 @@
-package com.hyperspacegamepanel.entities;
+package com.hyperspacegamepanel.models.machine;
 
 import javax.annotation.Generated;
 import javax.persistence.CascadeType;

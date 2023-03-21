@@ -1,16 +1,13 @@
 package com.hyperspacegamepanel.services;
 
-import com.hyperspacegamepanel.entities.User;
-import com.hyperspacegamepanel.helper.Token;
+import java.util.concurrent.CompletableFuture;
+
+import com.hyperspacegamepanel.models.user.User;
 
 
 public interface TokenService {
     
-    String generateToken(User user);
-    boolean isTokenValid(String tokenValue);
-    User getUserByToken(String tokenValue);
-    Token getToken(String tokenValue);
-
-    void removeExpiredTokens(); 
+    CompletableFuture<String> generateToken(User user);
+    CompletableFuture<User> validateToken(String tokenValue);
 
 }

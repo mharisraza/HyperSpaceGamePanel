@@ -3,12 +3,12 @@ package com.hyperspacegamepanel.services.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.hyperspacegamepanel.entities.Machine;
-import com.hyperspacegamepanel.entities.Server;
-import com.hyperspacegamepanel.entities.User;
 import com.hyperspacegamepanel.helper.Constants;
 import com.hyperspacegamepanel.helper.PasswordEncoder;
 import com.hyperspacegamepanel.helper.VPSConnector;
+import com.hyperspacegamepanel.models.machine.Machine;
+import com.hyperspacegamepanel.models.server.Server;
+import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.services.VPSService;
 
 public class VPSServiceImpl implements VPSService {

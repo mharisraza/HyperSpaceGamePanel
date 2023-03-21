@@ -1,8 +1,8 @@
 package com.hyperspacegamepanel.services;
 
-import com.hyperspacegamepanel.entities.Machine;
-import com.hyperspacegamepanel.entities.Server;
-import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.models.machine.Machine;
+import com.hyperspacegamepanel.models.server.Server;
+import com.hyperspacegamepanel.models.user.User;
 
 public interface ServerService {
 

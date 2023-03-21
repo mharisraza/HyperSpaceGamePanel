@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import org.springframework.stereotype.Service;
 
-import com.hyperspacegamepanel.entities.Machine;
+import com.hyperspacegamepanel.models.machine.Machine;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.ChannelSftp;

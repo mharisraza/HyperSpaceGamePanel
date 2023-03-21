@@ -44,8 +44,8 @@
     <section class="mb-5" id="main">
 
       <!-- navbar -->
-    <div class="container">
       <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
         <a class="navbar-brand"><img width="200" src="/images/logo.png"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -91,12 +91,12 @@
                 <ul th:if="${user?.role == null}" class="navbar-nav ml-auto text-center">
                   <li class="nav-item">
                     <a class="nav-link-icon" href="/login">
-                        <button  type="button" class="btn btn-primary w-100 mb-2">Login <i class="fas fa-sign-in"></i></button>
+                        <button  type="button" class="btn btn-primary w-100 mb-2 p-2">Login <i class="fas fa-sign-in"></i></button>
                     </a>
 
                     <li class="nav-item">
                       <a class="nav-link-icon" href="/register">
-                        <button type="button" class="btn btn-neutral w-100 mb-2">Register <i class="text-primary fas fa-user-plus"></i></button>
+                        <button type="button" class="btn btn-neutral w-100 mb-2 p-2">Register <i class="text-primary fas fa-user-plus"></i></button>
                       </a>
                 </ul>
 
@@ -132,7 +132,7 @@
     <th:block th:if="${session.redirection != null}"
   th:text="${#session.removeAttribute('redirection')}"></th:block>
 
-    <div class="container mt-2">
+    <div class="container mt-3">
       <div th:if="${session.status != null}" th:classappend="${session.status.alertClass}" class="alert alert-dismissible fade show" role="alert">
         <span class="alert-type">[(${session.status.alertType})]</span>
         [(${session.status.msg})]

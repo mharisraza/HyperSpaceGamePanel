@@ -1,6 +1,6 @@
 package com.hyperspacegamepanel.services;
 
-import com.hyperspacegamepanel.entities.Ticket;
+import com.hyperspacegamepanel.models.ticket.Ticket;
 
 public interface TicketService {
 

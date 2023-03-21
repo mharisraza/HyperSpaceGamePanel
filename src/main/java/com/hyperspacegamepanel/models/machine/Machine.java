@@ -1,4 +1,4 @@
-package com.hyperspacegamepanel.entities;
+package com.hyperspacegamepanel.models.machine;
 
 import java.util.List;
 
@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import com.hyperspacegamepanel.models.server.Server;
 
 import lombok.Data;
 

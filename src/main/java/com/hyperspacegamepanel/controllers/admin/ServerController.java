@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hyperspacegamepanel.controllers.main.HelperController;
 import com.hyperspacegamepanel.controllers.restcontrollers.RestAPIController;
-import com.hyperspacegamepanel.entities.Machine;
-import com.hyperspacegamepanel.entities.Server;
-import com.hyperspacegamepanel.entities.User;
 import com.hyperspacegamepanel.helper.Helper;
+import com.hyperspacegamepanel.models.machine.Machine;
+import com.hyperspacegamepanel.models.server.Server;
+import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.MachineRepository;
 import com.hyperspacegamepanel.repositories.ServerRepository;
 import com.hyperspacegamepanel.repositories.UserRepository;

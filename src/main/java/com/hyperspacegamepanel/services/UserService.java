@@ -1,22 +1,25 @@
 package com.hyperspacegamepanel.services;
 
-import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-import com.hyperspacegamepanel.dtos.UserDto;
-import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.models.user.UpdateUserForm;
+import com.hyperspacegamepanel.models.user.User;
 
 public interface UserService {
 
-    UserDto createUser(UserDto userDto);
+    CompletableFuture<User> createUser(User user);
+    CompletableFuture<User> updateUser(UpdateUserForm updateUser, Integer userId);
+    CompletableFuture<Void> deleteUser(Integer userId);
+    CompletableFuture<User> getUser(Integer userId);
+    CompletableFuture<Void> banUser(User user);
+    CompletableFuture<Void> unbanUser(User user);
 
-    UserDto updateUser(UserDto userDto, Integer userId);
+    CompletableFuture<Void> verifyUserAccount(String tokenValue);
 
-    void deleteUser(Integer userId);
+    CompletableFuture<User> createAdminUser(User user);
+    CompletableFuture<Boolean> isAdminsExists();
 
-    UserDto getUser(Integer userId);
-
-    User suspendUser(User user);
-
-    User unbanUser(User user);
+    // mails: mails to send to user.
+    CompletableFuture<Void> sendVerificationMail(String userEmail);
     
 }

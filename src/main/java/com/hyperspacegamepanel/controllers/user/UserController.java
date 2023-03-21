@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.UserRepository;
 
 @Controller

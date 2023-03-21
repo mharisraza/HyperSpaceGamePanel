@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.models.user.User;
 
 public class CustomUserDetails implements UserDetails {
 

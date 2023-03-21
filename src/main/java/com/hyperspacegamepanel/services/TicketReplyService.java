@@ -1,6 +1,6 @@
 package com.hyperspacegamepanel.services;
 
-import com.hyperspacegamepanel.entities.TicketReply;
+import com.hyperspacegamepanel.models.ticket.TicketReply;
 
 public interface TicketReplyService {
     

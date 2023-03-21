@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.UserRepository;
 
 @Service

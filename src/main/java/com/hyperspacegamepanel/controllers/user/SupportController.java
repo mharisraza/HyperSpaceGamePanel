@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hyperspacegamepanel.entities.Ticket;
-import com.hyperspacegamepanel.entities.TicketReply;
-import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.models.ticket.Ticket;
+import com.hyperspacegamepanel.models.ticket.TicketReply;
+import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.TicketReplyRepository;
 import com.hyperspacegamepanel.repositories.TicketRepository;
 import com.hyperspacegamepanel.repositories.UserRepository;
@@ -112,7 +112,7 @@ public class SupportController extends UserController {
 
          Optional<TicketReply> ticketReply = this.ticketReplyRepo.findById(messageId);
 
-         if(!ticketReply.isPresent() || ticketReply.get().getSender().getId() != user.getId()  || ticketReply.get().getSender().getRole() == "ROLE_ADMIN") {
+         if(!ticketReply.isPresent() || ticketReply.get().getSender().getId() != user.getId()  || ticketReply.get().getSender().getRole() == User.ROLE_ADMIN) {
             httpSession.setAttribute("status", "TICKET_REPLY_DOES_NOT_EXIST_OR_NOT_ALLOW_TO_DELETE");
             return "redirect:/me/support?ticketId=" + ticketId;
          }

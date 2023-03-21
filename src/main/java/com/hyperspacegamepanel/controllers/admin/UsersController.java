@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hyperspacegamepanel.controllers.main.HelperController;
-import com.hyperspacegamepanel.dtos.UserDto;
-import com.hyperspacegamepanel.entities.User;
 import com.hyperspacegamepanel.helper.Helper;
+import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.UserRepository;
 import com.hyperspacegamepanel.services.MailService;
 import com.hyperspacegamepanel.services.UserService;
@@ -90,19 +89,10 @@ public class UsersController extends HelperController {
             String randomGeneratedPassword = Helper.randomPasswordGenerator();
             String message = String.format("<h1 style='font-size: 18px;'>Dear, %s!</h1> <br>Your account at <strong>HyperSpaceGamePanel</strong> created successfully with the role of <strong>%s</strong> <br> Please use the following credentials to access your account: <br> Email Address:  <strong>%s</strong> <br>Password: <strong>%s</strong> (this password is purely random generated) <br>Navigate to Account Settings to change the credentials to your needs. <br>Thank you.", fullName, role, email, randomGeneratedPassword);
 
-            UserDto userDto = new UserDto();
-            userDto.setFullName(fullName);
-            userDto.setEmail(email);
-            userDto.setUsername(username);
-            userDto.setEnabled(true);
-            userDto.setPassword(randomGeneratedPassword);
-            userDto.setRole(role);
 
             try {
                 mailService.sendMail(email, "Account Created Successfully", message);
-                UserDto user = userService.createUser(userDto);
                 httpSession.setAttribute("status", "USER_CREATED_SUCCESSFULLY");
-                return "redirect:/admin/user/view/"+user.getId();
             } catch (Exception e) {
                 httpSession.setAttribute("status", "SOMETHING_WENT_WRONG");
             }

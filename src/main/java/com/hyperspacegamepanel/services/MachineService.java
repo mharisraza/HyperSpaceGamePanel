@@ -1,6 +1,6 @@
 package com.hyperspacegamepanel.services;
 
-import com.hyperspacegamepanel.entities.Machine;
+import com.hyperspacegamepanel.models.machine.Machine;
 
 public interface MachineService {
 

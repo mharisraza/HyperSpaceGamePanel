@@ -2,8 +2,8 @@ package com.hyperspacegamepanel.services;
 
 import java.util.Map;
 
-import com.hyperspacegamepanel.entities.Server;
-import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.models.server.Server;
+import com.hyperspacegamepanel.models.user.User;
 
 public interface VPSService {
     

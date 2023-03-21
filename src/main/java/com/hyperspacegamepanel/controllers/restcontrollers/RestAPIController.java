@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.koraktor.steamcondenser.steam.servers.GoldSrcServer;
-import com.hyperspacegamepanel.entities.Machine;
-import com.hyperspacegamepanel.entities.Server;
 import com.hyperspacegamepanel.helper.ServerInfo;
 import com.hyperspacegamepanel.helper.VPSConnector;
+import com.hyperspacegamepanel.models.machine.Machine;
+import com.hyperspacegamepanel.models.server.Server;
 import com.hyperspacegamepanel.repositories.MachineRepository;
 import com.hyperspacegamepanel.repositories.ServerRepository;
 import com.hyperspacegamepanel.services.VPSService;

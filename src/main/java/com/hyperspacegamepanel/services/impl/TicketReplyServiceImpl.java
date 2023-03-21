@@ -3,7 +3,7 @@ package com.hyperspacegamepanel.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hyperspacegamepanel.entities.TicketReply;
+import com.hyperspacegamepanel.models.ticket.TicketReply;
 import com.hyperspacegamepanel.repositories.TicketReplyRepository;
 import com.hyperspacegamepanel.services.TicketReplyService;
 

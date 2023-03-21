@@ -48,7 +48,7 @@ public class AdminController extends HelperController {
         }
         switch (action) {
             case "ban":
-                this.userService.suspendUser(this.userRepo.findById(userId).get());
+                this.userService.banUser(this.userRepo.findById(userId).get());
                 httpSession.setAttribute("status", "USER_BANNED_SUCCESSFULLY");
                 return "redirect:/admin/user/view/" + userId;
 

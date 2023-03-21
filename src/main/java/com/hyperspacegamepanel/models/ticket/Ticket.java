@@ -1,4 +1,4 @@
-package com.hyperspacegamepanel.entities;
+package com.hyperspacegamepanel.models.ticket;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.hyperspacegamepanel.helper.Constants;
+import com.hyperspacegamepanel.models.user.User;
 
 import lombok.Getter;
 import lombok.Setter;

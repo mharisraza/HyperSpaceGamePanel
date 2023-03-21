@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hyperspacegamepanel.controllers.main.HelperController;
-import com.hyperspacegamepanel.entities.Ticket;
-import com.hyperspacegamepanel.entities.TicketReply;
-import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.models.ticket.Ticket;
+import com.hyperspacegamepanel.models.ticket.TicketReply;
+import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.TicketReplyRepository;
 import com.hyperspacegamepanel.repositories.TicketRepository;
 import com.hyperspacegamepanel.services.TicketReplyService;

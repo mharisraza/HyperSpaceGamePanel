@@ -12,8 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.hyperspacegamepanel.dtos.UserDto;
-import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.UserRepository;
 
 @Controller
@@ -36,11 +35,11 @@ public class MainController extends HelperController {
         if(!(auth instanceof AnonymousAuthenticationToken)) {
             User user = this.userRepo.getByEmail(auth.getName());
     
-            if(user.getRole().equalsIgnoreCase("ROLE_NORMAL")) {
+            if(user.getRole() == User.ROLE_USER) {
                 return "redirect:/me/dashboard";
             }
 
-            if(user.getRole().equalsIgnoreCase("ROLE_ADMIN")) {
+            if(user.getRole() == User.ROLE_ADMIN) {
                 return "redirect:/admin/dashboard";
             }
         }
@@ -49,19 +48,10 @@ public class MainController extends HelperController {
         return "login.html";
     }
 
-    // ..showing page for the registerable admin user if there is no any admin user in the database.
-    // the processing and handling logic method is in "SupportController" class.
-    @GetMapping("/addAdmin")
-    public String addAdmin(Model m, HttpSession httpSession) {
+    @GetMapping("/plans")
+    public String serverPlans(Model m) {
+        m.addAttribute("title", "GameServers Plans | HyperSpaceGamePanel");
+        return "server_plans.html";
+    }
 
-        List<User> users = this.userRepo.findAllByRole("ROLE_ADMIN");
-
-        if(!users.isEmpty()) {
-            return "redirect:/register";
-        }
-        
-        m.addAttribute("title", "Add Admin | HyperSpaceGamePanel");
-        m.addAttribute("user", new UserDto());
-       return "add_admin.html";
-    }    
 }

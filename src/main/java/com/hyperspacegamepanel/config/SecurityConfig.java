@@ -25,8 +25,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-import com.hyperspacegamepanel.entities.User;
 import com.hyperspacegamepanel.helper.Alert;
+import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.UserRepository;
 
 @Configuration
@@ -72,10 +72,8 @@ public class SecurityConfig {
          http.authorizeHttpRequests()
         .antMatchers("/admin/**")
         .hasRole("ADMIN")
-        .antMatchers("/order/**")
-        .hasRole("NORMAL")
         .antMatchers("/me/**")
-        .hasRole("NORMAL")
+        .hasRole("USER")
         .antMatchers("/**")
         .permitAll()
         .and()
@@ -90,10 +88,10 @@ public class SecurityConfig {
                         User user = userRepo.getByEmail(authentication.getName());
                         String redirectURL = "";
 
-                        if(user.getRole().equalsIgnoreCase("ROLE_ADMIN")) {
+                        if(user.getRole() == User.ROLE_ADMIN) {
                             redirectURL = "/admin/dashboard";
                         }
-                        if(user.getRole().equalsIgnoreCase("ROLE_NORMAL")) {
+                        if(user.getRole() == User.ROLE_USER) {
                             redirectURL = "/me/dashboard";
                         }
 

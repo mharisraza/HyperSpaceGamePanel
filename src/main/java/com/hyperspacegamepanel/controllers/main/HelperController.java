@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.hyperspacegamepanel.helper.Helper;
-import com.hyperspacegamepanel.entities.Machine;
-import com.hyperspacegamepanel.entities.Server;
-import com.hyperspacegamepanel.entities.Ticket;
-import com.hyperspacegamepanel.entities.User;
+import com.hyperspacegamepanel.models.machine.Machine;
+import com.hyperspacegamepanel.models.server.Server;
+import com.hyperspacegamepanel.models.ticket.Ticket;
+import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.MachineRepository;
 import com.hyperspacegamepanel.repositories.ServerRepository;
 import com.hyperspacegamepanel.repositories.TicketRepository;
