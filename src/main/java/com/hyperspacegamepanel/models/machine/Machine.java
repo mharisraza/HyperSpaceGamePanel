@@ -18,8 +18,6 @@ import com.hyperspacegamepanel.models.server.Server;
 
 import lombok.Data;
 
-
-
 @Entity(name = "machines")
 @Data
 public class Machine {
@@ -33,17 +31,19 @@ public class Machine {
     private String name;
 
     @NotBlank
-    @Column(name = "machine_ip_address")
+    @Column(name = "machine_ip_address", unique = true, nullable = false)
     private String ipAddress;
 
     @NotNull
-    @Column(name = "machine_connection_port")
+    @Column(name = "machine_connection_port", nullable = false)
     private Integer port;
 
     @NotBlank
+    @Column(nullable = false)
     private String username;
 
     @NotBlank
+    @Column(nullable = false)
     private String password;
 
     @OneToOne(mappedBy = "machine", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

@@ -1,9 +1,31 @@
 package com.hyperspacegamepanel.services;
 
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
 import com.hyperspacegamepanel.models.machine.Machine;
+import com.hyperspacegamepanel.models.machine.MachineUpdateForm;
+import com.hyperspacegamepanel.models.server.Server;
+import com.hyperspacegamepanel.models.user.User;
 
 public interface MachineService {
 
-    Machine createMachine(Machine machine);
+    CompletableFuture<Machine> createMachine(Machine machine) throws InterruptedException, ExecutionException;
+    CompletableFuture<Machine> updateMachine(MachineUpdateForm machine, int machineId);
+    CompletableFuture<Machine> getMachine(int machineId);
+    CompletableFuture<Void> deleteMachine(int machineId);
+
+    // the below methods perfom action on the machine remotely by executing shell commands
+    CompletableFuture<Void> connectToMachine(Machine machine) throws InterruptedException, ExecutionException;
+    CompletableFuture<Void> restartMachine(int machineId) throws InterruptedException, ExecutionException;
+    CompletableFuture<Void> updateMachineHostname(String hostname, int machineId) throws InterruptedException, ExecutionException;
+    CompletableFuture<Void> configureMachine(int machineId) throws InterruptedException, ExecutionException;
+    
+
+    CompletableFuture<Map<String, String>> getMachineInfo(int machineId) throws InterruptedException, ExecutionException;
+
+    // below methods are for game-servers related tasks.
+    CompletableFuture<String> createGameServer(int machineId, User owner, Server server) throws InterruptedException, ExecutionException;
     
 }
