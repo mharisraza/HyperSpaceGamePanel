@@ -84,14 +84,14 @@ public class SecurityConfig {
             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                     Authentication authentication) throws IOException, ServletException {
 
-                        request.getSession().setAttribute("status", "LOGIN_SUCCESS");           
+                        request.getSession().setAttribute("status", new Alert("Login successfully.", Alert.SUCCESS, Alert.SUCCESS_CLASS));           
                         User user = userRepo.getByEmail(authentication.getName());
                         String redirectURL = "";
 
-                        if(user.getRole() == User.ROLE_ADMIN) {
+                        if(user.getRole().equals(User.ROLE_ADMIN)) {
                             redirectURL = "/admin/dashboard";
                         }
-                        if(user.getRole() == User.ROLE_USER) {
+                        if(user.getRole().equals(User.ROLE_USER)) {
                             redirectURL = "/me/dashboard";
                         }
 
@@ -109,19 +109,19 @@ public class SecurityConfig {
                     AuthenticationException exception) throws IOException, ServletException {
 
                         if(exception instanceof DisabledException && exception.getMessage().equals("USER_IS_NOT_VERIFIED")) {
-                            request.getSession().setAttribute("status", new Alert("Your account is not verified, please verify to login.", "Error", "alert-danger"));
+                            request.getSession().setAttribute("status", new Alert("Your account is not verified, please verify to login.", Alert.ERROR, Alert.ERROR_CLASS));
                             response.sendRedirect("/verifyAccount?");
                             return;
                         }
                     
                         if(exception.getClass().isAssignableFrom(DisabledException.class)) {
-                            request.getSession().setAttribute("status", new Alert("Your Account is suspended, please contact admin to unblock.", "Error", "alert-danger"));
+                            request.getSession().setAttribute("status", new Alert("Your Account is suspended, please contact admin to unblock.", Alert.ERROR, Alert.ERROR_CLASS));
                             response.sendRedirect("/login?=AccountSuspended");
                             return;
                         }
 
                         if(exception.getClass().isAssignableFrom(BadCredentialsException.class)) {
-                            request.getSession().setAttribute("status", new Alert("The username, email, or password you entered is incorrect.", "Error", "alert-danger"));
+                            request.getSession().setAttribute("status", new Alert("The username, email, or password you entered is incorrect.", Alert.ERROR, Alert.ERROR_CLASS));
                             response.sendRedirect("/login?=BadCredentials");
                             return;
                         }
@@ -136,7 +136,7 @@ public class SecurityConfig {
             public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
                     Authentication authentication) throws IOException, ServletException {
                         if(authentication != null) {
-                            request.getSession().setAttribute("status", new Alert("Logout successfully", "Success", "alert-success"));
+                            request.getSession().setAttribute("status", new Alert("Logout successfully", Alert.SUCCESS, Alert.SUCCESS_CLASS));
                             response.sendRedirect("/login?s=logout");
                         } else {
                             response.sendRedirect("/login?e");
