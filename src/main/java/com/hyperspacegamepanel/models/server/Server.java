@@ -32,7 +32,9 @@ public class Server {
 
     @NotNull
     @Range(min = 2000, max = 65535, message = "Minimum 200 and Maximum 65535 is allowed")
+    @Column(name = "server_port", unique = true, nullable = false)
     private Integer port;
+
     @NotNull
     @Range(min = 10, max = 32, message = "Minimum 10 and Maximum 32 is allowed")
     private Integer slots;
@@ -51,7 +53,7 @@ public class Server {
     private String ipAddress;
 
     @Column(nullable = false)
-    private Date createdDate;
+    private Date createdDate = new Date();
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false)
     private Date expirationDate;
@@ -62,6 +64,5 @@ public class Server {
     @ManyToOne
     @JoinColumn(name = "machine_id")
     private Machine machine;
-
     
 }

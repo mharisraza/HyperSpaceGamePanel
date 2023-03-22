@@ -84,7 +84,7 @@ public class ServerController extends HelperController {
 
         try {
 
-         server = this.serverService.createServer(server, machine.get(), user.get());
+         server = this.serverService.createServer(server, machine.get(), user.get()).get();
 
          if(server != null) {
             httpSession.setAttribute("status", "SERVER_CREATED_SUCCESSFULLY");

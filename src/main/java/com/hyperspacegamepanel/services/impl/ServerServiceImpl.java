@@ -1,16 +1,27 @@
 package com.hyperspacegamepanel.services.impl;
 
+import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.hyperspacegamepanel.helper.VPSConnector;
+import com.hyperspacegamepanel.exceptions.ResourceNotFound;
+import com.hyperspacegamepanel.gameservers.CounterStrike;
 import com.hyperspacegamepanel.models.machine.Machine;
 import com.hyperspacegamepanel.models.server.Server;
+import com.hyperspacegamepanel.models.server.ServerUpdateForm;
 import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.ServerRepository;
+import com.hyperspacegamepanel.repositories.UserRepository;
+import com.hyperspacegamepanel.services.MachineConnectorService;
+import com.hyperspacegamepanel.services.MachineService;
 import com.hyperspacegamepanel.services.ServerService;
-import com.hyperspacegamepanel.services.VPSService;
+import com.hyperspacegamepanel.services.UserService;
 
 @Service
 public class ServerServiceImpl implements ServerService {
@@ -19,72 +30,123 @@ public class ServerServiceImpl implements ServerService {
     private ServerRepository serverRepo;
 
     @Autowired
-    private VPSConnector connector;
+    private UserService userService;
+
+    @Autowired
+    private MachineService machineService;
 
     @Override
-    public Server createServer(Server server, Machine machine, User owner) throws Exception {
-
-        Date currentDate = new Date();
-        server.setCreatedDate(currentDate);
+    @Async
+    public CompletableFuture<Server> createServer(Server server, Machine machine, User owner) throws Exception {
         server.setMachine(machine);
         server.setIpAddress(machine.getIpAddress()+":"+server.getPort());
         server.setOwner(owner);
 
         Date expirationDate = server.getExpirationDate();
-
-        if(expirationDate.before(currentDate) || expirationDate.equals(currentDate)) {
-            throw new Exception("EXPIRATON_DATE_IS_WRONG");
+        if(expirationDate.before(server.getCreatedDate()) || expirationDate.equals(server.getCreatedDate())) {
+            throw new RuntimeException("EXPIRATION_DATE_IS_SELECTED_WRONG");
         }
 
         server = this.serverRepo.save(server);
-
-        String response = null;
+        String serverCreatedResponse = "NOT_CREATED";
 
         try {
-            VPSService vpsService = new VPSServiceImpl(connector, machine);
-            response = vpsService.createGameServer(owner, server);                    
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        if(response != "GAME_SERVER_CREATED_SUCCESSFULLY") {
-            this.serverRepo.delete(server);
-            return null;
-        }
-
-        return server;
-    }
-
-    @Override
-    public Server updateServer(Server server) {
-        return null;
-    }
-    
-    @Override
-    public void startServer(Server server) {
-        try {
-           VPSServiceImpl vpsService = new VPSServiceImpl(connector, server.getMachine());
-           vpsService.connectIfNotConnected();
+          serverCreatedResponse = this.machineService.createGameServer(machine.getId(), owner, server).get();
+          if(!serverCreatedResponse.equals("GAME_SERVER_CREATED_SUCCESSFULLY")) {
+             this.serverRepo.delete(server);
+          }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("CANNOT_CREATE_GAME_SERVER");
         }
-       if(server.getGameType().equals("cs")) {
-        connector.executeCommandWithoutOutput(String.format("screen -dmS %s sh -c 'cd /home/game-servers/%s/%s/game_files && chmod +x hlds_run && chmod +x hlds_linux && ./hlds_run -game cstrike +ip %s +port %s +maxplayers %s +map de_dust2' > /dev/null 2>&1", server.getGameType()+"_"+server.getId(), server.getGameType(), server.getId(), server.getMachine().getIpAddress(), server.getPort(), server.getSlots()));
-       }
+        return CompletableFuture.completedFuture(server);
+    }
+
+
+    @Override
+    @Async
+    public CompletableFuture<Server> updateServer(ServerUpdateForm updateServer, int serverId) throws InterruptedException, ExecutionException, IllegalArgumentException, IllegalAccessException {
+         Server server = this.getServer(serverId).get();
+        if(updateServer != null) {
+
+            Field[] serverUpdatedFields = updateServer.getClass().getDeclaredFields();
+            Field[] serverFields = server.getClass().getDeclaredFields();
+
+            for(int i = 0; i < serverUpdatedFields.length; i++) {
+                Field updatedField = serverUpdatedFields[i];
+                for(int j = 0; j < serverFields.length; j++) {
+                    Field serverField = serverFields[j];
+                    if(serverField.getName().equals(updatedField.getName())) {
+                        updatedField.setAccessible(true);
+                        serverField.setAccessible(true);
+                        serverField.set(server, updatedField.get(updateServer));
+                        break;
+                    }
+                }
+            }
+        }
+        return CompletableFuture.completedFuture(server);
     }
 
     @Override
-    public void stopServer(Server server) {
-        try {
-            VPSServiceImpl vpsService = new VPSServiceImpl(connector, server.getMachine());
-            vpsService.connectIfNotConnected();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if(server.getGameType().equals("cs")) {
-            connector.executeCommandWithoutOutput(String.format("screen -S cs_%d -X quit", server.getId()));
-        }
+    @Async
+    public CompletableFuture<Server> getServer(int serverId) {
+        return CompletableFuture.completedFuture(this.serverRepo.findById(serverId).orElseThrow(()-> new ResourceNotFound("Server", "ID"+serverId)));
     }
 
-    
+    @Override
+    @Async
+    public CompletableFuture<Void> deleteServer(int serverId) {
+        this.serverRepo.findById(serverId).ifPresent((server) -> this.serverRepo.delete(server));
+        return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<List<Server>> getUserServers(int userId) throws InterruptedException, ExecutionException {
+        User user = this.userService.getUser(userId).get();
+        return CompletableFuture.completedFuture(this.serverRepo.findAllByOwner(user));
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<Void> startServer(Server server) {
+        try {
+            this.machineService.connectToMachine(server.getMachine());
+            if(server.getGameType().equals("cs")) {
+                 CounterStrike.startServer(server);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("UNABLE_TO_START_THE_SERVER");
+        }
+     return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<Void> stopServer(Server server) {
+        try {
+            this.machineService.connectToMachine(server.getMachine());
+            if(server.getGameType().equals("cs")) {
+                CounterStrike.stopServer(server);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("UNABLE_TO_STOP_THE_SERVER");
+        }
+        return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<Void> restartServer(Server server) {
+        try {
+            this.machineService.connectToMachine(server.getMachine());
+            if(server.getGameType().equals("cs")) {
+                CounterStrike.restartServer(server);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("UNABLE_TO_RESTART_THE_SERVER");
+        }
+        return CompletableFuture.completedFuture(null);
+    }
+
 }
