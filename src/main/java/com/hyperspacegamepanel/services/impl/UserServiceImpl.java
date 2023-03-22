@@ -168,7 +168,7 @@ public class UserServiceImpl implements UserService {
         cutOff.add(Calendar.HOUR_OF_DAY, -24);
 
         users.forEach((user) -> {
-            if(!user.isVerified() || user.getRegisteredDate().before(cutOff.getTime())) {
+            if(!user.isVerified() && user.getRegisteredDate().before(cutOff.getTime())) {
                 this.userRepo.delete(user);
             }
         });
