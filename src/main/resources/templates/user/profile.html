@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="user/base::Layout(~{::section})">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <section class="mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mb-2">
+            <div class="card">
+                <div class="card-header font-weight-bold">Identity</div>
+                <div class="card-body">
+                    <form action="/me/update-profile" method="POST" th:object="${updateUserForm}">
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <small class="text-danger"> (Email is not changeable.)</small>
+                            <input type="email" readonly="readonly" th:value="${user.email}" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input name="fullName" type="text" th:value="${user.fullName}" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input name="username" type="text" th:value="${user.username}" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <input type="password" name="password" placeholder="Leave blank if you don't want to change the password." class="form-control">
+                        </div>
+
+                        <div class="container text-center">
+                           <button type="submit" class="btn btn-primary w-100 btn-sm">Update Account <i class="fa-solid fa-pen-nib"></i></button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-4 mb-2">
+            <!-- Servers card  -->
+            <div class="card mb-2">
+                <div class="card-header">Servers</div>
+                <div style="padding: 15px !important;" class="card-body">
+                    <div class="info-box bg-primary">
+                        <div class="info-box-icon">
+                            <i class="fa-solid fa-server"></i>
+                        </div>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total Servers</span>
+                            <span class="info-box-number">[(${#lists.size(user.servers)})]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- servers card end  -->
+            <div class="card">
+                <div class="card-header">
+                  User Verified Status
+                </div>
+                <div class="card-body">
+                  <div th:classappend="${user.isVerified ? 'badge-success' : 'badge-danger'}" class="badge p-3 w-100">[(${user.isVerified ? 'Your account is verified.' : 'Please verify your account.'})]</div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${user.isEnabled}" class="col-lg-12">
+          <div class="card">
+            <div class="card-header">Delete Account</div>
+            <div class="card-body">
+                If you have agreed to delete your account, all of your server that is associated with this user will be delete too and please be aware that this action is irrevocable. 
+              <div class="text-center mt-2">
+                <a onclick="showLoader()" th:href="'/me/profile?action=deleteMyAccount&userId='+${user.id}" class="btn btn-danger w-100">Okay, Delete Account.</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+    </div>
+  </section>
+
+</body>
+
+</html>
