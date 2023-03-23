@@ -2,6 +2,7 @@ package com.hyperspacegamepanel.repositories;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +18,5 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     List<Ticket> getUnReadTickets();
 
     List<Ticket> findAllByUser(User user);
-
+    Optional<Ticket> findByIdAndUser(int ticketId, User user);
 }
