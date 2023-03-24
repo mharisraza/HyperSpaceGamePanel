@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Global styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+        }
+        /* Header styles */
+        .header {
+            background-color: #57e;
+            color: #fff;
+            padding: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+            color: white !important;
+        }
+        /* Content styles */
+        .content {
+            padding: 20px;
+        }
+        .content p {
+            margin-bottom: 20px;
+        }
+        .content a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #57e;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .content a:hover {
+            background-color: #0056b3;
+        }
+        /* Footer styles */
+        .footer {
+            background-color: #f7f7f7;
+            padding: 20px;
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>Account Created Successfully</h1>
+    </div>
+    <!-- Content -->
+    <div class="content">
+        <p>Dear [(${userName})],</p>
+        <p>An account with this email address has been created successfully. below are the credentials to log into with your account at our website.</p>
+        <strong style="font-weight: bold;">Email Address:</strong> [(${user_Email}]
+        <br>
+        <strong style="font-weight: bold;">Username:</strong> [(${user_Username}]
+        <br>
+        <strong style="font-weight: bold;">Password:</strong> [(${user_Password}] (This is purely random generated password, you can change it in account settings.)
+        <br>
+        <strong style="font-weight: bold;">Role:</strong> [(${user_Role}]
+        
+    </div>
+    <!-- Footer -->
+    <div class="footer">
+        <p>This email was sent by automated for request to create an account.
+    </div>    
+</body>
+</html>

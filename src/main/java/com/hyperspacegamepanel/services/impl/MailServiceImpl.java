@@ -98,6 +98,23 @@ public class MailServiceImpl implements MailService {
         this.sendMail(to, "Password Reset Request", message);
 
         return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<Void> sendAccountCreatedSuccessMail(String to, User user) throws Exception {
+
+         Context context = new Context();
+
+         context.setVariable("userName", user.getFullName());
+         context.setVariable("user_Email", user.getEmail());
+         context.setVariable("user_Username", user.getUsername());
+         context.setVariable("user_Password", user.getPassword()); // make sure that this password is not encrypted.
+         context.setVariable("user_Role", user.getRole());
+
+         String message = templateEngine.process("mails/user-created-successfully.html", context);
+         this.sendMail(to, "Account Created Successfully", message);
+         return CompletableFuture.completedFuture(null);
     }    
     
 }

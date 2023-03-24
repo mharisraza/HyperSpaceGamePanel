@@ -12,5 +12,7 @@ public interface MailService {
 
     CompletableFuture<Void> sendResetPasswordMail(String to, User user) throws Exception;
 
+    CompletableFuture<Void> sendAccountCreatedSuccessMail(String to, User user) throws Exception;
+
 
 }
