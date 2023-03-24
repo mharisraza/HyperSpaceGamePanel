@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,8 @@ public class MachineServiceImpl implements MachineService {
     @Override
     @Async
     public CompletableFuture<Machine> createMachine(Machine machine) throws InterruptedException, ExecutionException {
-      this.machineRepo.findByIpAddress(machine.getIpAddress()).ifPresent((m) -> new RuntimeException("MACHINE_ALREADY_EXISTS_WITH_PROVIDED_IP_ADDRESS="+m.getIpAddress()));
+      
+      this.machineRepo.findByIpAddress(machine.getIpAddress()).ifPresent((m) -> new RuntimeException("MACHINE_ALREADY_EXISTS_WITH_PROVIDED_IP_ADDRESS"));
       machine.setPassword(PasswordEncoder.encrypt(machine.getPassword()));
       Machine createdMachine = this.machineRepo.save(machine);
 
@@ -60,6 +62,9 @@ public class MachineServiceImpl implements MachineService {
       this.machineDetailsRepo.save(machineDetails);
 
      } catch (Exception e) {
+      if(e.getMessage().equals("Auth fail")) {
+        throw new RuntimeException("WRONG_CREDENTIALS_FOR_MACHINE_TO_CONNECT");
+      }
       throw new RuntimeException("UNABLE_TO_CREATE_MACHINE");
      }
 
@@ -126,6 +131,7 @@ public class MachineServiceImpl implements MachineService {
 
     @Override
     @Async
+    @Cacheable("machineInfo")
     public CompletableFuture<Map<String, String>> getMachineInfo(int machineId) throws InterruptedException, ExecutionException {
       connectToMachine(this.getMachine(machineId).get());
       connector.uploadFileToMachine(Constants.SCRIPTS_FILES.get("VPS_INFO_SCRIPT"));
@@ -144,11 +150,19 @@ public class MachineServiceImpl implements MachineService {
     @Override
     @Async
     public CompletableFuture<String> createGameServer(int machineId, User owner, Server server) throws InterruptedException, ExecutionException {
-      connectToMachine(this.getMachine(machineId).get());
+      connectToMachine(this.getMachine(machineId).join());
       connector.uploadFileToMachine(Constants.SCRIPTS_FILES.get("CREATE_GAME_SERVER_SCRIPT"));
         String response = connector.executeCommand(String.format("cd / && bash %s '%s' '%s' '%s' '%s'", Constants.SCRIPTS_FILES.get("CREATE_GAME_SERVER_SCRIPT"), server.getFtpUsername(), server.getFtpPassword(), server.getGameType(), server.getId())).get();
         return CompletableFuture.completedFuture(response.contains("GAME_SERVER_CREATED_SUCCESSFULLY") ? "GAME_SERVER_CREATED_SUCCESSFULLY" : "GAME_SERVER_CREATED_FAILED");
 
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<String> getMachineUptime(int machineId) throws Exception {
+      this.connectToMachine(this.getMachine(machineId).join());
+      String uptime = connector.executeCommand("awk '{d=int($1/86400);h=int($1%86400/3600);m=int(($1%3600)/60); printf \"%d days %d hours %d minutes\\n\", d, h, m}' /proc/uptime").join();
+      return CompletableFuture.completedFuture(uptime);
     }
 
     @Override
@@ -168,6 +182,8 @@ public class MachineServiceImpl implements MachineService {
         }
       return CompletableFuture.completedFuture(null);
     }
+
+   
 
     
 

@@ -24,6 +24,7 @@ public interface MachineService {
     
 
     CompletableFuture<Map<String, String>> getMachineInfo(int machineId) throws InterruptedException, ExecutionException;
+    CompletableFuture<String> getMachineUptime(int machineId) throws Exception;
 
     // below methods are for game-servers related tasks.
     CompletableFuture<String> createGameServer(int machineId, User owner, Server server) throws InterruptedException, ExecutionException;
