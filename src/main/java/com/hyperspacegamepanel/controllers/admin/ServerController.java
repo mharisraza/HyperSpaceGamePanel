@@ -1,7 +1,5 @@
 package com.hyperspacegamepanel.controllers.admin;
 
-import java.util.Optional;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -17,42 +15,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hyperspacegamepanel.controllers.main.HelperController;
-import com.hyperspacegamepanel.controllers.restcontrollers.RestAPIController;
+import com.hyperspacegamepanel.helper.Alert;
 import com.hyperspacegamepanel.helper.Helper;
 import com.hyperspacegamepanel.models.machine.Machine;
 import com.hyperspacegamepanel.models.server.Server;
 import com.hyperspacegamepanel.models.user.User;
-import com.hyperspacegamepanel.repositories.MachineRepository;
-import com.hyperspacegamepanel.repositories.ServerRepository;
-import com.hyperspacegamepanel.repositories.UserRepository;
+import com.hyperspacegamepanel.services.MachineService;
 import com.hyperspacegamepanel.services.ServerService;
-
+import com.hyperspacegamepanel.services.UserService;
 
 @Controller
 @RequestMapping("/admin/server")
 public class ServerController extends HelperController {
 
     @Autowired
-    private HttpSession httpSession;
-
-    @Autowired
-    private UserRepository userRepo;
-
-    @Autowired
-    private MachineRepository machineRepo;
-
-    @Autowired
-    private ServerRepository serverRepo;
-
-    @Autowired
     private ServerService serverService;
 
+    @Autowired
+    private MachineService machineService;
+
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/new")
-    public String newServer(Model m) {
-        
-        if(getMachines().isEmpty()) {
-            httpSession.setAttribute("status", "ADD_MACHINE_FIRST");
-          return "redirect:/admin/machine/new";
+    public String newServer(Model m, HttpSession httpSession) {
+
+        if (getMachines().isEmpty()) {
+            httpSession.setAttribute("status", new Alert("You'll need to add a new machine first to add new game-server.", Alert.WARNING,Alert.WARNING_CLASS));
+            return "redirect:/admin/machine/new";
         }
 
         m.addAttribute("server", new Server());
@@ -63,91 +53,106 @@ public class ServerController extends HelperController {
     }
 
     @PostMapping("/new")
-    public String processNewServer(@Valid @ModelAttribute Server server, BindingResult bindingResult, @RequestParam Integer machineId, @RequestParam Integer userId, Model m) {
+    public String processNewServer(@Valid @ModelAttribute Server server, BindingResult bindingResult, @RequestParam Integer machineId, @RequestParam Integer userId, Model m, HttpSession httpSession) {
 
-        if(bindingResult.hasErrors()) {
-            httpSession.setAttribute("status", "BIND_RESULT_HAS_ERROR");
-            System.out.println(bindingResult.getAllErrors());
+        if (bindingResult.hasErrors()) {
+            httpSession.setAttribute("status", new Alert("Required fields are empty or invalid.", Alert.ERROR, Alert.ERROR_CLASS));
             m.addAttribute("randomftpusername", Helper.randomUsernameGenerator());
             m.addAttribute("randomftppassword", Helper.randomPasswordGenerator());
             m.addAttribute("server", server);
             return "admin/server_module/new_server.html";
         }
 
-        Optional<Machine> machine = this.machineRepo.findById(machineId);
-        Optional<User> user = this.userRepo.findById(userId);
-
-        if(!machine.isPresent() || !user.isPresent()) {
-            httpSession.setAttribute("status", "CANNOT_FIND_THE_MACHINE_OR_USER");
-            return "redirect:/admin/server/new";
-        } 
-
         try {
 
-         server = this.serverService.createServer(server, machine.get(), user.get()).get();
+            Machine machine = this.machineService.getMachine(machineId).join();
+            User user = this.userService.getUser(userId).join();
 
-         if(server != null) {
-            httpSession.setAttribute("status", "SERVER_CREATED_SUCCESSFULLY");
-            return "redirect:/admin/server/view/"+server.getId();
-         }
+            Server createdServer = this.serverService.createServer(server, machine, user).join();
+            httpSession.setAttribute("status", new Alert("New game-server created successfully.", Alert.SUCCESS, Alert.SUCCESS_CLASS));
+            return "redirect:/admin/server/view/" + createdServer.getId();
 
-        } catch(Exception e) {
-            String exceptionMessage = e.getMessage();
-            if(exceptionMessage == "EXPIRATON_DATE_IS_WRONG") {
-                httpSession.setAttribute("status", "EXPIRATON_DATE_IS_WRONG");
-            } else {
-                e.printStackTrace();
-                httpSession.setAttribute("status", "SOMETHING_WENT_WRONG");
+        } catch (Exception e) {
+            if (e.getMessage().equals("EXPIRATION_DATE_IS_SELECTED_WRONG")) {
+                httpSession.setAttribute("status", new Alert("Please select valid expiration date.", Alert.ERROR, Alert.ERROR_CLASS));
+                return "redirect:/admin/server/new/";
             }
+            httpSession.setAttribute("status", new Alert("Something went wrong, please try later.", Alert.ERROR, Alert.ERROR_CLASS));
         }
-
-        httpSession.setAttribute("status", "SOMETHING_WENT_WRONG");
         return "redirect:/admin/server/new";
     }
 
-
-    // showing server 
+    // showing server
     @GetMapping("/view/{serverId}")
-    public String showServer(@PathVariable(required = false) Integer serverId, @RequestParam(required = false) String action, Model m) {
-
-        if(serverId == null) {
-            httpSession.setAttribute("status", "CANT_FIND_SERVER");
+    public String showServer(@PathVariable(required = false) Integer serverId, @RequestParam(required = false) String action, HttpSession httpSession, Model m) {
+        if (serverId == null) {
+            httpSession.setAttribute("status", new Alert("Cannot find the server.", Alert.ERROR, Alert.ERROR_CLASS));
             return "redirect:/admin/servers";
         }
 
-        Optional<Server> server = this.serverRepo.findById(serverId);
+        try {
+            Server server = this.serverService.getServer(serverId).join();
 
-        if(!server.isPresent()) {
-            httpSession.setAttribute("status", "CANT_FIND_SERVER");
-            return "redirect:/admin/servers";
-        }
+            if (action != null) {
 
-        if(action != null) {
-            
-            int ping = RestAPIController.getServerPing(server.get());
+                switch (action) {
+                    case "start" -> {
+                        try {
+                            this.serverService.startServer(server);
+                            httpSession.setAttribute("status", new Alert("Server started successfully.", Alert.SUCCESS, Alert.SUCCESS_CLASS));
+                            return "redirect:/admin/server/view/" + server.getId();
+                        } catch (Exception e) {
+                            if(e.getMessage().equals("SERVER_IS_ALREADY_RUNNING")) {
+                                httpSession.setAttribute("status", new Alert("Server is already running.", Alert.ERROR, Alert.ERROR_CLASS));
+                                return "redirect:/admin/server/view/" + server.getId();
+                            }
+                            httpSession.setAttribute("status", new Alert("Unable to start the server, there may be error in server.", Alert.ERROR, Alert.ERROR_CLASS));
+                            return "redirect:/admin/server/view/" + server.getId();
+                        }
+                    }
 
-            switch(action) {
+                    case "stop" -> {
+                        try {
+                            this.serverService.stopServer(server);
+                            httpSession.setAttribute("status", new Alert("Server stopped successfully.", Alert.SUCCESS, Alert.SUCCESS_CLASS));
+                            return "redirect:/admin/server/view/" + server.getId();
+                        } catch (Exception e) {
+                            if(e.getMessage().equals("SERVER_IS_ALREADY_STOPPED")) {
+                                httpSession.setAttribute("status", new Alert("Server is already stopped.", Alert.ERROR, Alert.ERROR_CLASS));
+                                return "redirect:/admin/server/view/" + server.getId();
+                            }
+                            httpSession.setAttribute("status", new Alert("Unable to stop the server, please try stop it manually.", Alert.ERROR, Alert.ERROR_CLASS));
+                            return "redirect:/admin/server/view/" + server.getId();
+                        }
+                    }
 
-                case "start":
-                if(ping == 0) {
-                    this.serverService.startServer(server.get());
-                    httpSession.setAttribute("status", "SERVER_STARTED_SUCCESSFULLY");
+                    case "restart" -> {
+                        try {
+                            this.serverService.restartServer(server);
+                            httpSession.setAttribute("status", new Alert("Server restarted successfully. it may take time to completely up the server.", Alert.SUCCESS, Alert.SUCCESS_CLASS));
+                            return "redirect:/admin/server/view/" + server.getId();
+                        } catch (Exception e) {
+                            if(e.getMessage().equals("SERVER_IS_STOPPED")) {
+                                httpSession.setAttribute("status", new Alert("Unable to restart, server is already stopped.", Alert.ERROR, Alert.ERROR_CLASS));
+                                return "redirect:/admin/server/view" + server.getId();
+                            }
+                            httpSession.setAttribute("status", new Alert("Unable to restart the server, please try restart it manually.", Alert.ERROR, Alert.ERROR_CLASS));
+                            return "redirect:/admin/server/view/" + server.getId();
+                        }
+                    }
                 }
-                return "redirect:/admin/server/view/"+server.get().getId();
-
-                case "stop":                
-                if(ping > 0) {
-                    this.serverService.stopServer(server.get());
-                    httpSession.setAttribute("status", "SERVER_SHUTDOWN_SUCCESSFULLY");
-                }
-                return "redirect:/admin/server/view/"+server.get().getId();
-
             }
-        }
 
-        m.addAttribute("server", server.get());
-        m.addAttribute("title", server.get().getName() + " | HyperSpaceGamePanel");
+            m.addAttribute("server", server);
+            m.addAttribute("title", server.getName() + " | HyperSpaceGamePanel");
+        } catch (Exception e) {
+            if (e.getMessage().contains("Server not found")) {
+                httpSession.setAttribute("status", new Alert("Cannot find the server.", Alert.ERROR, Alert.ERROR_CLASS));
+                return "redirect:/admin/servers";
+            }
+            httpSession.setAttribute("status", new Alert("Something went wrong, please try later.", Alert.ERROR, Alert.ERROR_CLASS));
+        }
         return "admin/server_module/server.html";
     }
-    
+
 }
