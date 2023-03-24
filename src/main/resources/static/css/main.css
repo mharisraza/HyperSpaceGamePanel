@@ -1,7 +1,7 @@
 /* MAIN:CSS */
 
 :root {
-    --bg-image: url("/images/background.jpg");
+    --bg-image: url("/images/background-min.jpg");
     --nav-bg: url("/images/nav-bg.jpg")
 }
 

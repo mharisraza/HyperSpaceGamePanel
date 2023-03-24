@@ -15,7 +15,7 @@
                     <div class="card-header font-weight-bold"><i class="fas fa-ticket"></i>&nbsp;New Ticket</div>
                     <div class="card-body">
                         <form class="row" action="/me/support/submit-ticket" method="POST" th:object="${ticket}">
-                            <input type="hidden" id="currentUserId" name="userId" th:value="${user.id}">
+                            <input type="hidden" id="currentUserId" name="userId" th:value="${currentLoggedInUser?.id}">
                             <div class="col-md-6 mb-4">
                                 <label>Subject</label>
                                 <input name="subject" th:value="${ticket.subject}" class="form-control" type="text" placeholder="Subject"
