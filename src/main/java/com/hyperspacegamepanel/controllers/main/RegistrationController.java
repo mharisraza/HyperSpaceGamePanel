@@ -102,8 +102,8 @@ public class RegistrationController {
     // ..showing page for the registerable admin user if there is no any admin user
     // in the database.
     @GetMapping("/addAdmin")
-    public String addAdmin(Model m, HttpSession httpSession) throws InterruptedException, ExecutionException {
-        if(this.userService.isAdminsExists().get()) return "redirect:/register";
+    public String addAdmin(Model m, HttpSession httpSession) {
+        if(this.userService.isAdminsExists().join()) return "redirect:/register";
         m.addAttribute("title", "Add Admin | HyperSpaceGamePanel");
         m.addAttribute("user", new User());
         return "add_admin.html";
@@ -111,8 +111,8 @@ public class RegistrationController {
 
     // process admin registration here
     @PostMapping("/addAdmin")
-    public String processAdminRegistration(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, Model m, HttpSession httpSession) throws InterruptedException, ExecutionException {
-        if(this.userService.isAdminsExists().get()) return "redirect:/register";
+    public String processAdminRegistration(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, Model m, HttpSession httpSession) {
+        if(this.userService.isAdminsExists().join()) return "redirect:/register";
         try {
             this.userService.createAdminUser(user);
         } catch (Exception e) {

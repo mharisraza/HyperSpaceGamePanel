@@ -2,6 +2,7 @@ package com.hyperspacegamepanel.controllers.main;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +16,7 @@ import com.hyperspacegamepanel.repositories.MachineRepository;
 import com.hyperspacegamepanel.repositories.ServerRepository;
 import com.hyperspacegamepanel.repositories.TicketRepository;
 import com.hyperspacegamepanel.repositories.UserRepository;
+import com.hyperspacegamepanel.services.ServerService;
 
 public class HelperController {
 
@@ -32,6 +34,9 @@ public class HelperController {
 
     @Autowired
     private ServerRepository serverRepo;
+
+    @Autowired
+    private ServerService serverService;
 
       /*
      * The @ModelAttribute annotation allows you to centralize data preparation
@@ -60,7 +65,7 @@ public class HelperController {
         return this.ticketRepo.getUnReadTickets();
      }
  
-     @ModelAttribute("user")
+     @ModelAttribute("currentLoggedInUser")
      public User getLoggedInUser(Principal principal) {
         if(principal == null) return null;
          return userRepo.getByEmail(principal.getName());
@@ -75,6 +80,12 @@ public class HelperController {
      public Helper provideHelper() {
         return new Helper();
      }
+
+     @ModelAttribute("userServers")
+    public List<Server> userServers(Principal principal) throws InterruptedException, ExecutionException {
+        if(principal != null) return serverService.getUserServers(getLoggedInUser(principal).getId()).join();
+        return null;
+    }
 
 
 }
