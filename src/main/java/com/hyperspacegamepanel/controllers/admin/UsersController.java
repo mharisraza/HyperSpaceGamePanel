@@ -1,7 +1,5 @@
 package com.hyperspacegamepanel.controllers.admin;
 
-import java.util.Optional;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hyperspacegamepanel.controllers.main.HelperController;
+import com.hyperspacegamepanel.helper.Alert;
 import com.hyperspacegamepanel.helper.Helper;
 import com.hyperspacegamepanel.models.user.User;
-import com.hyperspacegamepanel.repositories.UserRepository;
 import com.hyperspacegamepanel.services.MailService;
 import com.hyperspacegamepanel.services.UserService;
 
 @Controller
 @RequestMapping("/admin/user")
 public class UsersController extends HelperController {
-
-    @Autowired
-    private UserRepository userRepo;
 
     @Autowired
     private HttpSession httpSession;
@@ -38,18 +33,21 @@ public class UsersController extends HelperController {
 
     @GetMapping("/view/{id}")
     public String userDetails(@PathVariable(required = false) Integer id, Model m) {
+        
         if (id == null) {
-            httpSession.setAttribute("status", "CANT_FIND_USER_WITH_PROVIDED_ID");
-            return "redirect:/admin/users";
-        }
-        Optional<User> user = this.userRepo.findById(id);
-        if (!user.isPresent()) {
-            httpSession.setAttribute("status", "CANT_FIND_USER_WITH_PROVIDED_ID");
+            httpSession.setAttribute("status", new Alert("Cannot find the user.", Alert.ERROR, Alert.ERROR_CLASS));
             return "redirect:/admin/users";
         }
 
-        m.addAttribute("user", user.get());
-        m.addAttribute("title", user.get().getFullName() + " | HyperSpaceGamePanel");
+        try {
+           User user = this.userService.getUser(id).join();
+           m.addAttribute("user", user);
+           m.addAttribute("title", user.getFullName() + " | HyperSpaceGamePanel");
+
+        } catch (Exception e) {
+            httpSession.setAttribute("status", new Alert("Something went wrong, please try later.", Alert.ERROR, Alert.ERROR_CLASS));
+            return "redirect:/admin/dashboard";
+        }        
         return "admin/user_module/user.html";
     }
 
@@ -71,30 +69,29 @@ public class UsersController extends HelperController {
          Model m) {
 
             if(fullName.isBlank() || email.isBlank() || role.isBlank() || username.isBlank()) {
-                httpSession.setAttribute("status", "REQUIRED_FIELDS_ARE_BLANK");
+                httpSession.setAttribute("status", new Alert("Please fill all the below fields.", Alert.ERROR, Alert.ERROR_CLASS));
                 return "redirect:/admin/user/new";
-            }
-
-            if(this.userRepo.existsByEmail(email)) {
-                httpSession.setAttribute("status", "USER_ALREADY_EXISTS_WITH_PROVIDED_EMAIL");
-                return "redirect:/admin/user/new";
-            }
-
-            if(role.equals("admin")) {
-                role = "ROLE_ADMIN";
-            } else if (role.equals("user")) {
-                role = "ROLE_NORMAL";
             }
 
             String randomGeneratedPassword = Helper.randomPasswordGenerator();
-            String message = String.format("<h1 style='font-size: 18px;'>Dear, %s!</h1> <br>Your account at <strong>HyperSpaceGamePanel</strong> created successfully with the role of <strong>%s</strong> <br> Please use the following credentials to access your account: <br> Email Address:  <strong>%s</strong> <br>Password: <strong>%s</strong> (this password is purely random generated) <br>Navigate to Account Settings to change the credentials to your needs. <br>Thank you.", fullName, role, email, randomGeneratedPassword);
 
+            User user = new User();
+
+            user.setEmail(email);
+            user.setRole(role);
+            user.setFullName(fullName);
+            user.setUsername(username);
+            user.setPassword(randomGeneratedPassword);
 
             try {
-                mailService.sendMail(email, "Account Created Successfully", message);
-                httpSession.setAttribute("status", "USER_CREATED_SUCCESSFULLY");
+                 this.userService.createUser(user);
+                 this.mailService.sendAccountCreatedSuccessMail(email, user);
             } catch (Exception e) {
-                httpSession.setAttribute("status", "SOMETHING_WENT_WRONG");
+                if(e.getMessage().equals("USER_ALREADY_EXISTS")) {
+                    httpSession.setAttribute("status", new Alert("An user already exists with same username or email, please try another one.", Alert.ERROR, Alert.ERROR_CLASS));
+                }
+                httpSession.setAttribute("status", new Alert("Unable to create the user at this moment, please try later.", Alert.ERROR, Alert.ERROR_CLASS));
+                return "redirect:/admin/user/new";
             }
 
             return "redirect:/admin/user/new/";
