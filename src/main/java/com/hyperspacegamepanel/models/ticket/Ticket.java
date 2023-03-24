@@ -46,7 +46,7 @@ public class Ticket {
     @Size(max = Constants.TICKET_MESSAGE_SIZE, message = Constants.TICKET_MAXIMUM_MESSAGE_ERROR)
     private String message;
 
-    private Date submittedDate;
+    private Date submittedDate = new Date();
 
     private boolean isClosed = false;
 

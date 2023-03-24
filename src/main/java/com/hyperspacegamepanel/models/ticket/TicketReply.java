@@ -35,9 +35,9 @@ public class TicketReply {
     @Size(max = Constants.TICKET_MESSAGE_SIZE)
     private String message;
 
-    private Date repliedDate;
+    private Date repliedDate = new Date();
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
