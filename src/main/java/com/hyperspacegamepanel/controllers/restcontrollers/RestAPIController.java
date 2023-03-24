@@ -2,6 +2,7 @@ package com.hyperspacegamepanel.controllers.restcontrollers;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,13 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.koraktor.steamcondenser.steam.servers.GoldSrcServer;
 import com.hyperspacegamepanel.helper.ServerInfo;
-import com.hyperspacegamepanel.helper.VPSConnector;
-import com.hyperspacegamepanel.models.machine.Machine;
 import com.hyperspacegamepanel.models.server.Server;
-import com.hyperspacegamepanel.repositories.MachineRepository;
 import com.hyperspacegamepanel.repositories.ServerRepository;
-import com.hyperspacegamepanel.services.VPSService;
-import com.hyperspacegamepanel.services.impl.VPSServiceImpl;
+import com.hyperspacegamepanel.services.MachineService;
+
 
 @RestController
 public class RestAPIController {
@@ -27,35 +25,31 @@ public class RestAPIController {
     private ServerRepository serverRepo;
 
     @Autowired
-    private MachineRepository machineRepo;
-
-    @Autowired
-    private VPSConnector connector;
+    private MachineService machineService;
 
     // fetching vps uptime
     @GetMapping("/getVpsUptime")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> getUptime(@RequestParam Integer machineId) {
+    @PreAuthorize("hasRole('ADMIN')") // implies that user that requesting this should be 'ADMIN' otherwise it'll not return the result.
+    public ResponseEntity<?> getUptime(@RequestParam Integer machineId) throws InterruptedException, ExecutionException {
 
         if(machineId == null) {
             return ResponseEntity.badRequest().body("Machine id is shouldn't be empty");
         }
 
-        Optional<Machine> machine = this.machineRepo.findById(machineId);
-
-        if(!machine.isPresent()) {
-            return ResponseEntity.badRequest().body("Machine id shouldn't be manipulated");
-        }
-
-        VPSService vpsService = new VPSServiceImpl(this.connector, machine.get());
-
-         String uptime = vpsService.getMachineUptime();
-         return ResponseEntity.ok(uptime);
+       try {
+          String machineUptime = this.machineService.getMachineUptime(machineId).join();
+          return ResponseEntity.ok(machineUptime);
+       } catch (Exception e) {
+            if(e.getMessage().contains("Machine not found")) {
+                return ResponseEntity.badRequest().body("Machine not found");
+            }
+       }
+       return ResponseEntity.internalServerError().body("Something went wrong.");
     }
 
     // querying server for real-time server data.
     @GetMapping("/serverInfo")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('USER')") // implies that user should login to request the server info.
     public ResponseEntity<?> getServerInfo(@RequestParam Integer serverId) {
 
         if(serverId == null) {
