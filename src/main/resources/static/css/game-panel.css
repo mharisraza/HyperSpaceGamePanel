@@ -1,99 +1,146 @@
-:root{
-    --bg-image: url("/images/background.jpg");
-    --nav-bg: url("/images/nav-bg.jpg")
+:root {
+  --bg-image: url("/images/background.jpg");
+  --nav-bg: url("/images/nav-bg.jpg");
 }
 
 * {
-    font-family: 'Titillium Web', sans-serif;
-    font-size: 14px!important;
-    color: white ;
-  }
-
-  body {
-    background-image: var(--bg-image);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+  font-family: "Titillium Web", sans-serif;
+  font-size: 14px !important;
+  color: white;
 }
 
-/* navbar related to style  */
+body {
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Navbar related codes */
 
 .navbar {
-    background: rgb(28, 33, 55, 0.8)!important;
-    font-weight: 600;
-    border-radius: 4px;
-    margin-top: 40px;
-    border-color: transparent!important;
+  background: rgb(28, 33, 55, 0.8) !important;
+  font-weight: 600;
 }
 
-.navbar-collapse.collapsing, .navbar-collapse.show {
-    background-image: var(--nav-bg)!important;
+.navbar-collapse.collapsing,
+.navbar-collapse.show {
+  background-image: var(--nav-bg) !important;
 }
 
 .navbar-collapse .navbar-toggler span {
-    background: white!important;
+  background: white !important;
 }
 
-/* ======================  */
-
-/* simple related styling  */
-
-.jumbotron {
-    background: rgb(28, 33, 55, 0.8)!important;
+.nav-link {
+  position: relative;
+  display: inline-block;
+  color: #000000;
+  transform: scale(1);
+  transition: transform 0.3s ease-in-out;
+  text-decoration: none;
 }
 
-/* ======================  */
-
-#orderServer > h1 {
-    font-size: 25px !important;
-    font-weight: bold;
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 1px;
+  left: 12px;
+  width: 0%;
+  height: 2px;
+  background-color: #5e72e4;
+  transition: width 0.3s ease-in-out;
 }
+
+.nav-link:hover {
+  transform: scale(1.1);
+}
+
+.nav-link:hover::after {
+  width: 80%;
+}
+
+.active::after {
+  width: 80%;
+}
+
+.secondary-nav {
+  display: flex;
+  padding-left: 10px !important;
+  background-color: rgb(28, 33, 55, 1) !important;
+}
+
+.secondary-nav .nav-item {
+  margin: 0;
+  text-align: center !important;
+}
+
+.secondary-nav .nav-link {
+  color: #333;
+  padding: 1rem 1.5rem;
+}
+
+@media (max-width: 767.98px) {
+  .secondary-nav {
+    display: block;
+    border-top: none;
+  }
+  .secondary-nav .nav-item {
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    display: inline-block;
+  }
+}
+/* ============================ */
 
 /* forms and input related code  */
 
 .form-control {
-    background-color: #1c1e2a !important;
-    border: none !important;
-    border-bottom: 1px solid #5e72e4 !important;
-  }
-  
-  .input-group-text {
-    background-color: transparent!important;
-  }
-  
-  /* ====================  */
+  background-color: #1c1e2a !important;
+  border: none !important;
+  border-bottom: 1px solid #5e72e4 !important;
+}
 
-  
+.input-group-text {
+  background-color: transparent !important;
+}
+
+/* ====================  */
+
+
 /* scroll bar related code */
-    /* width */
-    ::-webkit-scrollbar {
-        width: 10px;
-      }
-      
-      /* Track */
-      ::-webkit-scrollbar-track {
-        box-shadow: inset 0 0 2px #5e72e4 !important;
-        border-radius: 10px;
-      }
-      
-      /* Handle */
-      ::-webkit-scrollbar-thumb {
-        background: #5e72e4 !important;
-        border-radius: 10px;
-      }
-      
-      /* Handle on hover */
-      ::-webkit-scrollbar-thumb:hover {
-        background: white;
-      }
-      
-      /* =====================  */
 
-      .card, .card-header {
-        background-color: rgb(28, 33, 55, 0.8)!important;
-      }
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
 
-      /* loader  */
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px #5e72e4 !important;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #5e72e4 !important;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: white;
+}
+
+/* =====================  */
+
+.card,
+.card-header {
+  background-color: rgb(28, 33, 55, 0.8) !important;
+}
+
+/* loader  */
 
 .overlay {
   position: fixed;
@@ -105,7 +152,6 @@
   z-index: 9;
   filter: blur(10px);
 }
-  
 
 .loader {
   position: absolute;
@@ -161,19 +207,18 @@
 
 /* loader end  */
 
-
 .admin-glow-badge {
-  background-color: #28a745 !important;
-  box-shadow: 0 0 10px #28a745;
+  background-color: #5e72e4 !important;
+  box-shadow: 0 0 10px #5e72e4;
   animation: glow 1s ease-in-out infinite alternate;
 }
 
 @keyframes glow {
   from {
-    box-shadow: 0 0 5px #28a745;
+    box-shadow: 0 0 5px #5e72e4;
   }
   to {
-    box-shadow: 0 0 20px #28a745;
+    box-shadow: 0 0 20px #5e72e4;
   }
 }
 
@@ -192,23 +237,32 @@
 
 .dropdown-item:hover {
   background-color: transparent !important;
+  color: #5e72e4 !important;
+}
+
+.dropdown-item {
   color: white !important;
 }
 
-.nav-item:hover {
-  background-color: #5e72e4;
-  border-radius: 4px;
+.dropdown-hover:hover .dropdown-menu {
+  display: block !important;
 }
+
+.fa {
+  vertical-align: middle !important;
+}
+
 
 /* ======================  */
 
 /* modal related code  */
 
 .modal-content {
-  background-color: rgba(18, 21, 36, 0.94)!important;
+  background-color: rgba(18, 21, 36, 0.94) !important;
   border-top: 5px solid #5e72e4 !important;
-  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px !important; 
-  
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+    rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px !important;
 }
 
 .modal-open {
@@ -216,7 +270,7 @@
 }
 
 .modal-open::before {
-  content: '';
+  content: "";
   position: fixed;
   top: 0;
   left: 0;
@@ -227,4 +281,170 @@
   z-index: -10;
 }
 
+.close > span:not(.sr-only) {
+  font-size: 25px !important;
+  color: #ffffffff !important;
+}
+
 /* =============================  */
+
+/* table related style  */
+
+.table {
+  font-size: 10px !important;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  border-top: none !important;
+}
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+  border-color: white !important;
+  border-style: none !important;
+  border-width: 0;
+}
+
+.table td,
+.table th {
+  white-space: nowrap;
+}
+
+code {
+  background-color: #515f6cbb;
+  color: white !important;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 4px !important;
+  padding: 2px 4px;
+}
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+  padding: 10px;
+  line-height: 1.42857143;
+  vertical-align: top;
+}
+
+/* alert related styles  */
+
+.alert {
+  font-weight: 650 !important;
+  color: white !important;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px !important;
+}
+
+.alert-danger {
+  background: #dc2626 !important;
+}
+
+.alert-success {
+  background-color: #14ac14 !important;
+}
+
+.alert-type {
+  background: #0000002b !important;
+  border: none;
+  padding: 3px !important;
+  margin-left: -13px !important;
+  border-radius: 4px !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+/* ============= */
+
+/* simple related styling  */
+
+.jumbotron {
+  background-color: rgb(28, 33, 55, 0.8)!important;
+}
+
+.card {
+border-top: 5px solid #5e72e4 !important;
+border-radius: 4px !important;
+background-color: rgb(34, 39, 62)  !important;
+}
+
+.card-header {
+background-color: rgb(28, 33, 55, 1)!important;
+font-size: 20px !important;
+}
+
+.card-footer {
+border-top: 1px solid grey !important;
+padding: 10px !important;
+background-color: rgb(34, 39, 62)  !important;
+}
+
+/* =======================  */
+
+
+/* info box related styles  */
+
+.info-box {
+  display: block;
+  min-height: 90px;
+  background: #fff;
+  width: 100%;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  border-radius: 2px;
+  margin-bottom: 15px;
+}
+
+.info-box-icon {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 2px;
+  display: block;
+  float: left;
+  height: 90px;
+  width: 90px;
+  text-align: center;
+  line-height: 90px;
+  background: rgba(0,0,0,0.2);
+  
+}
+
+.info-box-icon > i {
+  font-size: 32px !important;
+  transition: transform 0.3s ease-in-out;
+}
+
+.info-box-content {
+  padding: 5px 10px;
+  margin-left: 90px;
+}
+
+.info-box-text {
+  margin-top: 5px !important;
+  white-space: nowrap;
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+}
+
+.info-box-number {
+  display: block;
+  font-weight: bold;
+  font-size: 35px !important;
+}
+
+.info-box:hover > .info-box-icon > i {
+  transform: rotate(5deg);
+}
+
+.info-box:hover {
+  cursor: pointer !important;
+}
+/* =================  */

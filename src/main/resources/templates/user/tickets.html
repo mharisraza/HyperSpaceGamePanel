@@ -9,46 +9,50 @@
 <body>
     <section class="mt-5">
     <div class="container">
-        <div class="jumbotron">
-            <div class="text-start">
-                <i style="font-size: 35px !important;" class="fa fa-life-ring"></i><span style="font-size: 35px !important;">&nbsp; Support</span>
-                <hr style="margin-top: 2px;">
-            </div>
-            <div class="text-end mb-3">
-                <a href="/me/support/new" class="btn btn-warning btn-sm"><i class="fa-solid fa-plus"></i>&nbsp;New Ticket</a>
-            </div>
             <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <h5 style="font-size: 20px !important;" class="mb-0 text-white font-weight-bold">Tickets</h5>
+                      </div>
+                      <div class="col-sm-6 text-right">
+                        <div class="input-group input-group-sm">
+                          <input type="text" class="form-control" placeholder="Search in Tickets" aria-label="Search">
+                          <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button">
+                              <i class="fa fa-search text-primary"></i>
+                            </button>
+                            <a href="/me/support/new/" class="btn btn-primary">New Ticket</a>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  </div>
                 <div class="card-body">
                 <h1 th:if="${#lists.size(tickets)} == 0" style="font-size: 18px !important;" class="text-white font-weight-bold">You don't have any submitted ticket!</h1>
                 <div th:if="${#lists.size(tickets)} != 0" class="table-responsive">
                     <table class="table table-hover table-md">
                         <thead>
                             <tr>
-                              <th scope="col">#ID</th>
                               <th scope="col">Title</th>
                               <th scope="col">Date</th>
                               <th scope="col">Prio</th>
-                              <th scope="col">Server</th>
                               <th scope="col">Status</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr th:each="ticket : ${tickets}">
-                              <td><a th:href="'/me/support?ticketId='+${ticket.id}" class="text-primary">#[(${ticket.id})]</a></td>
-                              <td><a th:href="'/me/support?ticketId='+${ticket.id}" class="text-primary">[(${ticket.subject})]</a></td>
+                              <td><a th:href="'/me/support/ticket/view/'+${ticket.id}" class="text-primary">[(${ticket.subject})]</a></td>
                               <td>[(${#dates.format(ticket.submittedDate, 'dd.MM.yyyy, HH:mm')})]</td>
                               <td>[(${ticket.priority})]</td>
-                              <td><a th:href="'/me/server?id='+${ticket.serverId}" class="text-success">[(${ticket.serverId})]</a></td>
-                              <td><a th:href="'/me/support?ticketId='+${ticket.id}" th:classappend="${ticket.status == 'No Response' ? 'text-danger' : 'text-success'}">[(${ticket.status})]</a></td>
+                              <td><a th:href="'/me/support/view/'+${ticket.id}" th:classappend="${ticket.status == 'Pending Admin Response' ? 'text-danger' : 'text-success'}">[(${ticket.status})]</a></td>
                             </tr>
-
                           </tbody>
                     </table>
                 </div>
                 </div>
             </div>
         </div>
-    </div>
     </section>
 </body>
 </html>

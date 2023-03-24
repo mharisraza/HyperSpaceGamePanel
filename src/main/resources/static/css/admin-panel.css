@@ -190,10 +190,6 @@
 
 /* ======================  */
 
-#orderServer > h1 {
-    font-size: 25px !important;
-    font-weight: bold;
-}
 
 /* forms and input related code  */
 
@@ -204,9 +200,6 @@
     border-top: 1px solid #5e72e4 !important;
   }
   
-
-  
-
   .input-group-text {
     background-color: transparent!important;
   }
@@ -527,3 +520,32 @@ code {
   line-height: 1.42857143;
   vertical-align: top;
 }
+
+
+/* alert related styles  */
+
+.alert {
+  font-weight: 650 !important;
+  color: white !important;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px !important;
+}
+
+.alert-danger {
+  background: #DC2626 !important;
+}
+
+.alert-success {
+  background-color: #14ac14 !important;
+}
+
+.alert-type {
+  background: #0000002b !important;
+  border: none;
+  padding: 3px !important;
+  margin-left: -13px !important;
+  border-radius: 4px !important;
+  color: white !important; 
+  font-weight: bold !important;
+}
+
+/* ============= */

@@ -11,13 +11,7 @@
 <body>
     <section class="mt-5">
         <div class="container">
-            <div class="jumbotron">
-               <div class="text-start mb-4">
-                <i style="font-size: 35px !important;" class="fa-solid fa-comments"></i> <span style="font-size: 35px !important;" class="text-white">SUPPORT</span>
-                <hr style="margin-top: 2px;" />
-               <span>You can request your query here.</span>
-               </div>
-                <div style="border-bottom: 5px solid #5e72e4;" class="card">
+                <div class="card">
                     <div class="card-header font-weight-bold"><i class="fas fa-ticket"></i>&nbsp;New Ticket</div>
                     <div class="card-body">
                         <form class="row" action="/me/support/submit-ticket" method="POST" th:object="${ticket}">
@@ -47,9 +41,9 @@
                             <div class="col-md-12 mb-4">
                                 <label for="priority">Priority</label>
                                 <select id="priority" class="form-control" name="priority">
-                                    <option selected value="normal">Normal</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="urgent">Urgent</option>
+                                    <option selected value="Normal">Normal</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Urgent">Urgent</option>
                                 </select>
                             </div>
                             <div class="col-md-12">
@@ -66,7 +60,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 
 </body>

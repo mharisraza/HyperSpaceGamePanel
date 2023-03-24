@@ -88,7 +88,7 @@
                 </ul>
 
 
-                <ul th:if="${user?.role == null}" class="navbar-nav ml-auto text-center">
+                <ul th:if="${currentLoggedInUser?.role == null}" class="navbar-nav ml-auto text-center">
                   <li class="nav-item">
                     <a class="nav-link-icon" href="/login">
                         <button  type="button" class="btn btn-primary w-100 mb-2 p-2">Login <i class="fas fa-sign-in"></i></button>
@@ -100,12 +100,12 @@
                       </a>
                 </ul>
 
-                <ul th:if="${user?.role != null}" class="navbar-nav ml-auto text-center">
+                <ul th:if="${currentLoggedInUser?.role != null}" class="navbar-nav ml-auto text-center">
                   <li class="nav-item">
                    <div class="dropdown w-100">
                      <button class="btn btn-primary btn-block" type="button" id="multiDropdownMenu"
                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                         <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> [(${user.fullName})]
+                         <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> [(${currentLoggedInUser?.fullName})]
                          <div class="ripple-container"></div>
                      </button>
                      <div class="dropdown-menu" aria-labelledby="multiDropdownMenu">

@@ -48,86 +48,81 @@
 
     <section class="mb-5" id="main">
      <!-- navbar -->
-     <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-          <div class="container">
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbar-default">
-                  <div class="navbar-collapse-header">
-                      <div class="row">
-                          <div class="col-6 collapse-brand">
-                              <a href="javascript:void(0)">
-                                  <img width="200" src="/images/logo.png">
-                              </a>
-                          </div>
-                          <div class="col-6 collapse-close">
-                              <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
-                                  <span></span>
-                                  <span></span>
-                              </button>
-                          </div>
-                      </div>
-                  </div>
-  
-                  <ul class="navbar-nav text-center">
-                    <li class="nav-item">
-                      <a class="nav-link nav-link-icon" href="/home">
-                          <i style="font-size: 9px;" class="fas fa-home"></i>
-                          <span class="text-white">HOME</span>
-                      </a>
-                  </li>
-  
-                  <li class="nav-item">
-                    <a class="nav-link nav-link-icon" href="#">
-                        <i style="font-size: 9px;" class="fa fa-server"></i>
-                        <span class="text-white">SERVERS</span>
-                    </a>
-  
-                    <li class="nav-item">
-                      <a class="nav-link nav-link-icon" href="#">
-                          <i style="font-size: 9px;" class="fas fa-shopping-basket"></i>
-                          <span class="text-white">ORDER SERVER</span>
-                      </a>
-                </li>
+     <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+         <a class="navbar-brand"><img width="200" src="/images/logo.png"></a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+             <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse navbar-collapse" id="navbar-default">
+             <div class="navbar-collapse-header">
+                 <div class="row">
+                   <div class="col-6 collapse-close">
+                     <a><img width="200" height="30px"  src="/images/logo.png"></a>
+                   </div>
+                     <div class="col-6 collapse-close ms-auto">
+                         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
+                               <span></span>
+                               <span></span>
+                         </button>
+                     </div>
+                 </div>
+             </div>
 
-                <li class="nav-item">
-                    <a class="nav-link nav-link-icon" href="/me/support/tickets">
-                        <i style="font-size: 9px;" class="fa-solid fa-ticket"></i>
-                        <span class="text-white">SUPPORT</span>
-                    </a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link nav-link-icon" href="/me/account">
-                    <i style="font-size: 9px;" class="fa-solid fa-user"></i>
-                    <span class="text-white">ACCOUNT</span>
-                </a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link nav-link-icon" href="/logout">
-                <i style="font-size: 9px;" class="fa fa-sign-out"></i>
-                <span class="text-white">LOGOUT</span>
-            </a>
-      </li>
-                  </ul>
-  
-                
-                  
-                
-              </div>
-          </div>
-      </nav>
+             <ul class="navbar-nav ml-auto text-center">
+               <li class="nav-item">
+                 <div class="dropdown dropdown-hover w-100">
+                     <button class="btn btn-primary dropdown-toggle w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         <i class="fa-regular fa-circle-user"></i> [(${currentLoggedInUser.fullName})]
+                     </button>
+                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                       <a class="dropdown-item" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+                     </div>
+                   </div>
+               </li>
+          </ul>
+         </div>
       </div>
-      <!-- navbar end  -->
-    
-      <input type="hidden" id="status" th:value="${session.status}">
-      <th:block th:if="${session.status}"
-          th:text="${#session.removeAttribute('status')}"></th:block>
-  
-      <div th:replace="${content}"></div>
+   </nav>
+   <!-- navbar end -->
+ 
+  <!-- secondary nav -->
+     <ul style="justify-content: center !important;" class="nav secondary-nav navbar-dark">
+       <li class="nav-item">
+         <a class="nav-link text-white font-weight-bold" href="/me/dashboard"><i class="fas fa-home"></i> Dashboard</a>
+       </li>
+     <li class="nav-item">
+       <a class="nav-link text-white font-weight-bold" href="/me/servers"><i class="fas fa-server"></i> Servers</a>
+     </li>
+     <li class="nav-item">
+       <a class="nav-link text-white font-weight-bold" href="/me/support/tickets"><i class="fa-solid fa-ticket"></i> Support</a>
+     </li>
+       <li class="nav-item">
+         <a class="nav-link text-white font-weight-bold" href="/me/profile"><i class="fa-solid fa-gear"></i> Account Setting</a>
+       </li>
+       </ul>
+   <!-- secondary nav end  -->
+
+    <input type="hidden" id="redirection" th:redirectTo="${session.redirection}">
+
+    <th:block th:if="${session.redirection != null}"
+  th:text="${#session.removeAttribute('redirection')}"></th:block>
+
+    <div class="container mt-3">
+      <div th:if="${session.status != null}" th:classappend="${session.status.alertClass}" class="alert alert-dismissible fade show" role="alert">
+        <span class="alert-type">[(${session.status.alertType})]</span>
+        [(${session.status.msg})]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    </div>
+
+  <th:block th:if="${session.status != null}"
+  th:text="${#session.removeAttribute('status')}"></th:block>
+
+    <div th:replace="${content}"></div>
+
     </section>
   
       <!-- FrameWork JS(s) -->
