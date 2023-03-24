@@ -11,6 +11,9 @@ public interface UserService {
     CompletableFuture<User> updateUser(UpdateUserForm updateUser, Integer userId);
     CompletableFuture<Void> deleteUser(Integer userId);
     CompletableFuture<User> getUser(Integer userId);
+
+    CompletableFuture<User> getUserByEmail(String email);
+
     CompletableFuture<Void> banUser(User user);
     CompletableFuture<Void> unbanUser(User user);
 
@@ -21,7 +24,6 @@ public interface UserService {
 
     // mails: mails to send to user.
     CompletableFuture<Void> sendVerificationMail(String userEmail);
-
 
     CompletableFuture<Void> removeNonVerifiedUsers();
     

@@ -46,6 +46,12 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         user.setVerified(false);
+        
+        // user roll may not null sometimes, because sometimes we can use this method to create user with any role. (ROLE_ADMIN, ROLE_USER)
+        if(user.getRole() != null) {
+            user.setRole(user.getRole());
+        } 
+        
         user.setRole(User.ROLE_USER);
 
         this.userRepo.save(user);
@@ -173,6 +179,12 @@ public class UserServiceImpl implements UserService {
             }
         });
          return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<User> getUserByEmail(String email) {
+       return CompletableFuture.completedFuture(this.userRepo.findByEmail(email).orElseThrow(() -> new ResourceNotFound("User", "email"+email)));
     }
 
 }
