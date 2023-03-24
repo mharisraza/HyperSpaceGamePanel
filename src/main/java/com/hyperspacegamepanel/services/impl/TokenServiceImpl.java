@@ -1,14 +1,7 @@
 package com.hyperspacegamepanel.services.impl;
 
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
-import java.time.Instant;
-import java.util.Base64;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +54,11 @@ public class TokenServiceImpl implements TokenService  {
     }
 
     @Override
+    public CompletableFuture<Token> getToken(String tokenValue) {
+        return CompletableFuture.completedFuture(this.tokenRepo.findByTokenValue(tokenValue).orElseThrow(()-> new ResourceNotFound("Ticket", "value"+tokenValue)));
+    }
+
+    @Override
     @Async
     @Scheduled(fixedDelay = 60000) // run on start and every minute, invoked by spring IOC.
     public CompletableFuture<Void> removeExpiredTokens() {
@@ -84,7 +82,4 @@ public class TokenServiceImpl implements TokenService  {
         return CompletableFuture.completedFuture(null);
     }
 
-    
-    
-  
 }
