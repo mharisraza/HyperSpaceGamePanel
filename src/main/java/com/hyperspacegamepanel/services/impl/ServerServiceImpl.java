@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.hyperspacegamepanel.controllers.restcontrollers.RestAPIController;
 import com.hyperspacegamepanel.exceptions.ResourceNotFound;
 import com.hyperspacegamepanel.gameservers.CounterStrike;
 import com.hyperspacegamepanel.models.machine.Machine;
@@ -17,8 +18,6 @@ import com.hyperspacegamepanel.models.server.Server;
 import com.hyperspacegamepanel.models.server.ServerUpdateForm;
 import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.ServerRepository;
-import com.hyperspacegamepanel.repositories.UserRepository;
-import com.hyperspacegamepanel.services.MachineConnectorService;
 import com.hyperspacegamepanel.services.MachineService;
 import com.hyperspacegamepanel.services.ServerService;
 import com.hyperspacegamepanel.services.UserService;
@@ -111,6 +110,10 @@ public class ServerServiceImpl implements ServerService {
     @Async
     public CompletableFuture<Void> startServer(Server server) {
         try {
+            int ping = RestAPIController.getServerPing(server);
+            if(ping > 1) {
+                throw new RuntimeException("SERVER_IS_ALREADY_RUNNING");
+            }
             this.machineService.connectToMachine(server.getMachine());
             if(server.getGameType().equals("cs")) {
                  CounterStrike.startServer(server);
@@ -125,6 +128,10 @@ public class ServerServiceImpl implements ServerService {
     @Async
     public CompletableFuture<Void> stopServer(Server server) {
         try {
+            int ping = RestAPIController.getServerPing(server);
+            if(ping == 0 || ping < 1) {
+                   throw new RuntimeException("SERVER_IS_ALREADY_STOPPED");
+            }
             this.machineService.connectToMachine(server.getMachine());
             if(server.getGameType().equals("cs")) {
                 CounterStrike.stopServer(server);
@@ -139,6 +146,10 @@ public class ServerServiceImpl implements ServerService {
     @Async
     public CompletableFuture<Void> restartServer(Server server) {
         try {
+            int ping = RestAPIController.getServerPing(server);
+            if(ping == 0 || ping < 1) {
+                throw new RuntimeException("SERVER_IS_STOPPED");
+            }
             this.machineService.connectToMachine(server.getMachine());
             if(server.getGameType().equals("cs")) {
                 CounterStrike.restartServer(server);
