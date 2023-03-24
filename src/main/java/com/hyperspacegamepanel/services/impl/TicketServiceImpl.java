@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -48,6 +45,18 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Async
+    public CompletableFuture<Ticket> updateTicket(Ticket ticket, int ticketId) {
+        this.getTicket(ticketId);
+        try {
+            this.ticketRepo.save(ticket);
+        } catch (Exception e) {
+            throw new RuntimeException("UNABLE_TO_UPDATE_THE_TICKET");
+        }
+        return CompletableFuture.completedFuture(ticket);
+    }
+
+    @Override
+    @Async
     public CompletableFuture<Ticket> getTicket(int ticketId) {
         return CompletableFuture.supplyAsync(() -> this.ticketRepo.findById(ticketId)
                 .orElseThrow(() -> new ResourceNotFound("Ticket", "ID" + ticketId)));
@@ -76,7 +85,6 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Async
-    @Transactional
     public CompletableFuture<List<Ticket>> getAllTicketsOfUser(int userId)
             throws InterruptedException, ExecutionException {
         User user = this.userService.getUser(userId).get();
@@ -109,9 +117,14 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Async
-    public CompletableFuture<Void> deleteTicketReply(int ticketReplyId)
-            throws InterruptedException, ExecutionException {
-        this.ticketReplyRepo.delete(this.geTicketReply(ticketReplyId).get());
+    public CompletableFuture<Void> deleteTicketReply(int ticketReplyId, boolean isAdmin) throws InterruptedException, ExecutionException {
+        TicketReply ticketReply = this.geTicketReply(ticketReplyId).join();
+        if(ticketReply.getSender().getRole().equals(User.ROLE_ADMIN)) {
+            // checking the user is deleting the reply is admin or not, we'll just simply pass the true or false value from the controllers.
+               if(!isAdmin) {
+                    throw new RuntimeException("CANNOT_DELETE_THE_REPLY_MESSAGE_BECAUSE_IT_IS_SEND_BY_ADMIN");
+               }
+        }
         return CompletableFuture.completedFuture(null);
     }
 
@@ -168,4 +181,15 @@ public class TicketServiceImpl implements TicketService {
         return CompletableFuture.completedFuture(null);
     }
 
+    @Override
+    @Async
+    public CompletableFuture<Void> markAsRead(Ticket ticket) {
+       ticket.setRead(true);
+       try {
+        this.ticketRepo.save(ticket);
+       } catch (Exception e) {
+        throw new RuntimeException("UNABLE_TO_MARK_AS_READ");
+       }
+       return CompletableFuture.completedFuture(null);
+    }
 }
