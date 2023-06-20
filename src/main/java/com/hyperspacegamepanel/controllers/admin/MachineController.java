@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hyperspacegamepanel.controllers.main.HelperController;
+import com.hyperspacegamepanel.controllers.main.DataCenteralizedController;
 import com.hyperspacegamepanel.helper.Alert;
 import com.hyperspacegamepanel.models.machine.Machine;
 import com.hyperspacegamepanel.models.machine.MachineDetails;
@@ -30,7 +30,7 @@ import com.jcraft.jsch.JSchException;
 
 @Controller
 @RequestMapping("/admin/machine")
-public class MachineController extends HelperController {
+public class MachineController extends DataCenteralizedController {
 
     @Autowired
     private MachineService machineService;

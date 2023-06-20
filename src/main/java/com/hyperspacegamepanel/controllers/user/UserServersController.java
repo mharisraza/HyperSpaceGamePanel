@@ -6,12 +6,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.hyperspacegamepanel.controllers.main.HelperController;
+import com.hyperspacegamepanel.controllers.main.DataCenteralizedController;
 import com.hyperspacegamepanel.services.ServerService;
 
 @Controller
 @RequestMapping(value = {"/me/servers", "/me/server"})
-public class UserServersController extends HelperController {
+public class UserServersController extends DataCenteralizedController {
 
     @Autowired
     private ServerService serverService;

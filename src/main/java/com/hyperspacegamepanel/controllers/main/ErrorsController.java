@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
-public class ErrorsController extends HelperController implements ErrorController {
+public class ErrorsController extends DataCenteralizedController implements ErrorController {
 
     @GetMapping("/error")
     public String handleError(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("error") String error, Model m) {

@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hyperspacegamepanel.controllers.main.HelperController;
+import com.hyperspacegamepanel.controllers.main.DataCenteralizedController;
 import com.hyperspacegamepanel.helper.Alert;
 import com.hyperspacegamepanel.models.user.UpdateUserForm;
 import com.hyperspacegamepanel.services.UserService;
 
 @Controller
 @RequestMapping("/me")
-public class UserController extends HelperController {
+public class UserController extends DataCenteralizedController {
 
     @Autowired
     private UserService userService;

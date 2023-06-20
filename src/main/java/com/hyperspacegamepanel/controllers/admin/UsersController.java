@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hyperspacegamepanel.controllers.main.HelperController;
+import com.hyperspacegamepanel.controllers.main.DataCenteralizedController;
 import com.hyperspacegamepanel.helper.Alert;
 import com.hyperspacegamepanel.helper.Helper;
 import com.hyperspacegamepanel.models.user.User;
@@ -20,7 +20,7 @@ import com.hyperspacegamepanel.services.UserService;
 
 @Controller
 @RequestMapping("/admin/user")
-public class UsersController extends HelperController {
+public class UsersController extends DataCenteralizedController {
 
     @Autowired
     private HttpSession httpSession;

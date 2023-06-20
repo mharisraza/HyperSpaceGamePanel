@@ -18,7 +18,7 @@ import com.hyperspacegamepanel.repositories.TicketRepository;
 import com.hyperspacegamepanel.repositories.UserRepository;
 import com.hyperspacegamepanel.services.ServerService;
 
-public class HelperController {
+public class DataCenteralizedController {
 
     // all the method that are needed
     // in every controller should be here to for redundancy and maintability.

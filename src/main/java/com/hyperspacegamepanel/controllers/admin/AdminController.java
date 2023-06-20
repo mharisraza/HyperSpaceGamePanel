@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hyperspacegamepanel.controllers.main.HelperController;
+import com.hyperspacegamepanel.controllers.main.DataCenteralizedController;
 import com.hyperspacegamepanel.helper.Alert;
 import com.hyperspacegamepanel.services.UserService;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminController extends HelperController {
+public class AdminController extends DataCenteralizedController {
 
 
     @Autowired

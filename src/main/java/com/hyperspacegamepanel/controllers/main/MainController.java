@@ -16,7 +16,7 @@ import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.UserRepository;
 
 @Controller
-public class MainController extends HelperController {
+public class MainController extends DataCenteralizedController {
 
     @Autowired
     private UserRepository userRepo;

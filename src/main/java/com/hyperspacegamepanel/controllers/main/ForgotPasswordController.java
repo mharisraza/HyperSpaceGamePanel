@@ -22,7 +22,7 @@ import com.hyperspacegamepanel.services.TokenService;
 import com.hyperspacegamepanel.services.UserService;
 
 @Controller
-public class ForgotPasswordController extends HelperController {
+public class ForgotPasswordController extends DataCenteralizedController {
 
   @Autowired
   private UserRepository userRepo;

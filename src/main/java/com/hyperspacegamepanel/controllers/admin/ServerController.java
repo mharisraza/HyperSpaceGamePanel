@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hyperspacegamepanel.controllers.main.HelperController;
+import com.hyperspacegamepanel.controllers.main.DataCenteralizedController;
 import com.hyperspacegamepanel.helper.Alert;
 import com.hyperspacegamepanel.helper.Helper;
 import com.hyperspacegamepanel.models.machine.Machine;
@@ -26,7 +26,7 @@ import com.hyperspacegamepanel.services.UserService;
 
 @Controller
 @RequestMapping("/admin/server")
-public class ServerController extends HelperController {
+public class ServerController extends DataCenteralizedController {
 
     @Autowired
     private ServerService serverService;

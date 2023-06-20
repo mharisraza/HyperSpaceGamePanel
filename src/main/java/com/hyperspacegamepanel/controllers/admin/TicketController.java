@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hyperspacegamepanel.controllers.main.HelperController;
+import com.hyperspacegamepanel.controllers.main.DataCenteralizedController;
 import com.hyperspacegamepanel.exceptions.ResourceNotFound;
 import com.hyperspacegamepanel.helper.Alert;
 import com.hyperspacegamepanel.models.ticket.Ticket;
@@ -28,7 +28,7 @@ import com.hyperspacegamepanel.services.TicketService;
 
 @Controller
 @RequestMapping("/admin/ticket")
-public class TicketController extends HelperController {
+public class TicketController extends DataCenteralizedController {
 
     @Autowired
     private HttpSession httpSession;
