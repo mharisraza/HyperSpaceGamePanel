@@ -1,9 +1,9 @@
 package com.hyperspacegamepanel.services;
 
-import java.util.concurrent.CompletableFuture;
-
 import com.hyperspacegamepanel.models.user.UpdateUserForm;
 import com.hyperspacegamepanel.models.user.User;
+
+import java.util.concurrent.CompletableFuture;
 
 public interface UserService {
 
@@ -26,5 +26,4 @@ public interface UserService {
     CompletableFuture<Void> sendVerificationMail(String userEmail);
 
     CompletableFuture<Void> removeNonVerifiedUsers();
-    
 }

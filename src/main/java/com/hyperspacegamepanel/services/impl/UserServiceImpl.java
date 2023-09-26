@@ -1,18 +1,6 @@
 package com.hyperspacegamepanel.services.impl;
 
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.hyperspacegamepanel.exceptions.ResourceNotFound;
 import com.hyperspacegamepanel.models.user.UpdateUserForm;
 import com.hyperspacegamepanel.models.user.User;
@@ -20,6 +8,16 @@ import com.hyperspacegamepanel.repositories.UserRepository;
 import com.hyperspacegamepanel.services.MailService;
 import com.hyperspacegamepanel.services.TokenService;
 import com.hyperspacegamepanel.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -115,8 +113,7 @@ public class UserServiceImpl implements UserService {
             this.tokenService.forceExpireToken(tokenValue);
 
         } catch (Exception e) {
-            e.printStackTrace();    
-              if(e.getMessage() == "TOKEN_IS_EXPIRED" || e.getMessage() == "TOKEN_IS_INVALID_OR_DOESNT_EXIST") {
+              if(Objects.equals(e.getMessage(), "TOKEN_IS_EXPIRED") || Objects.equals(e.getMessage(), "TOKEN_IS_INVALID_OR_DOESNT_EXIST")) {
                 throw new RuntimeException("TOKEN_IS_EXPIRED_OR_INVALID");
               }
         }
@@ -160,11 +157,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Async
-    @Scheduled(fixedDelay = 60000) // once every minute.
+    @Scheduled(fixedDelay = 24 * 60 * 60 * 1000) // every day.
     public CompletableFuture<Void> removeNonVerifiedUsers() {
         List<User> users = this.userRepo.findAll();
 
-        if(users == null) {
+        if(users.isEmpty()) {
             return CompletableFuture.completedFuture(null);
         }
 
