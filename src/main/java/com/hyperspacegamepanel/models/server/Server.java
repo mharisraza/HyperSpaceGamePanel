@@ -1,25 +1,16 @@
 package com.hyperspacegamepanel.models.server;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
+import com.hyperspacegamepanel.models.machine.Machine;
+import com.hyperspacegamepanel.models.user.User;
+import lombok.Data;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.hyperspacegamepanel.models.machine.Machine;
-import com.hyperspacegamepanel.models.user.User;
-
-import lombok.Data;
-import lombok.ToString;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity(name = "servers")
 @Data
@@ -31,21 +22,24 @@ public class Server {
     private Integer id;
 
     @NotNull
-    @Range(min = 2000, max = 65535, message = "Minimum 200 and Maximum 65535 is allowed")
+    @Range(min = 2000, max = 65535, message = "Minimum 2000 and Maximum 65535 is allowed")
     @Column(name = "server_port", unique = true, nullable = false)
     private Integer port;
 
     @NotNull
-    @Range(min = 10, max = 32, message = "Minimum 10 and Maximum 32 is allowed")
+    @Range(min = 10, message = "Minimum 10 is allowed")
     private Integer slots;
 
     @NotBlank(message = "Server Name is required.")
     private String name;
+
     @NotBlank(message = "Server Game type is required.")
     private String gameType;
 
     @NotBlank(message = "FTP Username is required.")
     private String ftpUsername;
+
+
     @NotBlank(message = "FTP Password is required.")
     private String ftpPassword;
 
@@ -54,6 +48,7 @@ public class Server {
 
     @Column(nullable = false)
     private Date createdDate = new Date();
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false)
     private Date expirationDate;

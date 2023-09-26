@@ -1,27 +1,18 @@
 package com.hyperspacegamepanel.models.ticket;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import com.hyperspacegamepanel.helper.Constants;
 import com.hyperspacegamepanel.models.user.User;
-
+import com.hyperspacegamepanel.utils.Constants;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity(name = "tickets")
 @Getter
@@ -36,7 +27,7 @@ public class Ticket {
     @NotBlank(message = "Subject is required.")
     private String subject;
 
-    @NotNull(message = "Please choose one server atleast.")
+    @NotNull(message = "Please choose one server at least.")
     private Integer serverId;
 
     @NotBlank(message = "Priority is required.")

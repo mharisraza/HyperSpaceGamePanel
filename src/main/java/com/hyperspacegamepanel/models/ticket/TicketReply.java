@@ -1,24 +1,12 @@
 package com.hyperspacegamepanel.models.ticket;
 
-import java.util.Date;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.Size;
-
-import com.hyperspacegamepanel.helper.Constants;
 import com.hyperspacegamepanel.models.user.User;
+import com.hyperspacegamepanel.utils.Constants;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import java.util.Date;
 
 @Entity(name = "ticket_replies")
 @Getter

@@ -1,16 +1,8 @@
 package com.hyperspacegamepanel.models.machine;
 
-import javax.annotation.Generated;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-
 import lombok.Data;
+
+import jakarta.persistence.*;
 
 @Entity(name = "machine_details")
 @Data
