@@ -1,13 +1,5 @@
 package com.hyperspacegamepanel.controllers.main;
 
-import java.security.Principal;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-
-import com.hyperspacegamepanel.helper.Helper;
 import com.hyperspacegamepanel.models.machine.Machine;
 import com.hyperspacegamepanel.models.server.Server;
 import com.hyperspacegamepanel.models.ticket.Ticket;
@@ -17,11 +9,20 @@ import com.hyperspacegamepanel.repositories.ServerRepository;
 import com.hyperspacegamepanel.repositories.TicketRepository;
 import com.hyperspacegamepanel.repositories.UserRepository;
 import com.hyperspacegamepanel.services.ServerService;
+import com.hyperspacegamepanel.utils.Helper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
-public class DataCenteralizedController {
+import java.security.Principal;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+@ControllerAdvice
+public class DataCentralizedController {
 
     // all the method that are needed
-    // in every controller should be here to for redundancy and maintability.
+    // in every controller should be here to for redundancy and maintainability.
 
     @Autowired
     private UserRepository userRepo;
@@ -43,7 +44,6 @@ public class DataCenteralizedController {
      * and reuse it across multiple request handling methods,
      * avoiding duplication and making the data easily accessible to all views.
      */
-
 
      @ModelAttribute("users")
      public List<User> getUsers() {
