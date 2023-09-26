@@ -1,4 +1,4 @@
-package com.hyperspacegamepanel.helper;
+package com.hyperspacegamepanel.utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,8 +6,8 @@ import java.util.Map;
 public class Constants {
 
     // mail sender setting
-    public static final String EMAIL_FROM = "wannaheadshot5@gmail.com"; // the mail you want to send from
-    public static final String EMAIL_APP_PASSWORD = "vrseytghkzdvmleu"; // app password (gmail)
+    public static final String EMAIL_FROM = ""; // the mail you want to send from
+    public static final String EMAIL_APP_PASSWORD = ""; // app password (gmail)
 
     // tickets setting
     public static final int TICKET_MESSAGE_SIZE = 1000; // change to your needs.

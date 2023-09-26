@@ -1,4 +1,4 @@
-package com.hyperspacegamepanel.helper;
+package com.hyperspacegamepanel.utils;
 
 import org.jasypt.util.text.BasicTextEncryptor;
 

@@ -1,4 +1,4 @@
-package com.hyperspacegamepanel.helper;
+package com.hyperspacegamepanel.utils;
 
 import lombok.Data;
 

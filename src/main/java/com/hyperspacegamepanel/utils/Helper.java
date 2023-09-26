@@ -1,10 +1,11 @@
-package com.hyperspacegamepanel.helper;
+package com.hyperspacegamepanel.utils;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.net.InetAddress;
 import java.util.Map;
 import java.util.Random;
 
-import javax.servlet.http.HttpServletRequest;
 
 
 public class Helper {
@@ -61,13 +62,9 @@ public class Helper {
         String serverName = request.getServerName();
         int serverPort = request.getServerPort();
         String contextPath = request.getContextPath();
-        StringBuilder sb = new StringBuilder();
-        sb.append(scheme).append("://").append(serverName);
-        if (serverPort != 80 || serverPort != 443) {
-            sb.append(":").append(serverPort);
-        }
-        sb.append(contextPath);
-        return sb.toString();
+         return  scheme + "://" + serverName +
+                 ":" + serverPort +
+                 contextPath;
     }
     
 }
