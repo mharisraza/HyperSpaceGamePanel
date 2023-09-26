@@ -1,9 +1,9 @@
 package com.hyperspacegamepanel.services;
 
-import java.util.concurrent.CompletableFuture;
-
 import com.hyperspacegamepanel.models.token.Token;
 import com.hyperspacegamepanel.models.user.User;
+
+import java.util.concurrent.CompletableFuture;
 
 
 public interface TokenService {

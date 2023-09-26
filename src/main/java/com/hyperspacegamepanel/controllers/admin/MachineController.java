@@ -1,42 +1,27 @@
 package com.hyperspacegamepanel.controllers.admin;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ExecutionException;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
+import com.hyperspacegamepanel.controllers.main.DataCentralizedController;
+import com.hyperspacegamepanel.models.machine.Machine;
+import com.hyperspacegamepanel.services.MachineService;
+import com.hyperspacegamepanel.utils.Alert;
+import com.jcraft.jsch.JSchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import com.hyperspacegamepanel.controllers.main.DataCenteralizedController;
-import com.hyperspacegamepanel.helper.Alert;
-import com.hyperspacegamepanel.models.machine.Machine;
-import com.hyperspacegamepanel.models.machine.MachineDetails;
-import com.hyperspacegamepanel.repositories.MachineRepository;
-import com.hyperspacegamepanel.repositories.MachineDetailsRepository;
-import com.hyperspacegamepanel.services.MachineService;
-import com.jcraft.jsch.JSchException;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import java.io.IOException;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/machine")
-public class MachineController extends DataCenteralizedController {
+public class MachineController {
 
-    @Autowired
-    private MachineService machineService;
-
-    @Autowired
-    private HttpSession httpSession;
+    @Autowired private MachineService machineService;
+    @Autowired private HttpSession httpSession;
 
     // showing page where user can add new machine to the database.
     @GetMapping("/new")
@@ -82,14 +67,11 @@ public class MachineController extends DataCenteralizedController {
         }
 
         try {
-
             Machine machine = this.machineService.getMachine(machineId).join();
             // this machineInfo is cacheable however we'll find another solution in future to avoid call machineInfo each time if user request.
             Map<String, String> machineInfo = this.machineService.getMachineInfo(machine.getId()).join();
 
-            machineInfo.forEach((key, value) -> {
-                m.addAttribute(key, value);
-            });
+            machineInfo.forEach(m::addAttribute);
 
             m.addAttribute("machine", machine);
             m.addAttribute("title", machine.getName() + " | HyperSpaceGamePanel");

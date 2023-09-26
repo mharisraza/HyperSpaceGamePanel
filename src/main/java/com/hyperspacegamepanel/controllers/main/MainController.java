@@ -1,9 +1,7 @@
 package com.hyperspacegamepanel.controllers.main;
 
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
+import com.hyperspacegamepanel.models.user.User;
+import com.hyperspacegamepanel.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,14 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.hyperspacegamepanel.models.user.User;
-import com.hyperspacegamepanel.repositories.UserRepository;
+import java.util.Objects;
 
 @Controller
-public class MainController extends DataCenteralizedController {
+public class MainController {
 
     @Autowired
-    private UserRepository userRepo;
+    private UserService userService;
 
     @GetMapping(value = {"/", "/home"})
     public String home(Model m) {
@@ -28,18 +25,18 @@ public class MainController extends DataCenteralizedController {
     }
 
     @GetMapping("/login")
-    public String loginPage(Model m, HttpSession httpSession) {
+    public String loginPage(Model m) {
         
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if(!(auth instanceof AnonymousAuthenticationToken)) {
-            User user = this.userRepo.getByEmail(auth.getName());
+            User user = this.userService.getUserByEmail(auth.getName()).join();
     
-            if(user.getRole() == User.ROLE_USER) {
+            if(Objects.equals(user.getRole(), User.ROLE_USER)) {
                 return "redirect:/me/dashboard";
             }
 
-            if(user.getRole() == User.ROLE_ADMIN) {
+            if(Objects.equals(user.getRole(), User.ROLE_ADMIN)) {
                 return "redirect:/admin/dashboard";
             }
         }

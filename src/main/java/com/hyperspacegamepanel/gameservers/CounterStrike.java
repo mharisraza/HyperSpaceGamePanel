@@ -1,12 +1,11 @@
 package com.hyperspacegamepanel.gameservers;
 
-import java.util.concurrent.CompletableFuture;
-
+import com.hyperspacegamepanel.models.server.Server;
+import com.hyperspacegamepanel.services.MachineConnectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 
-import com.hyperspacegamepanel.models.server.Server;
-import com.hyperspacegamepanel.services.MachineConnectorService;
+import java.util.concurrent.CompletableFuture;
 
 public class CounterStrike {
 
@@ -39,7 +38,7 @@ public class CounterStrike {
     @Async
     public static CompletableFuture<Void> restartServer(Server server) {
         try {
-        String command = String.format(""); // trying to find the restartable cs server command.
+        String command = String.format("");
         machineConnector.executeCommandWithoutOutput(command);
         } catch (Exception e) {
             throw new RuntimeException("UNABLE_TO_RESTART_THE_CS_SERVER");

@@ -1,32 +1,26 @@
 package com.hyperspacegamepanel.controllers.admin;
 
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.hyperspacegamepanel.controllers.main.DataCenteralizedController;
-import com.hyperspacegamepanel.helper.Alert;
-import com.hyperspacegamepanel.helper.Helper;
+import com.hyperspacegamepanel.controllers.main.DataCentralizedController;
 import com.hyperspacegamepanel.models.machine.Machine;
 import com.hyperspacegamepanel.models.server.Server;
 import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.services.MachineService;
 import com.hyperspacegamepanel.services.ServerService;
 import com.hyperspacegamepanel.services.UserService;
+import com.hyperspacegamepanel.utils.Alert;
+import com.hyperspacegamepanel.utils.Helper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/admin/server")
-public class ServerController extends DataCenteralizedController {
+public class ServerController extends DataCentralizedController {
 
     @Autowired
     private ServerService serverService;

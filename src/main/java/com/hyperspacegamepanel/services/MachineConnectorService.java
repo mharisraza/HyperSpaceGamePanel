@@ -1,8 +1,8 @@
 package com.hyperspacegamepanel.services;
 
-import java.util.concurrent.CompletableFuture;
-
 import com.hyperspacegamepanel.models.machine.Machine;
+
+import java.util.concurrent.CompletableFuture;
 
 public interface MachineConnectorService {
 

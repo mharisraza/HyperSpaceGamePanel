@@ -1,13 +1,5 @@
 package com.hyperspacegamepanel.services.impl;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-
 import com.hyperspacegamepanel.exceptions.ResourceNotFound;
 import com.hyperspacegamepanel.models.ticket.Ticket;
 import com.hyperspacegamepanel.models.ticket.TicketReply;
@@ -16,6 +8,13 @@ import com.hyperspacegamepanel.repositories.TicketReplyRepository;
 import com.hyperspacegamepanel.repositories.TicketRepository;
 import com.hyperspacegamepanel.services.TicketService;
 import com.hyperspacegamepanel.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class TicketServiceImpl implements TicketService {

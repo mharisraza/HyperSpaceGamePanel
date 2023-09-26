@@ -1,13 +1,13 @@
 package com.hyperspacegamepanel.services;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-
 import com.hyperspacegamepanel.models.machine.Machine;
 import com.hyperspacegamepanel.models.server.Server;
 import com.hyperspacegamepanel.models.server.ServerUpdateForm;
 import com.hyperspacegamepanel.models.user.User;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public interface ServerService {
 

@@ -1,12 +1,11 @@
 package com.hyperspacegamepanel.config;
 
+import com.hyperspacegamepanel.models.user.User;
+import com.hyperspacegamepanel.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import com.hyperspacegamepanel.models.user.User;
-import com.hyperspacegamepanel.repositories.UserRepository;
 
 public class UserDetailsServiceImpl implements UserDetailsService {
 

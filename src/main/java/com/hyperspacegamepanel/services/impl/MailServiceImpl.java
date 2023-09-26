@@ -1,29 +1,23 @@
 package com.hyperspacegamepanel.services.impl;
 
 
-import java.util.Properties;
-import java.util.concurrent.CompletableFuture;
-
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
-
+import com.hyperspacegamepanel.models.user.User;
+import com.hyperspacegamepanel.services.MailService;
+import com.hyperspacegamepanel.services.TokenService;
+import com.hyperspacegamepanel.utils.Constants;
+import com.hyperspacegamepanel.utils.Helper;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import com.hyperspacegamepanel.helper.Constants;
-import com.hyperspacegamepanel.helper.Helper;
-import com.hyperspacegamepanel.models.user.User;
-import com.hyperspacegamepanel.services.MailService;
-import com.hyperspacegamepanel.services.TokenService;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class MailServiceImpl implements MailService {

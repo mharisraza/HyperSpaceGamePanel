@@ -1,34 +1,24 @@
 package com.hyperspacegamepanel.controllers.admin;
 
-import java.security.Principal;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.hyperspacegamepanel.controllers.main.DataCenteralizedController;
+import com.hyperspacegamepanel.controllers.main.DataCentralizedController;
 import com.hyperspacegamepanel.exceptions.ResourceNotFound;
-import com.hyperspacegamepanel.helper.Alert;
 import com.hyperspacegamepanel.models.ticket.Ticket;
 import com.hyperspacegamepanel.models.ticket.TicketReply;
 import com.hyperspacegamepanel.models.user.User;
-import com.hyperspacegamepanel.repositories.TicketReplyRepository;
-import com.hyperspacegamepanel.repositories.TicketRepository;
 import com.hyperspacegamepanel.services.TicketService;
+import com.hyperspacegamepanel.utils.Alert;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import jakarta.servlet.http.HttpSession;
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/ticket")
-public class TicketController extends DataCenteralizedController {
+public class TicketController extends DataCentralizedController {
 
     @Autowired
     private HttpSession httpSession;

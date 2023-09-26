@@ -1,19 +1,18 @@
 package com.hyperspacegamepanel.services.impl;
 
-import java.security.SecureRandom;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
-
 import com.hyperspacegamepanel.exceptions.ResourceNotFound;
 import com.hyperspacegamepanel.models.token.Token;
 import com.hyperspacegamepanel.models.user.User;
 import com.hyperspacegamepanel.repositories.TokenRepository;
 import com.hyperspacegamepanel.services.TokenService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+import java.security.SecureRandom;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 
 @Service

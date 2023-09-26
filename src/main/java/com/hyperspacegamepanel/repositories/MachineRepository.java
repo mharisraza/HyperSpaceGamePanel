@@ -1,11 +1,10 @@
 package com.hyperspacegamepanel.repositories;
 
-import java.util.Optional;
-
+import com.hyperspacegamepanel.models.machine.Machine;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hyperspacegamepanel.models.machine.Machine;
+import java.util.Optional;
 
 @Transactional
 public interface MachineRepository extends JpaRepository<Machine, Integer> {

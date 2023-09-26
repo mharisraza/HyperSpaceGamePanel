@@ -1,15 +1,5 @@
 package com.hyperspacegamepanel.services.impl;
 
-import java.lang.reflect.Field;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-
 import com.hyperspacegamepanel.controllers.restcontrollers.RestAPIController;
 import com.hyperspacegamepanel.exceptions.ResourceNotFound;
 import com.hyperspacegamepanel.gameservers.CounterStrike;
@@ -21,6 +11,15 @@ import com.hyperspacegamepanel.repositories.ServerRepository;
 import com.hyperspacegamepanel.services.MachineService;
 import com.hyperspacegamepanel.services.ServerService;
 import com.hyperspacegamepanel.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Field;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class ServerServiceImpl implements ServerService {

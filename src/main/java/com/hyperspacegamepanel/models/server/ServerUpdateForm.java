@@ -1,10 +1,9 @@
 package com.hyperspacegamepanel.models.server;
 
-import java.util.Date;
-
 import com.hyperspacegamepanel.models.user.User;
-
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class ServerUpdateForm {

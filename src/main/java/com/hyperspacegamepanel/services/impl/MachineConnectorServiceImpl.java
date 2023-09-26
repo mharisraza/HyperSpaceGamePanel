@@ -1,23 +1,16 @@
 package com.hyperspacegamepanel.services.impl;
 
+import com.hyperspacegamepanel.models.machine.Machine;
+import com.hyperspacegamepanel.services.MachineConnectorService;
+import com.hyperspacegamepanel.utils.Constants;
+import com.jcraft.jsch.*;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.io.InputStream;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
-
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-
-import com.hyperspacegamepanel.helper.Constants;
-import com.hyperspacegamepanel.models.machine.Machine;
-import com.hyperspacegamepanel.services.MachineConnectorService;
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
-import com.jcraft.jsch.SftpATTRS;
-import com.jcraft.jsch.SftpException;
 
 @Service
 public class MachineConnectorServiceImpl implements MachineConnectorService {

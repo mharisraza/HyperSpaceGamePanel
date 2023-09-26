@@ -1,9 +1,13 @@
 package com.hyperspacegamepanel.controllers.main;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
-import javax.servlet.http.HttpSession;
-
+import com.hyperspacegamepanel.models.token.Token;
+import com.hyperspacegamepanel.models.user.UpdateUserForm;
+import com.hyperspacegamepanel.models.user.User;
+import com.hyperspacegamepanel.repositories.UserRepository;
+import com.hyperspacegamepanel.services.MailService;
+import com.hyperspacegamepanel.services.TokenService;
+import com.hyperspacegamepanel.services.UserService;
+import com.hyperspacegamepanel.utils.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,17 +16,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hyperspacegamepanel.helper.Alert;
-import com.hyperspacegamepanel.models.token.Token;
-import com.hyperspacegamepanel.models.user.UpdateUserForm;
-import com.hyperspacegamepanel.models.user.User;
-import com.hyperspacegamepanel.repositories.UserRepository;
-import com.hyperspacegamepanel.services.MailService;
-import com.hyperspacegamepanel.services.TokenService;
-import com.hyperspacegamepanel.services.UserService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class ForgotPasswordController extends DataCenteralizedController {
+public class ForgotPasswordController {
 
   @Autowired
   private UserRepository userRepo;
@@ -37,24 +34,22 @@ public class ForgotPasswordController extends DataCenteralizedController {
   private TokenService tokenService;
 
   @GetMapping("/resetPassword")
-  public String resetPasswordView(@RequestParam(name = "token", required = false) String tokenValue,
-      HttpSession httpSession, Model m) {
-    if (tokenValue == null)
-      return "redirect:/login?e=invalidRequest";
+  public String resetPasswordView(@RequestParam(name = "token", required = false) String tokenValue, HttpSession httpSession, Model m) {
+    if (tokenValue == null) return "redirect:/login?e=invalidRequest";
+
     try {
       this.tokenService.validateToken(tokenValue);
     } catch (Exception e) {
       if (e.getMessage().equals("TOKEN_IS_EXPIRED")) {
-        httpSession.setAttribute("status",
-            new Alert("The request is expired or invalid, please make a new request.", Alert.ERROR, Alert.ERROR_CLASS));
+        httpSession.setAttribute("status", new Alert("The request is expired or invalid, please make a new request.", Alert.ERROR, Alert.ERROR_CLASS));
         return "redirect:/login?e=invalidRequest";
       }
-      httpSession.setAttribute("status",
-          new Alert("Something went wrong, please try later.", Alert.ERROR, Alert.ERROR_CLASS));
+      httpSession.setAttribute("status", new Alert("Something went wrong, please try later.", Alert.ERROR, Alert.ERROR_CLASS));
       return "redirect:/login?e=internalError";
     }
 
     httpSession.setAttribute("resetPasswordToken", this.tokenService.getToken(tokenValue).join());
+
     m.addAttribute("updateUserForm", new UpdateUserForm());
     m.addAttribute("title", "Reset Password | HyperSpaceGamePanel");
     return "resetPassword.html";
@@ -63,7 +58,7 @@ public class ForgotPasswordController extends DataCenteralizedController {
   @PostMapping("/resetPassword")
   public String resetPasswordAndUpdate(@ModelAttribute("updateUserForm") UpdateUserForm updatedUser, HttpSession httpSession) {
 
-    // token may loss if application is restarted or stopped (not from database but session).
+    // token may lose if application is restarted or stopped (not from database but session).
     // we'll find a solution in future if needed.
     Token token = (Token) httpSession.getAttribute("resetPasswordToken");
 
@@ -84,8 +79,7 @@ public class ForgotPasswordController extends DataCenteralizedController {
   }
 
   @PostMapping("/forgotPassword")
-  public String forgotPassword(@RequestParam String email, Model m, HttpSession httpSession)
-      throws AddressException, MessagingException {
+  public String forgotPassword(@RequestParam String email, Model m, HttpSession httpSession) {
 
     if (!this.userRepo.existsByEmail(email)) {
       httpSession.setAttribute("status", new Alert("Sorry, user not exist with provided email address, please try with valid email address.", Alert.ERROR, Alert.ERROR_CLASS));

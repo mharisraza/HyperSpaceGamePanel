@@ -1,9 +1,10 @@
 package com.hyperspacegamepanel.controllers.restcontrollers;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ExecutionException;
-
+import com.github.koraktor.steamcondenser.steam.servers.GoldSrcServer;
+import com.hyperspacegamepanel.models.server.Server;
+import com.hyperspacegamepanel.repositories.ServerRepository;
+import com.hyperspacegamepanel.services.MachineService;
+import com.hyperspacegamepanel.utils.ServerInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,11 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.koraktor.steamcondenser.steam.servers.GoldSrcServer;
-import com.hyperspacegamepanel.helper.ServerInfo;
-import com.hyperspacegamepanel.models.server.Server;
-import com.hyperspacegamepanel.repositories.ServerRepository;
-import com.hyperspacegamepanel.services.MachineService;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 
 @RestController
@@ -49,7 +48,7 @@ public class RestAPIController {
 
     // querying server for real-time server data.
     @GetMapping("/serverInfo")
-    @PreAuthorize("hasRole('ADMIN') || hasRole('USER')") // implies that user should login to request the server info.
+    @PreAuthorize("hasRole('ADMIN') || hasRole('USER')") // implies that user should log in to request the server info.
     public ResponseEntity<?> getServerInfo(@RequestParam Integer serverId) {
 
         if(serverId == null) {
@@ -58,7 +57,7 @@ public class RestAPIController {
 
        Optional<Server> server  = this.serverRepo.findById(serverId);
 
-       if(!server.isPresent()) {
+       if(server.isEmpty()) {
         return ResponseEntity.badRequest().body("Server id shouldn't be manipulated");
        }
 

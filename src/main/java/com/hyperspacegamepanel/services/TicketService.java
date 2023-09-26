@@ -1,11 +1,11 @@
 package com.hyperspacegamepanel.services;
 
+import com.hyperspacegamepanel.models.ticket.Ticket;
+import com.hyperspacegamepanel.models.ticket.TicketReply;
+
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-
-import com.hyperspacegamepanel.models.ticket.Ticket;
-import com.hyperspacegamepanel.models.ticket.TicketReply;
 
 public interface TicketService {
 

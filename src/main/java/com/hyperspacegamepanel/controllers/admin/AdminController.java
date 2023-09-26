@@ -1,10 +1,8 @@
 package com.hyperspacegamepanel.controllers.admin;
 
-import java.security.Principal;
-import java.util.concurrent.ExecutionException;
-
-import javax.servlet.http.HttpSession;
-
+import com.hyperspacegamepanel.controllers.main.DataCentralizedController;
+import com.hyperspacegamepanel.services.UserService;
+import com.hyperspacegamepanel.utils.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,34 +10,31 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hyperspacegamepanel.controllers.main.DataCenteralizedController;
-import com.hyperspacegamepanel.helper.Alert;
-import com.hyperspacegamepanel.services.UserService;
+import jakarta.servlet.http.HttpSession;
+import java.util.concurrent.ExecutionException;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminController extends DataCenteralizedController {
+public class AdminController {
 
 
-    @Autowired
-    private HttpSession httpSession;
-
-    @Autowired
-    private UserService userService;
+    @Autowired private HttpSession httpSession;
+    @Autowired private UserService userService;
 
     @GetMapping
     public String adminActions(@RequestParam(required = false) String action, @RequestParam(required = false) Integer userId, Model m) throws InterruptedException, ExecutionException {
         if(action != null) {
             switch (action) {
-                case "ban":
+                case "ban" -> {
                     this.userService.banUser(this.userService.getUser(userId).get());
                     httpSession.setAttribute("status", new Alert("User banned successfully.", Alert.SUCCESS, Alert.SUCCESS_CLASS));
                     return "redirect:/admin/user/view/" + userId;
-    
-                case "unban":
+                }
+                case "unban" -> {
                     this.userService.unbanUser(this.userService.getUser(userId).get());
                     httpSession.setAttribute("status", new Alert("User unbanned successfully.", Alert.SUCCESS, Alert.SUCCESS_CLASS));
                     return "redirect:/admin/user/view/" + userId;
+                }
             }
         }
         return "redirect:/admin/dashboard";

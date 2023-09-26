@@ -1,14 +1,13 @@
 package com.hyperspacegamepanel.repositories;
 
 
-import java.util.List;
-import java.util.Optional;
-
+import com.hyperspacegamepanel.models.ticket.Ticket;
+import com.hyperspacegamepanel.models.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.hyperspacegamepanel.models.ticket.Ticket;
-import com.hyperspacegamepanel.models.user.User;
+import java.util.List;
+import java.util.Optional;
 
 
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {

@@ -1,8 +1,11 @@
 package com.hyperspacegamepanel.models.machine;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MachineUpdateForm {
 
     private String username;

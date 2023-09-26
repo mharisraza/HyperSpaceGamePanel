@@ -1,18 +1,6 @@
 package com.hyperspacegamepanel.services.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-
 import com.hyperspacegamepanel.exceptions.ResourceNotFound;
-import com.hyperspacegamepanel.helper.Constants;
-import com.hyperspacegamepanel.helper.PasswordEncoder;
 import com.hyperspacegamepanel.models.machine.Machine;
 import com.hyperspacegamepanel.models.machine.MachineDetails;
 import com.hyperspacegamepanel.models.machine.MachineUpdateForm;
@@ -22,6 +10,17 @@ import com.hyperspacegamepanel.repositories.MachineDetailsRepository;
 import com.hyperspacegamepanel.repositories.MachineRepository;
 import com.hyperspacegamepanel.services.MachineConnectorService;
 import com.hyperspacegamepanel.services.MachineService;
+import com.hyperspacegamepanel.utils.Constants;
+import com.hyperspacegamepanel.utils.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class MachineServiceImpl implements MachineService {
