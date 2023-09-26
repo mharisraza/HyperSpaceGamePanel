@@ -1,13 +1,13 @@
 package com.hyperspacegamepanel.controllers.main;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.ExecutionException;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
+import com.hyperspacegamepanel.exceptions.ResourceNotFound;
+import com.hyperspacegamepanel.models.user.User;
+import com.hyperspacegamepanel.services.UserService;
+import com.hyperspacegamepanel.utils.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,23 +16,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import com.hyperspacegamepanel.exceptions.ResourceNotFound;
-import com.hyperspacegamepanel.helper.Alert;
-import com.hyperspacegamepanel.models.user.User;
-import com.hyperspacegamepanel.services.UserService;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
-public class RegistrationController {
+public class AuthController {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private HttpSession httpSession;
+    @Autowired private UserService userService;
+    @Autowired private HttpSession httpSession;
 
     // showing page for registration page
     @GetMapping("/register")
@@ -69,11 +60,11 @@ public class RegistrationController {
             try {
                 this.userService.sendVerificationMail(userEmail);
             } catch (Exception e) {
-               if(e.getMessage() == "USER_ALREADY_VERIFIED") {
+               if(e.getMessage().equals("USER_ALREADY_VERIFIED")) {
                 httpSession.setAttribute("status", new Alert("User is already verified with this email address.", Alert.ERROR, Alert.ERROR_CLASS));
                 return "redirect:/verifyAccount";
                }
-               if(e.getMessage() == "CANNOT_SEND_THE_MAIL") {
+               if(e.getMessage().equals("CANNOT_SEND_THE_MAIL")) {
                 httpSession.setAttribute("status", new Alert("We were unable to send the mail to the provided email address, please provide valid email address.", Alert.ERROR, Alert.ERROR_CLASS));
                 return "redirect:/verifyAccount";
                }
@@ -89,7 +80,7 @@ public class RegistrationController {
                 httpSession.setAttribute("status", new Alert("User verified successfully.", Alert.SUCCESS, Alert.SUCCESS_CLASS));
                 return "redirect:/login";
              } catch(Exception e) {
-                 if(e.getMessage() == "TOKEN_IS_EXPIRED_OR_INVALID") {
+                 if(e.getMessage().equals("TOKEN_IS_EXPIRED_OR_INVALID")) {
                     httpSession.setAttribute("status", new Alert("The request you tried is expired or invalid", Alert.ERROR, Alert.ERROR_CLASS));
                  }
              }
